@@ -63,7 +63,7 @@ Use
 as the startup file, instead of the default
 .Pa \[ti]/.mg .
 .El
-.Ss Windows and buffers
+.Ss "Windows and buffers"
 When a file is loaded into
 .Nm ,
 it is stored in a
@@ -83,7 +83,7 @@ should be reverted (r) to the latest file on disk.
 If a buffer name begins and ends with an asterisk, the buffer is considered
 throwaway; i.e. the user will not be prompted to save changes when
 the buffer is killed.
-.Ss Point and mark
+.Ss "Point and mark"
 The current cursor location in
 .Nm
 is called the
@@ -102,7 +102,7 @@ the mark at the point of deletion.
 Note: The point and mark are window-specific in
 .Nm ,
 not buffer-specific, as in other Emacs flavours.
-.Ss Backup files
+.Ss "Backup files"
 Backup files have a
 .Sq \[ti]
 character appended to the file name and
@@ -151,7 +151,7 @@ requires its executable and that of
 to be present in
 .Ev PATH
 for the feature to work.
-.Ss Default key bindings
+.Ss "Editor key bindings"
 Normal editing commands are very similar to GNU Emacs.
 In the following examples, C\-x means Control-x, and M\-x means Meta-x,
 where the Meta key may be either a special key on the keyboard
@@ -381,10 +381,10 @@ delete\-backward\-char
 For a complete description of
 .Nm
 commands, see
-.Sx "mg commands" .
+.Sx "Editor commands" .
 To see the active keybindings at any time, type
 .Dq M\-x describe\-bindings .
-.Ss mg commands
+.Ss "Editor commands"
 Commands are invoked by
 .Dq M\-x ,
 or by binding to a key.
@@ -1064,7 +1064,7 @@ Like
 .Ic zap\-to\-char
 but doesn't delete the target character.
 .El
-.Ss mg dired key bindings
+.Ss "Directory editor key bindings"
 Specific key bindings are available in dired mode.
 .Pp
 .Bl -tag -width xxxxxxxxxxxxxxxxxx -offset indent -compact
@@ -1107,7 +1107,7 @@ dired\-scroll\-down
 .It M\-v
 dired\-scroll\-up
 .El
-.Ss mg dired commands
+.Ss "Directory editing commands"
 The following are a list of the commands specific to dired mode:
 .Bl -tag -width Ds
 .It Ic dired\-create\-directory
@@ -1160,7 +1160,7 @@ Open a dired buffer in the parent directory.
 .It Ic quit\-window
 Close the current dired buffer.
 .El
-.Ss Configuration files
+.Ss Configuration
 There are two configuration files,
 .Pa .mg
 and
@@ -1205,7 +1205,7 @@ alternative backup file location
 .It Pa /usr/share/doc/mg/tutorial
 concise tutorial
 .El
-.Sh See also
+.Sh "See also"
 .Xr vi 1
 .Sh Caveats
 Since it is written completely in C, there is currently no
