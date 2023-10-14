@@ -2,12 +2,12 @@
 .\" This file is in the public domain.
 .\"
 .Dd $Mdocdate: July 10 2024 $
-.Dt MG 1
+.Dt mg 1
 .Os mg portable
-.Sh NAME
+.Sh Name
 .Nm mg
 .Nd emacs-like text editor
-.Sh SYNOPSIS
+.Sh Synopsis
 .Nm mg
 .Op Fl nR
 .Op Fl b Ar file
@@ -15,7 +15,7 @@
 .Op Fl u Ar file
 .Op + Ns Ar number
 .Op Ar
-.Sh DESCRIPTION
+.Sh Description
 .Nm
 is intended to be a small, fast, and portable editor for
 people who can't (or don't want to) run emacs for one
@@ -58,7 +58,7 @@ Use
 as the startup file, instead of the default
 .Pa \[ti]/.mg .
 .El
-.Sh WINDOWS AND BUFFERS
+.Sh Windows and buffers
 When a file is loaded into
 .Nm ,
 it is stored in a
@@ -78,7 +78,7 @@ should be reverted (r) to the latest file on disk.
 If a buffer name begins and ends with an asterisk, the buffer is considered
 throwaway; i.e. the user will not be prompted to save changes when
 the buffer is killed.
-.Sh POINT AND MARK
+.Sh Point and mark
 The current cursor location in
 .Nm
 is called the
@@ -97,7 +97,7 @@ the mark at the point of deletion.
 Note: The point and mark are window-specific in
 .Nm ,
 not buffer-specific, as in other emacs flavours.
-.Sh BACKUP FILES
+.Sh Backup files
 Backup files have a
 .Sq \[ti]
 character appended to the file name and
@@ -117,13 +117,17 @@ Further, if any application creates backup files in
 these can be left with the
 .Ic leave\-tmpdir\-backups
 command.
-.Sh TAGS
+.Sh Tags
 .Nm
 supports tag files created by
 .Xr ctags 1 ,
-allowing the user to quickly locate various object definitions.
-Note though that emacs uses etags, not ctags.
-.Sh CSCOPE
+allowing fast location of object definitions.
+However,
+Emacs uses
+.Xr etags 1 ,
+not
+.Xr ctags .
+.Sh cscope
 .Nm
 supports source code navigation using
 .Xr cscope 1 .
@@ -133,7 +137,7 @@ requires its executable and that of
 to be present in
 .Ev PATH
 for the feature to work.
-.Sh DEFAULT KEY BINDINGS
+.Sh Default key bindings
 Normal editing commands are very similar to GNU Emacs.
 In the following examples, C\-x means Control-x, and M\-x means Meta-x,
 where the Meta key may be either a special key on the keyboard
@@ -363,10 +367,10 @@ delete\-backward\-char
 For a complete description of
 .Nm
 commands, see
-.Sx MG COMMANDS .
+.Sx "mg commands" .
 To see the active keybindings at any time, type
 .Dq M\-x describe\-bindings .
-.Sh MG COMMANDS
+.Sh mg commands
 Commands are invoked by
 .Dq M\-x ,
 or by binding to a key.
@@ -1046,7 +1050,7 @@ Like
 .Ic zap\-to\-char
 but doesn't delete the target character.
 .El
-.Sh MG DIRED KEY BINDINGS
+.Sh mg dired key bindings
 Specific key bindings are available in dired mode.
 .Pp
 .Bl -tag -width xxxxxxxxxxxxxxxxxx -offset indent -compact
@@ -1089,7 +1093,7 @@ dired\-scroll\-down
 .It M\-v
 dired\-scroll\-up
 .El
-.Sh MG DIRED COMMANDS
+.Sh mg dired commands
 The following are a list of the commands specific to dired mode:
 .Bl -tag -width Ds
 .It Ic dired\-create\-directory
@@ -1142,7 +1146,7 @@ Open a dired buffer in the parent directory.
 .It Ic quit\-window
 Close the current dired buffer.
 .El
-.Sh CONFIGURATION FILES
+.Sh Configuration files
 There are two configuration files,
 .Pa .mg
 and
@@ -1176,7 +1180,7 @@ Comments can be added to the startup files by placing
 or
 .Sq #
 as the first character of a line.
-.Sh FILES
+.Sh Files
 .Bl -tag -width /usr/share/doc/mg/tutorial -compact
 .It Pa \[ti]/.mg
 normal startup file
@@ -1187,10 +1191,10 @@ alternative backup file location
 .It Pa /usr/share/doc/mg/tutorial
 concise tutorial
 .El
-.Sh SEE ALSO
+.Sh See also
 .Xr ctags 1 ,
 .Xr vi 1
-.Sh CAVEATS
+.Sh Caveats
 Since it is written completely in C, there is currently no
 language in which extensions can be written;
 however, keys can be rebound and certain parameters can be changed
