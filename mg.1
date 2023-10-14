@@ -39,7 +39,9 @@ a space between the
 .Sq +
 sign and the number).
 If a negative number is specified, the line number counts
-backwards from the end of the file i.e. +\-1 will be the last
+backwards from the end of the file,
+that is,
++\-1 will be the last
 line of the file, +\-2 will be second last, and so on.
 .It Fl b Ar file
 Turn on batch mode and execute the
@@ -81,7 +83,9 @@ prompts if the change should go ahead (y), not go ahead (n) or if the buffer
 should be reverted (r) to the latest file on disk.
 .Pp
 If a buffer name begins and ends with an asterisk, the buffer is considered
-throwaway; i.e. the user will not be prompted to save changes when
+throwaway;
+that is,
+the user will not be prompted to save changes when
 the buffer is killed.
 .Ss "Point and mark"
 The current cursor location in
@@ -398,7 +402,8 @@ is the numerical argument) before the command, or by
 one or more invocations of the universal argument, usually bound to C\-u.
 When invoked in this manner, the value of the numeric parameter to
 be passed is displayed in the minibuffer before the M\-x.
-One common use of the parameter is in mode toggles (e.g.\&
+One common use of the parameter is in mode toggles
+(for example,
 make\-backup\-files).
 If no parameter is supplied, the mode is toggled to its
 alternate state.
@@ -480,8 +485,10 @@ Invoke the keyboard macro.
 .It Ic capitalize\-word
 Capitalize
 .Va n
-words; i.e. convert the first character of the word to
-upper case, and subsequent letters to lower case.
+words;
+that is,
+convert the first character of the word to upper case,
+and subsequent letters to lower case.
 .It Ic cd
 Change the global working directory.
 See also
@@ -619,7 +626,9 @@ startup files.
 Swap the values of "dot" and "mark" in the current window.
 Return an error if no mark is set.
 .It Ic execute\-extended\-command
-Invoke an extended command; i.e. M\-x.
+Invoke an extended command;
+that is,
+M\-x.
 Call the message line routine to read in the command name and apply
 autocompletion to it.
 When it comes back, look the name up in the symbol table and run the
@@ -665,7 +674,9 @@ Move the cursor forward by the specified number of words.
 .It Ic global\-set\-key
 Bind a key in the global (fundamental) key map.
 .It Ic global\-unset\-key
-Unbind a key from the global (fundamental) key map; i.e. set it to 'rescan'.
+Unbind a key from the global (fundamental) key map;
+that is,
+set it to 'rescan'.
 .It Ic global\-wd\-mode
 Toggle global working-directory mode.
 When enabled,
@@ -850,8 +861,9 @@ Replace strings selectively.
 Does a search and replace operation using regular
 expressions for both patterns.
 .It Ic quoted\-insert
-Insert the next character verbatim into the current buffer; i.e. ignore
-any function bound to that key.
+Insert the next character verbatim into the current buffer;
+that is,
+ignore any function bound to that key.
 .It Ic re\-search\-again
 Perform a regular expression search again, using the same search
 string and direction as the last search command.
@@ -1030,7 +1042,8 @@ Show the undo records for the current buffer in a new buffer.
 .It Ic universal\-argument
 Repeat the next command 4 times.
 Usually bound to C\-u.
-This command may be stacked; e.g.\&
+This command may be stacked;
+for example,
 C\-u C\-u C\-f moves the cursor forward 16 characters.
 .It Ic upcase\-region
 Upper case region.
@@ -1176,8 +1189,9 @@ and
 .Pa .mg\-TERM .
 Here,
 .Ev TERM
-represents the name of the terminal type; e.g. if the terminal type
-is set to
+represents the name of the terminal type;
+for example,
+if the terminal type is set to
 .Dq vt100 ,
 .Nm
 will use
@@ -1188,7 +1202,8 @@ The terminal type startup file is used first.
 The startup file format is a list of commands, one per line, as used for
 interactive evaluation.
 Strings that are normally entered by the user at any subsequent prompts
-may be specified after the command name; e.g.:
+may be specified after the command name;
+for example:
 .Bd -literal -offset indent
 global\-set\-key ")" self\-insert\-command
 global\-set\-key "\e\[ha]x\e\[ha]f" find\-file
