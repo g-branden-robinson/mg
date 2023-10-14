@@ -30,40 +30,61 @@ editor.
 It is compatible with Emacs because there shouldn't
 be any reason to learn more editor types than Emacs and
 .Xr vi 1 .
-.Pp
-The options are as follows:
+Options are as follows.
 .Bl -tag -width Ds
-.It + Ns Ar number
-Go to the line specified by number (do not insert
-a space between the
-.Sq +
-sign and the number).
-If a negative number is specified, the line number counts
-backwards from the end of the file,
+.It Li + Ns Ar n
+Start editing the first
+.Va file
+at line
+.Va n
+instead of line 1.
+(Do not insert a space between the plus sign and
+.Va n Ns .) \&
+If
+.Va n
+is negative,
+it is reckoned backward from end of the file;
 that is,
-+\-1 will be the last
-line of the file, +\-2 will be second last, and so on.
-.It Fl b Ar file
-Turn on batch mode and execute the
+.Dq +\-1
+starts editing at the last line,
+.Dq +\-2
+the next to last,
+and so on.
+.It Fl b Ar bf
+Operate in batch mode:
+interpret contents of file
+.Ar bf
+as
 .Nm
-commands found in the specified
-.Ar file
-and then terminate.
-.It Fl f Ar mode
+commands,
+one per line,
+then exit.
+.It Fl f Ar cmd
 Run the
-.Ar mode
-command for all buffers created from
-arguments on the command line, including the
-scratch buffer and all files.
+.Nm
+command
+.Ar cmd
+in all initially opened buffers:
+those created from operands on the command line,
+and the scratch buffer.
+.Fl f
+is typically used to run a command ending in
+.Dq \-mode .
 .It Fl n
-Turn off backup file generation.
+Disable backup file generation.
 .It Fl R
-Files specified on the command line will be opened read-only.
-.It Fl u Ar file
+Open each
+.Va file
+operand
+(or file loaded by a
+.Va batch-file
+or
+.Va startup-file )
+read-only.
+.It Fl u Ar sf
 Use
-.Ar file
-as the startup file, instead of the default
-.Pa \[ti]/.mg .
+.Ar sf
+as the startup file.
 .El
 .Ss "Windows and buffers"
 When a file is loaded into
