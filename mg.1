@@ -58,7 +58,7 @@ Use
 as the startup file, instead of the default
 .Pa \[ti]/.mg .
 .El
-.Sh Windows and buffers
+.Ss Windows and buffers
 When a file is loaded into
 .Nm ,
 it is stored in a
@@ -78,7 +78,7 @@ should be reverted (r) to the latest file on disk.
 If a buffer name begins and ends with an asterisk, the buffer is considered
 throwaway; i.e. the user will not be prompted to save changes when
 the buffer is killed.
-.Sh Point and mark
+.Ss Point and mark
 The current cursor location in
 .Nm
 is called the
@@ -97,7 +97,7 @@ the mark at the point of deletion.
 Note: The point and mark are window-specific in
 .Nm ,
 not buffer-specific, as in other emacs flavours.
-.Sh Backup files
+.Ss Backup files
 Backup files have a
 .Sq \[ti]
 character appended to the file name and
@@ -117,7 +117,7 @@ Further, if any application creates backup files in
 these can be left with the
 .Ic leave\-tmpdir\-backups
 command.
-.Sh Tags
+.Ss Tags
 .Nm
 supports tag files created by
 .Xr ctags 1 ,
@@ -127,7 +127,7 @@ Emacs uses
 .Xr etags 1 ,
 not
 .Xr ctags .
-.Sh cscope
+.Ss cscope
 .Nm
 supports source code navigation using
 .Xr cscope 1 .
@@ -137,7 +137,7 @@ requires its executable and that of
 to be present in
 .Ev PATH
 for the feature to work.
-.Sh Default key bindings
+.Ss Default key bindings
 Normal editing commands are very similar to GNU Emacs.
 In the following examples, C\-x means Control-x, and M\-x means Meta-x,
 where the Meta key may be either a special key on the keyboard
@@ -370,7 +370,7 @@ commands, see
 .Sx "mg commands" .
 To see the active keybindings at any time, type
 .Dq M\-x describe\-bindings .
-.Sh mg commands
+.Ss mg commands
 Commands are invoked by
 .Dq M\-x ,
 or by binding to a key.
@@ -1050,7 +1050,7 @@ Like
 .Ic zap\-to\-char
 but doesn't delete the target character.
 .El
-.Sh mg dired key bindings
+.Ss mg dired key bindings
 Specific key bindings are available in dired mode.
 .Pp
 .Bl -tag -width xxxxxxxxxxxxxxxxxx -offset indent -compact
@@ -1093,7 +1093,7 @@ dired\-scroll\-down
 .It M\-v
 dired\-scroll\-up
 .El
-.Sh mg dired commands
+.Ss mg dired commands
 The following are a list of the commands specific to dired mode:
 .Bl -tag -width Ds
 .It Ic dired\-create\-directory
@@ -1146,7 +1146,7 @@ Open a dired buffer in the parent directory.
 .It Ic quit\-window
 Close the current dired buffer.
 .El
-.Sh Configuration files
+.Ss Configuration files
 There are two configuration files,
 .Pa .mg
 and
