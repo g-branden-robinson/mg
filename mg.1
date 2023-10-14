@@ -117,17 +117,26 @@ Further, if any application creates backup files in
 these can be left with the
 .Ic leave\-tmpdir\-backups
 command.
-.Ss Tags
+.Ss "Tag support"
 .Nm
-supports tag files created by
-.Xr ctags 1 ,
+uses
+.Em tags
+files created by
+.Xr ctags 1
+if available,
 allowing fast location of object definitions.
-However,
-Emacs uses
-.Xr etags 1 ,
-not
-.Xr ctags .
-.Ss cscope
+The file must be in the format described by
+.\" Neither groff 1.23.0 nor mandoc 1.14.6 recognize this `St` argument.
+.\".St -p1003.1-2017 ,
+IEEE Std 1003.1-2017
+.Pf ( Dq POSIX.1 ) ,
+not one of the alternatives.
+See
+.Ic find\-tag ,
+.Ic pop\-tag\-mark ,
+and
+.Ic visit\-tags\-table .
+.Ss Xr cscope
 .Nm
 supports source code navigation using
 .Xr cscope 1 .
@@ -1192,7 +1201,6 @@ alternative backup file location
 concise tutorial
 .El
 .Sh See also
-.Xr ctags 1 ,
 .Xr vi 1
 .Sh Caveats
 Since it is written completely in C, there is currently no
