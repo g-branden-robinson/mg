@@ -56,7 +56,7 @@ Files specified on the command line will be opened read-only.
 Use
 .Ar file
 as the startup file, instead of the default
-.Pa ~/.mg .
+.Pa \[ti]/.mg .
 .El
 .Sh WINDOWS AND BUFFERS
 When a file is loaded into
@@ -99,7 +99,7 @@ Note: The point and mark are window-specific in
 not buffer-specific, as in other emacs flavours.
 .Sh BACKUP FILES
 Backup files have a
-.Sq ~
+.Sq \[ti]
 character appended to the file name and
 are created in the current working directory by default.
 Whether to create backup files or not can be toggled with the
@@ -107,7 +107,7 @@ Whether to create backup files or not can be toggled with the
 command.
 The backup file location can either be in the current
 working directory, or all backups can be moved to a
-.Pa ~/.mg.d
+.Pa \[ti]/.mg.d
 directory where files retain their path name to retain uniqueness.
 Use the
 .Ic backup\-to\-home\-directory
@@ -254,9 +254,9 @@ switch\-to\-buffer\-other\-window
 find\-file\-other\-window
 .It C\-x =
 what\-cursor\-position
-.It C\-x ^
+.It C\-x \[ha]
 enlarge\-window
-.It C\-x `
+.It C\-x \[ga]
 next\-error
 .It C\-x b
 switch\-to\-buffer
@@ -306,7 +306,7 @@ beginning\-of\-buffer
 end\-of\-buffer
 .It M\-\e
 delete\-horizontal\-space
-.It M\-^
+.It M\-\[ha]
 join\-line
 .It M\-b
 backward\-word
@@ -346,7 +346,7 @@ backward\-paragraph
 shell\-command\-on\-region
 .It M\-}
 forward\-paragraph
-.It M\-~
+.It M\-\[ti]
 not\-modified
 .It M\-DEL
 backward\-kill\-word
@@ -413,7 +413,7 @@ Can be set globally with
 Move the dot to the first non-whitespace character on the current line.
 .It Ic backup\-to\-home\-directory
 Save backup copies to a
-.Pa ~/.mg.d
+.Pa \[ti]/.mg.d
 directory instead of working directory.
 Requires
 .Ic make\-backup\-files
@@ -720,7 +720,7 @@ Modifies the behaviour of
 Backup files that would normally reside in
 .Pa /tmp
 are left there and not moved to the
-.Pa ~/.mg.d
+.Pa \[ti]/.mg.d
 directory.
 .It Ic line\-number\-mode
 Toggle whether the line number is displayed in the modeline.
@@ -1162,7 +1162,7 @@ Strings that are normally entered by the user at any subsequent prompts
 may be specified after the command name; e.g.:
 .Bd -literal -offset indent
 global\-set\-key ")" self\-insert\-command
-global\-set\-key "\e^x\e^f" find\-file
+global\-set\-key "\e\[ha]x\e\[ha]f" find\-file
 global\-set\-key "\ee[Z" backward\-char
 set\-default\-mode fill
 set\-fill\-column 72
@@ -1176,11 +1176,11 @@ or
 as the first character of a line.
 .Sh FILES
 .Bl -tag -width /usr/share/doc/mg/tutorial -compact
-.It Pa ~/.mg
+.It Pa \[ti]/.mg
 normal startup file
-.It Pa ~/.mg\-TERM
+.It Pa \[ti]/.mg\-TERM
 terminal-specific startup file
-.It Pa ~/.mg.d
+.It Pa \[ti]/.mg.d
 alternative backup file location
 .It Pa /usr/share/doc/mg/tutorial
 concise tutorial
