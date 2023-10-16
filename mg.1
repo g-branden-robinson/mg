@@ -86,28 +86,58 @@ Use
 .Ar sf
 as the startup file.
 .El
-.Ss "Windows and buffers"
-When a file is loaded into
-.Nm ,
-it is stored in a
-.Em buffer .
-This buffer may be displayed on the screen in more than one window.
-At present, windows may only be split horizontally, so each window is
-delineated by a modeline at the bottom.
-If changes are made to a buffer, it will be reflected in all open windows.
-.Pp
-If a file is changed outside
+.Ss "Files, buffers, and windows"
 .Nm
-and its buffer is about to be changed,
+implements a simple text windowing system on the terminal screen.
+The editor loads a file by storing its contents in a
+.Em buffer
+that accumulates changes and by creating a
+.Em window ,
+a view of that buffer.
+Only one window at a time receives keyboard input.
+A buffer named
+.Dq *scratch*
+always exists;
 .Nm
-prompts if the change should go ahead (y), not go ahead (n) or if the buffer
-should be reverted (r) to the latest file on disk.
+shows a window on it if no others exist.
+The editor creates new windows by stacking them from top to bottom:
+all windows have the same width but may differ in height.
+Below all windows is the single-line
+.Em minibuffer ,
+which reports messages from the editor and updates as
+.Nm
+commands collect input.
 .Pp
-If a buffer name begins and ends with an asterisk, the buffer is considered
-throwaway;
-that is,
-the user will not be prompted to save changes when
-the buffer is killed.
+.Nm
+requires a terminal display of a minimum height in lines,
+increasing with the number of windows in use.
+A message in the minibuffer advises when this requirement is not met;
+if possible,
+resize the terminal to satisfy it.
+.Nm
+exits if the number of lines in the display falls to 1.
+.Pp
+Windows can be deleted and buffers saved or
+.Em killed
+(abandoned).
+If a file changes outside
+.Nm
+and its buffer also has pending changes,
+attempting to save it
+prompts whether the buffer's changes should supersede the changes
+on disk
+.Pf ( Sq y ) ,
+the save should be canceled
+.Pf ( Sq n ) ,
+or the buffer should revert
+.Pf ( Sq r )
+to the new contents of the file on disk.
+Naming a buffer with asterisks
+.Pf ( Sq * )
+at the beginning and end marks it as
+.Em discardable :
+.Nm
+does not prompt to save changes to it when it is killed.
 .Ss "Point and mark"
 The current cursor location in
 .Nm
