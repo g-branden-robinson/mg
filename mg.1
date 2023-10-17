@@ -165,6 +165,120 @@ respectively).
 If room on the screen is insufficient to present this information,
 the rightmost column is populated with a dollar sign
 .Sq $ .
+.Ss "Keyboard usage"
+.Nm
+uses Emacs names for non-graphic keycap engravings on the alphabetic
+section of the keyboard.
+.Dq ESC
+is Escape,
+.Dq TAB
+is Tab,
+.Dq RET
+is Return or Enter,
+.Dq SPC
+is the space bar,
+and
+.Dq DEL
+is the key at the upper right that performs a destructive
+backspace.
+(If your backspace key brings up a help prompt instead,
+see
+.Ic bsmap\-mode
+below.)
+Function keys,
+arrow keys,
+editing keys
+(such as Insert and Home),
+and the numeric keypad are handled in terms of terminal escape
+sequences;
+these typically begin with
+.Ql "ESC [" .
+.Pp
+A modifier can apply to a key stroke.
+The notation
+.Dq C\- Ns Em x
+indicates use of Control and
+.Em x
+together.
+Emacs supports a modifier key called
+.Dq Meta ,
+which often corresponds to a key engraved with
+.Dq Alt
+or
+.Dq Option ;
+hence the notation
+.Dq M\- Ns Em x .
+Pressing and releasing ESC before
+.Em x
+is equivalent to
+.Pf M\- Em x .
+(If you would prefer to use the meta key to enter character codes with
+the eighth bit set,
+and your terminal is configured to support doing so,
+see
+.Ic meta\-key\-mode
+below.
+.Do ESC Em x Dc
+will continue to run an
+.Nm
+command.)
+.Pp
+A key stroke inserts its corresponding character in the window at
+the cursor location unless
+it is
+.Em bound
+to an
+.Nm
+command.
+A key binding can be a sequence of multiple key strokes.
+When a key sequence does not completely specify a command,
+.Nm
+updates the minibuffer with the key strokes seen so far to cue the user
+for additional input.
+(This update occurs after a brief delay to avoid frustrating fast
+typists in slow environments.)
+Some
+.Nm
+commands like
+.Ic find\-file
+require further information,
+and populate the minibuffer with a prompt immediately.
+The
+.Ic keyboard\-quit
+command cancels a minibuffer prompt or incomplete key sequence,
+writing
+.Dq Quit
+to the minibuffer.
+By default,
+it is bound to sequences ending in C\-g.
+.Pp
+When a prompt is in the minibuffer,
+TAB attempts completion:
+any input already typed is treated as a
+.Em prefix .
+.Nm
+expands an unambiguous prefix until it completes or becomes ambiguous
+again;
+in the latter case,
+TAB brings up a
+.Dq *Completion*
+buffer listing possible matches.
+Continue typing to disambiguate;
+RET accepts the expansion.
+Cancel completion at any time with C\-g.
+.Pp
+The
+.Ic define\-key
+command permits existing bindings to be replaced and new ones defined;
+typically,
+it is used in the startup file rather than interactively.
+In interactive use,
+a temporary
+.Em keyboard macro
+can be defined to automate a repetitious sequence of key strokes;
+it is discarded when replaced or when
+.Nm
+exits.
 .Ss "Point and mark"
 The current cursor location in
 .Nm
@@ -235,9 +349,6 @@ to be present in
 for the feature to work.
 .Ss "Editor key bindings"
 Normal editing commands are very similar to GNU Emacs.
-In the following examples, C\-x means Control-x, and M\-x means Meta-x,
-where the Meta key may be either a special key on the keyboard
-or the ALT key; otherwise ESC followed by the key X works as well.
 .Pp
 .Bl -tag -width xxxxxxxxxxxx -offset indent -compact
 .It C\-SPC
