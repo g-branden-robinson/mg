@@ -138,6 +138,33 @@ at the beginning and end marks it as
 .Em discardable :
 .Nm
 does not prompt to save changes to it when it is killed.
+.Ss Modeline
+Each window has a
+.Em modeline ,
+a row of hyphen-minus signs
+.Pf ( Sq \- Ns
+),
+rendered in reverse video if the terminal is capable.
+From left to right,
+it lists the buffer's modification status
+.Pf ( Sq \-\- Ns
+: unchanged,
+.Sq ** Ns
+: changed,
+.Sq %% Ns
+: read-only);
+the editor's name;
+the buffer's name;
+a parenthesized list of enabled modes;
+and the line and column numbers of the cursor's location in the buffer
+(if enabled with
+.Ic line\-number-mode
+and
+.Ic column\-number-mode ,
+respectively).
+If room on the screen is insufficient to present this information,
+the rightmost column is populated with a dollar sign
+.Sq $ .
 .Ss "Point and mark"
 The current cursor location in
 .Nm
