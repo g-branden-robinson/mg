@@ -314,25 +314,21 @@ using
 .Dq "C\-u 5000 C\-n"
 to move forward five thousand lines in a one-hundred-line buffer moves
 to the end of it.
-.Ss "Point and mark"
-The current cursor location in
-.Nm
-is called the
-.Em point
-(or
-.Em dot ) .
-It is possible to define a window-specific region of text by setting a second
-location, called the
-.Em mark .
-The
+.Ss "Point, mark, and region"
+Emacs names the cursor location
+.Dq Em point .
+Another location named
+.Dq Em mark
+implicitly defines a
 .Em region
-is the text between point and mark inclusive.
-Deleting the character at the mark position leaves
-the mark at the point of deletion.
+containing all text between it and point,
+inclusively.
+Deleting the character at mark does not move mark.
 .Pp
-Note: The point and mark are window-specific in
+.Em Note :
+Point and mark are window-specific in
 .Nm ,
-not buffer-specific, as in other Emacs flavours.
+not buffer-specific as in other Emacs flavors.
 .Ss "Backup files"
 Backup files have a
 .Sq \[ti]
