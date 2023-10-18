@@ -329,6 +329,27 @@ Deleting the character at mark does not move mark.
 Point and mark are window-specific in
 .Nm ,
 not buffer-specific as in other Emacs flavors.
+.Ss "Delete, kill, yank, and undo"
+Emacs distinguishes
+.Em delete
+and
+.Em kill
+operations applied to text;
+both can be undone,
+but killed text is saved into a
+.Em "kill zone"
+for a possible later
+.Em yank
+operation,
+which inserts it at point.
+Yanking does not empty the kill zone,
+but a subsequent kill operation replaces its contents.
+.Pp
+.Em Note :
+.Nm
+lacks the
+.Dq "kill ring"
+of GNU Emacs.
 .Ss "Backup files"
 Backup files have a
 .Sq \[ti]
