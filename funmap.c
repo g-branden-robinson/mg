@@ -166,7 +166,6 @@ static struct funmap functnames[] = {
 	{prefixregion, "prefix-region", 0},
 	{backline, "previous-line", 1},
 	{prevwind, "previous-window", 0},
-	{spawncli, "push-shell", 0},
 	{showcwdir, "pwd", 0},
 	{queryrepl, "query-replace", -1},
 #ifdef REGEX
