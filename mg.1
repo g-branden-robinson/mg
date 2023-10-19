@@ -351,25 +351,33 @@ lacks the
 .Dq "kill ring"
 of GNU Emacs.
 .Ss "Backup files"
-Backup files have a
-.Sq \[ti]
-character appended to the file name and
-are created in the current working directory by default.
-Whether to create backup files or not can be toggled with the
+By default,
+before
+.Nm
+saves modifications to a file,
+it makes a copy of the existing version.
+The
 .Ic make\-backup\-files
-command.
-The backup file location can either be in the current
-working directory, or all backups can be moved to a
-.Pa \[ti]/.mg.d
-directory where files retain their path name to retain uniqueness.
-Use the
+command toggles this behavior.
+.Nm
+renames the existing file to append a
+.Sq \[ti]
+character to the file name.
+.Pp
+The
 .Ic backup\-to\-home\-directory
-command to alternate between these two locations.
-Further, if any application creates backup files in
-.Pa /tmp ,
-these can be left with the
+command toggles a behavior such that the editor backs up to
+.Pa \[ti]/.mg.d
+instead,
+further renaming files to retain uniqueness.
+When
+.Nm
+is launched by other programs,
+this practice can lead to clutter;
+the
 .Ic leave\-tmpdir\-backups
-command.
+command toggles an override applicable only to editing of files in
+.Pa /tmp .
 .Ss "Tag support"
 .Nm
 uses
