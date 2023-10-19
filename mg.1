@@ -419,29 +419,79 @@ to be present in
 .Ev PATH
 for the feature to work.
 .Ss "Editor commands"
-Commands are invoked by
-.Dq M\-x ,
-or by binding to a key.
-Many commands take an optional numerical parameter,
-.Va n .
-This parameter is set either by
-.No M\- Ns Va n
-(where
-.Va n
-is the numerical argument) before the command, or by
-one or more invocations of the universal argument, usually bound to C\-u.
-When invoked in this manner, the value of the numeric parameter to
-be passed is displayed in the minibuffer before the M\-x.
-One common use of the parameter is in mode toggles
-(for example,
-make\-backup\-files).
-If no parameter is supplied, the mode is toggled to its
-alternate state.
-If a positive parameter is supplied, the mode is forced to on.
-Otherwise, it is forced to off.
+Invoke a command by its key binding,
+or by its name when prompted by
+.Ic execute\-extended\-command
+(M\-x).
+Not all commands are bound by default.
 .Pp
-To see the active keybindings at any time, type
-.Dq M\-x describe\-bindings .
+Many commands take an optional numeric
+.Em parameter ,
+an integer
+.Va n ,
+assembled from
+.Pf M\- Ns Va d
+key strokes before the command,
+where
+.Va d
+is a numeral from 0 to 9
+(a
+.Ic digit\-argument ) ,
+or by one or more invocations of
+.Ic universal\-argument
+(C\-u).
+.Nm
+displays the parameter
+(after a delay)
+in the minibuffer;
+see subsection
+.Sx "Keyboard usage"
+above.
+.Va n
+defaults to 1 except for toggles
+(see below)
+and where otherwise noted.
+.Pp
+A parameter can be made negative with
+.Ic negative\-argument
+(\%M\-\-; meta-dash)
+or with the unmodified \- key after C\-u or a
+.Ic digit\-argument .
+(You can also repeat \- or \%M\-\- to toggle the sign if you change your
+mind.)
+Where a negative parameter makes sense,
+it may alter the direction of the operation
+(moving,
+scrolling,
+killing,
+and so forth);
+thus,
+the sequence
+.Dq "\%C\-u \- 5 \%C\-f"
+moves 5 characters
+.Em backward .
+Given a nonsense parameter,
+an
+.Nm
+command ignores it and may report an error in the minibuffer.
+.Pp
+Parameters are commonly used with commands that configure an
+.Nm
+setting,
+as with
+.Ic make\-backup\-files .
+Many settings are of Boolean sense.
+With no parameter,
+the setting is inverted.
+With a positive parameter,
+the setting is enabled.
+Otherwise,
+it is disabled.
+For brevity,
+a command with this behavior is described below as a
+.Dq toggle .
+A few settings take an integer value,
+for which they prompt if not given a parameter.
 .Ss "Editor key bindings"
 The fundamental keymap resembles that of GNU Emacs.
 Unlike that program,
