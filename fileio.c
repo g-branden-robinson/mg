@@ -222,7 +222,7 @@ fbackupfile(const char *fn)
 	int		 from, to, serrno;
 	ssize_t		 nread;
 	char		 buf[BUFSIZ];
-	char		*nname, *tname, *bkpth;
+	char		*nname = NULL, *tname = NULL, *bkpth = NULL;
 
 	if (stat(fn, &sb) == -1) {
 		dobeep();
@@ -237,6 +237,7 @@ fbackupfile(const char *fn)
 		dobeep();
 		ewprintf("Can't allocate backup file name : %s", strerror(errno));
 		free(bkpth);
+		free(nname);
 		return (ABORT);
 	}
 	if (asprintf(&tname, "%s.XXXXXXXXXX", bkpth) == -1) {
@@ -244,6 +245,7 @@ fbackupfile(const char *fn)
 		ewprintf("Can't allocate temp file name : %s", strerror(errno));
 		free(bkpth);
 		free(nname);
+		free(tname);
 		return (ABORT);
 	}
 	free(bkpth);
