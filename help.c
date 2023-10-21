@@ -196,7 +196,7 @@ apropos_command(int f, int n)
 		findbind(fundamental_map, name_function(el->l_name),
 		    buf, sizeof(buf));
 
-		if (addlinef(bp, "%-32s%s", el->l_name,  buf) == FALSE) {
+		if (addlinef(bp, "%-43s  %s", el->l_name,  buf) == FALSE) {
 			free_file_list(fnames);
 			return (FALSE);
 		}
