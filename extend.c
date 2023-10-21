@@ -495,7 +495,7 @@ redefine_key(int f, int n)
 	if ((mp = name_map(tmp)) == NULL)
 		return (dobeep_msgs("Unknown map", tmp));
 
-	if (strlcat(buf, "key: ", sizeof(buf)) >= sizeof(buf))
+	if (strlcat(buf, " key: ", sizeof(buf)) >= sizeof(buf))
 		return (FALSE);
 
 	return (dobind(mp, buf, FALSE));
