@@ -94,3 +94,48 @@ uninstall:
 
 rebuild:
 	make clean all
+
+# Leave room for makedepend(1).
+# DO NOT DELETE
+
+autoexec.o: def.h chrdef.h funmap.h
+basic.o: def.h chrdef.h
+bell.o: def.h chrdef.h macro.h
+buffer.o: def.h chrdef.h kbd.h
+cinfo.o: def.h chrdef.h
+cmode.o: def.h chrdef.h funmap.h kbd.h
+cscope.o: def.h chrdef.h
+def.o: chrdef.h
+dir.o: def.h chrdef.h
+dired.o: def.h chrdef.h funmap.h kbd.h
+display.o: def.h chrdef.h kbd.h
+echo.o: def.h chrdef.h funmap.h key.h macro.h
+extend.o: chrdef.h def.h funmap.h kbd.h key.h macro.h
+file.o: def.h chrdef.h
+fileio.o: def.h chrdef.h kbd.h pathnames.h
+funmap.o: def.h chrdef.h funmap.h kbd.h
+grep.o: def.h chrdef.h kbd.h funmap.h
+help.o: def.h chrdef.h funmap.h kbd.h key.h macro.h
+interpreter.o: def.h chrdef.h funmap.h
+kbd.o: def.h chrdef.h kbd.h key.h macro.h
+keymap.o: def.h chrdef.h kbd.h
+line.o: def.h chrdef.h
+log.o: def.h chrdef.h key.h kbd.h funmap.h log.h
+macro.o: def.h chrdef.h key.h macro.h
+main.o: def.h chrdef.h kbd.h funmap.h macro.h
+match.o: def.h chrdef.h key.h
+modes.o: def.h chrdef.h kbd.h
+paragraph.o: def.h chrdef.h
+region.o: def.h chrdef.h
+search.o: def.h chrdef.h macro.h
+spawn.o: def.h chrdef.h
+tags.o: def.h chrdef.h
+tty.o: def.h chrdef.h
+ttyio.o: def.h chrdef.h
+ttykbd.o: def.h chrdef.h kbd.h
+undo.o: def.h chrdef.h kbd.h
+util.o: def.h chrdef.h
+version.o: def.h chrdef.h
+window.o: def.h chrdef.h
+word.o: def.h chrdef.h
+yank.o: def.h chrdef.h
