@@ -268,6 +268,7 @@ loadtags(const char *fn)
 	struct stat sb;
 	char *l;
 	FILE *fd;
+	size_t ln = 0;
 
 	if ((fd = fopen(fn, "r")) == NULL) {
 		dobeep();
@@ -286,9 +287,11 @@ loadtags(const char *fn)
 		fclose(fd);
 		return (FALSE);
 	}
-	while ((l = fparseln(fd, NULL, NULL, "\\\\\0",
+	while ((l = fparseln(fd, NULL, &ln, "\\\\\0",
 	    FPARSELN_UNESCCONT | FPARSELN_UNESCREST)) != NULL) {
 		if (addctag(l) == FALSE) {
+			dobeep();
+			ewprintf("Tags file '%s' invalid at line %d", fn, ln);
 			fclose(fd);
 			return (FALSE);
 		}
