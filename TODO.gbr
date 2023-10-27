@@ -1,0 +1,90 @@
+Document minibuffer bindings in mg.1
+
+Better distinguish modes from what we can call "settings".
+
+Modes are generally more complex, and their enablement is presented on
+the modeline.
+
+Settings are simple Boolean or integer values, and are not reported in
+the modeline.  However, we can make their toggling/setting commands
+report their (new) value in the minibuffer once they complete.
+set-fill-column already works this way.
+
+Thus, report outcome of toggle operations in minibuffer.
+
+                                                                   done?
+List of settings:
+	audible-bell [not in GNU Emacs]
+	backup-to-home-directory [not in GNU Emacs]
+	bsmap-mode [sic] [not in GNU Emacs]
+	leave-tmpdir-backups [not in GNU Emacs]
+	make-backup-files [not in GNU Emacs]
+	set-fill-column
+	meta-key-mode [sic] [not in GNU Emacs]
+	sentence-end-double-space [not in GNU Emacs]
+	toggle-read-only-all [not in GNU Emacs; "global" (sort of)]
+	visible-bell [not in GNU Emacs]
+
+List of modes:
+	auto-fill-mode
+	auto-indent-mode
+	column-number-mode
+	global-wd-mode
+	line-number-mode
+	no-tab-mode
+	overwrite-mode
+	c-mode
+
+You can't set _all_ of the foregoing modes proper; you get a "Too many
+modes" error.  The limit is 2 fewer than it could be.  Fix it.
+
+Other:
+	toggle-read-only [buffer-specific flag]
+	set-tab-width [not in GNU Emacs; both global & buffer-specific]
+
+Maybe split out a set-default-tab-width.  (That's currently the effect
+if you run it with an argument.)
+
+Support non-pattern form of ctags line:
+AUTO_GROW	autoexec.c	25
+
+if an error is thrown at startup, you get a beep/flash but can't read
+it; it's not in the minibuffer
+
+auto-execute assignments can't be listed
+auto-execute assignments can't be removed
+
+rename undo-list to list-undo (GNU Emacs has neither), to align with
+other list-* commands
+
+apropos doesn't list duplicate bindings.  Could use ditto mark (") for
+this?
+
+Ordering of commands in apropos help is not obvious.
+
+Ordering of bindings in describe-bindings (C-h b) is not obvious, and
+has weird (and multiple) blank lines scattered throughout.
+
+why can't you tab-complete the list of valid key maps in define-key?
+
+Doesn't support multi-digit arguments (e.g., M-1 M-2 for "12").
+
+Add an insert-byte command accepting octal input.
+
+Use set-prompt-delay in an inverse sense to collect a keystroke
+_sequence_ from define-key and describe-key-briefly (that is, they
+assume the sequence is done when the delay elapses).  May require adding
+logic to report an ambiguous prefix.
+
+Stop using strtonum() for range checks in command handlers.  A parameter
+bypasses the check with no diagnostic.
+
+Want C-h in minibuffer for `quickhelp`; save minibuffer contents,
+replace it with 1 line (< 80 columns) if help, and await C-h to pop
+back.
+
+rename eval-current-buffer -> eval-buffer [GNU Emacs]
+
+implement eval-region? [GNU Emacs]
+
+Should I-search remember last search?
