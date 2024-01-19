@@ -45,9 +45,6 @@ Other:
 Maybe split out a set-default-tab-width.  (That's currently the effect
 if you run it with an argument.)
 
-Support non-pattern form of ctags line:
-AUTO_GROW	autoexec.c	25
-
 if an error is thrown at startup, you get a beep/flash but can't read
 it; it's not in the minibuffer
 
