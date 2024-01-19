@@ -230,6 +230,11 @@ yank(int f, int n)
 		return (FALSE);
 	}
 
+	if (kremove(0) == -1) {
+		dobeep_msg("Kill zone is empty");
+		return (FALSE);
+	}
+
 	/* newline counting */
 	nline = 0;
 
