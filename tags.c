@@ -287,11 +287,34 @@ loadtags(const char *fn)
 		fclose(fd);
 		return (FALSE);
 	}
+	const char *exuberant = "!_TAG_FILE_FORMAT\t2";
+	const size_t exlen = strlen(exuberant);
+	char *firstline = NULL;
+	size_t firstlinelen = 0;
+	int is_exuberant = FALSE;
+	ssize_t rv = getline(&firstline, &firstlinelen, fd);
+	if (rv < 0) {
+		dobeep();
+		ewprintf("Unable to read from tags file '%s': %s", fn,
+			 strerror(errno));
+		fclose(fd);
+		return (FALSE);
+	}
+	if (strncmp(exuberant, firstline, exlen) == 0)
+		is_exuberant = TRUE;
+	free(firstline);
+	rewind(fd);
 	while ((l = fparseln(fd, NULL, &ln, "\\\\\0",
 	    FPARSELN_UNESCCONT | FPARSELN_UNESCREST)) != NULL) {
+		if (is_exuberant) {
+			char *last_semicolon = strrchr(l, ';');
+			if (last_semicolon != NULL)
+				*last_semicolon = '\0';
+		}
 		if (addctag(l) == FALSE) {
 			dobeep();
-			ewprintf("Tags file '%s' invalid at line %d", fn, ln);
+			ewprintf("Tags file '%s' invalid at line %d",
+				 fn, ln);
 			fclose(fd);
 			return (FALSE);
 		}
