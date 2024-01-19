@@ -209,7 +209,8 @@ panic(char *s)
 	else
 		panicking = 1;
 	ttclose();
-	(void) fputs("panic: ", stderr);
+	(void) fputs(getprogname(), stderr);
+	(void) fputs(": panic: ", stderr);
 	(void) fputs(s, stderr);
 	(void) fputc('\n', stderr);	/* Use '\n' as no buffers now. */
 	exit(1);
