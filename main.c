@@ -63,9 +63,9 @@ extern void     closetags(void);
 static __dead void
 usage(void)
 {
-	fprintf(stderr, "usage: %s [-nR] [-b file] [-f mode] [-u file] "
-	    "[+number] [file ...]\n",
-	    __progname);
+	fprintf(stderr, "usage: %s [-nR] [-b batch-file]"
+		" [-f mode-command] [-u startup-file] [+line-number]"
+		" [file ...]\n", getprogname());
 	exit(1);
 }
 
