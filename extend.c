@@ -9,6 +9,7 @@
 #include <sys/types.h>
 #include <regex.h>
 #include <ctype.h>
+#include <err.h> /* errx() */
 #include <limits.h>
 #include <signal.h>
 #include <stdio.h>
@@ -657,6 +658,11 @@ load(FILE *ffp, const char *fname)
 		line++;
 		excbuf[nbytes] = '\0';
 		if (excline(excbuf, nbytes, line) != TRUE) {
+			if (batch) {
+				vttidy();
+				errx(1, "error in \"%s\" at line '%d';"
+				     " aborting\n", fname, line);
+			}
 			s = FIOERR;
 			dobeep();
 			ewprintf("Error loading file %s at line %d", fname, line);
