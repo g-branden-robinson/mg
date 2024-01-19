@@ -113,8 +113,8 @@ can use the C-g command to cancel the command immediately.
 >> Type Esc and then C-g to cancel the Esc key.
 
 In general, you can use C-g to stop any mg commands. You may type it multiple
-times if you wish. You should see the word "Quit" appear in the bottom of the
-screen when you type C-g indicating that a command was cancelled. 
+times if you wish. You should see "Command aborted" appear at the bottom of
+the screen when you type C-g indicating that a command was cancelled.
 
 In general, when in doubt, use C-g to get out of trouble.
 

@@ -267,7 +267,7 @@ notnum:
 		case TRUE:
 			break;
 		case ABORT:
-			ewprintf("Quit");
+			ewprintf("Command aborted");
 			/* FALLTHRU */
 		case FALSE:
 		default:
