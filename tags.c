@@ -4,6 +4,9 @@
  * This file is in the public domain.
  *
  * Author: Sunil Nimmagadda <sunil@openbsd.org>
+ *
+ * Exuberant ctags format recognition and support for line number-based
+ * tag entries by G. Branden Robinson <g.branden.robinson@gmail.com>.
  */
 
 #include <sys/queue.h>
@@ -47,7 +50,14 @@ struct ctag {
 	RB_ENTRY(ctag) entry;
 	char *tag;
 	char *fname;
-	char *pat;
+	enum {
+		PATTERN = 1,
+		LINENO
+	} type;
+	union {
+		char *pat;
+		long lineno;
+	};
 };
 RB_HEAD(tagtree, ctag) tags = RB_INITIALIZER(&tags);
 #ifdef __DragonFly__
@@ -195,29 +205,37 @@ pushtag(char *tok)
 	if (loadbuffer(res->fname) == FALSE)
 		return (FALSE);
 
-	if (searchpat(res->pat) == TRUE) {
-		if ((s = malloc(sizeof(struct tagpos))) == NULL) {
+	if (res->type == PATTERN) {
+		if (searchpat(res->pat) == FALSE) {
 			dobeep();
-			ewprintf("Out of memory");
+			ewprintf("%s: pattern not found", res->tag);
 			return (FALSE);
 		}
-		if ((s->bname = strdup(bname)) == NULL) {
-			dobeep();
-			ewprintf("Out of memory");
-			free(s);
-			return (FALSE);
-		}
-		s->doto = doto;
-		s->dotline = dotline;
-		SLIST_INSERT_HEAD(&shead, s, entry);
-		return (TRUE);
+	} else if (res->type == LINENO) {
+		(void) setlineno(res->lineno); /* never fails */
 	} else {
 		dobeep();
-		ewprintf("%s: pattern not found", res->tag);
+		ewprintf("internal error: unsupported tag type %d",
+			 res->type);
 		return (FALSE);
 	}
-	/* NOTREACHED */
-	return (FALSE);
+
+	if ((s = malloc(sizeof(struct tagpos))) == NULL)
+	{
+		dobeep();
+		ewprintf("Out of memory");
+		return (FALSE);
+	}
+	if ((s->bname = strdup(bname)) == NULL) {
+		dobeep();
+		ewprintf("Out of memory");
+		free(s);
+		return (FALSE);
+	}
+	s->doto = doto;
+	s->dotline = dotline;
+	SLIST_INSERT_HEAD(&shead, s, entry);
+	return (TRUE);
 }
 
 /*
@@ -399,7 +417,13 @@ addctag(char *s)
 	if ((c = strstr(l, ";\"")) != NULL)
 		*c = '\0';
 
-	t->pat = strip(l, strlen(l));
+	if (isdigit(*l)) {
+		t->type = LINENO;
+		t->lineno = strtol(l, NULL, 10);
+	} else {
+		t->type = PATTERN;
+		t->pat = strip(l, strlen(l));
+	}
 	if (RB_INSERT(tagtree, &tags, t) != NULL) {
 		free(t);
 		free(s);
