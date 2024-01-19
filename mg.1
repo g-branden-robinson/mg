@@ -378,6 +378,17 @@ the
 .Ic leave\-tmpdir\-backups
 command toggles an override applicable only to editing of files in
 .Pa /tmp .
+.Ss "Directory editor"
+.Nm
+implements a version of GNU Emacs's
+.Em dired
+mode for navigating and updating the file system from within the editor.
+This mode uses an alternative
+.Em keymap ,
+a specialized set of key bindings partially replacing the default,
+or
+.Em fundamental ,
+bindings.
 .Ss "Tag support"
 .Nm
 uses
