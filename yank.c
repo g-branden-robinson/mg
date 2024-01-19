@@ -225,8 +225,10 @@ yank(int f, int n)
 	struct line	*lp;
 	int	 c, i, nline;
 
-	if (n < 0)
+	if (n < 0) {
+		dobeep_msg("Cannot yank with a negative count");
 		return (FALSE);
+	}
 
 	/* newline counting */
 	nline = 0;
