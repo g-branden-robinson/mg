@@ -1495,6 +1495,27 @@ Comments can be added to the startup files by placing
 or
 .Sq #
 as the first character of a line.
+.Sh Environment
+.Bl -tag -width SHELL
+.It Ev HOME
+is searched for startup files.
+.It Ev PATH
+is searched for the
+.Xr cscope 1
+and
+.Xr cscope\-indexer 1
+programs.
+.It Ev SHELL
+selects the shell used by
+.Ic shell\-command
+and
+.Ic shell\-command\-on\-region .
+.It Ev TERM
+selects a startup file suffix;
+see subsection
+.Sx Configuration
+above.
+.El
 .Sh Files
 .Bl -tag -width /usr/share/doc/mg/tutorial -compact
 .It Pa \[ti]/.mg
