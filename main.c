@@ -7,7 +7,7 @@
  */
 
 #include <sys/queue.h>
-#include <err.h>
+#include <err.h> /* err(), errx(), warnx() */
 #include <limits.h>
 #include <locale.h>
 #include <signal.h>
@@ -112,21 +112,16 @@ main(int argc, char **argv)
 			usage();
 		}
 
-	if (batch && (conffile != NULL)) {
-                fprintf(stderr, "%s: -b and -u are mutually exclusive.\n",
-                    __progname);
-                exit(1);
-	}
+	if (batch && (conffile != NULL))
+		errx(1, "-b and -u options are mutually exclusive");
+
 	if (batch) {
 		pty_init();
 		conffile = batchfile;
 	}
-	if ((ffp = startupfile(NULL, conffile, file, sizeof(file))) == NULL &&
-	    conffile != NULL) {
-		fprintf(stderr, "%s: Problem with file: %s\n", __progname,
-		    conffile);
-		exit(1);
-	}
+	if ((ffp = startupfile(NULL, conffile, file, sizeof(file)))
+	    == NULL && conffile != NULL)
+		errx(1, "unable to open startup file '%s'", conffile);
 
 	argc -= optind;
 	argv += optind;
