@@ -35,7 +35,7 @@ int	casereplace = TRUE;
 int
 setcasereplace(int f, int n)
 {
-	if (f & FFARG)
+	if (f & FFANYARG)
 		casereplace = n > 0;
 	else
 		casereplace = !casereplace;
@@ -550,7 +550,7 @@ lreplace(RSIZE plen, char *st)
 	rlen = strlen(repl);
 
 	undo_boundary_enable(FFRAND, 0);
-	(void)backchar(FFARG | FFRAND, (int)plen);
+	(void)backchar(FFANYARG | FFRAND, (int)plen);
 
 	if (casereplace != TRUE)
 		goto done;
