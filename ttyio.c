@@ -193,7 +193,7 @@ charswaiting(void)
 {
 	int	x;
 
-	return ((ioctl(0, FIONREAD, &x) == -1) ? 0 : x);
+	return ((ioctl(STDIN_FILENO, FIONREAD, &x) == -1) ? 0 : x);
 }
 
 /*
