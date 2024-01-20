@@ -665,7 +665,16 @@ load(FILE *ffp, const char *fname)
 			}
 			s = FIOERR;
 			dobeep();
-			ewprintf("Error loading file %s at line %d", fname, line);
+			ewprintf("error in '%s' at line %d; abandoning"
+				 " load--press any key", fname, line);
+			/*
+			 * Flush to keep typeahead from preventing the
+			 * the message from being read, and again in
+			 * case a multi-char function key is pressed.
+			 */
+			fflush(stdin);
+			getchar();
+			fflush(stdin);
 			break;
 		}
 	}
