@@ -527,7 +527,7 @@ extend(int f, int n)
 	PF	 funct;
 	char	 xname[NXNAME], *bufp;
 
-	if (!(f & FFARG))
+	if (!(f & FFANYARG))
 		bufp = eread("M-x ", xname, NXNAME, EFNEW | EFFUNC);
 	else
 		bufp = eread("%d M-x ", xname, NXNAME, EFNEW | EFFUNC, n);
@@ -726,7 +726,7 @@ excline(char *line, int llen, int lnum)
 		}
 	}
 	if (argp != NULL) {
-		f = FFARG;
+		f = FFANYARG;
 		nl = strtol(argp, &tmp, 10);
 		if (*tmp != '\0')
 			return (FALSE);

@@ -45,7 +45,7 @@ new_window(struct buffer *bp)
 int
 reposition(int f, int n)
 {
-	curwp->w_frame = (f & FFARG) ? (n >= 0 ? n + 1 : n) : 0;
+	curwp->w_frame = (f & FFANYARG) ? (n >= 0 ? n + 1 : n) : 0;
 	curwp->w_rflag |= WFFRAME;
 	sgarbf = TRUE;
 	return (TRUE);
