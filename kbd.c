@@ -259,12 +259,20 @@ digit_argument(int f, int n)
 {
 	KEYMAP	*curmap;
 	PF	 funct;
-	int	 nn, c;
+	int	 nn, c, c2;
 
 	nn = key.k_chars[key.k_count - 1] - '0';
 	for (;;) {
 		c = getkey(TRUE);
-		if (c < '0' || c > '9')
+		if (c == CCHR('[')) {
+			c2 = getkey(TRUE);
+			if (c2 < '0' || c2 > '9') {
+				ungetkey(c2);
+				break;
+			}
+			else
+				c = c2;
+		} else if (c < '0' || c > '9')
 			break;
 		nn *= 10;
 		nn += c - '0';
