@@ -487,8 +487,8 @@ redefine_key(int f, int n)
 	char		 tmp[32], *bufp;
 	KEYMAP		*mp;
 
-	(void)strlcpy(buf, "Define key map: ", sizeof(buf));
-	if ((bufp = eread("%s", tmp, sizeof(tmp), EFNEW, buf)) == NULL)
+	if ((bufp = eread("Define key in keymap: ", tmp, sizeof(tmp),
+			  EFNEW)) == NULL)
 		return (ABORT);
 	else if (bufp[0] == '\0')
 		return (FALSE);
