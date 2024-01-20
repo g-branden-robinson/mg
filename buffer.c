@@ -42,7 +42,7 @@ settabw(int f, int n)
 	char	buf[8], *bufp;
 	const char *errstr;
 
-	if (f & FFARG) {
+	if (f & FFANYARG) {
 		if (n <= 0 || n > 16)
 			return (FALSE);
 		defb_tabw = n;

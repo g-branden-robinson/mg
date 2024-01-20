@@ -417,7 +417,7 @@ indent(int f, int n)
 	delleadwhite(FFRAND, 1);
 
 	/* If not invoked with a numerical argument, done */
-	if (!(f & FFARG))
+	if (!(f & FFANYARG))
 		return (TRUE);
 
 	/* insert appropriate whitespace */
@@ -445,13 +445,13 @@ forwdel(int f, int n)
 		return (backdel(f | FFRAND, -n));
 
 	/* really a kill */
-	if (f & FFARG) {
+	if (f & FFANYARG) {
 		if ((lastflag & CFKILL) == 0)
 			kdelete();
 		thisflag |= CFKILL;
 	}
 
-	return (ldelete((RSIZE) n, (f & FFARG) ? KFORW : KNONE));
+	return (ldelete((RSIZE) n, (f & FFANYARG) ? KFORW : KNONE));
 }
 
 /*
@@ -468,13 +468,13 @@ backdel(int f, int n)
 		return (forwdel(f | FFRAND, -n));
 
 	/* really a kill */
-	if (f & FFARG) {
+	if (f & FFANYARG) {
 		if ((lastflag & CFKILL) == 0)
 			kdelete();
 		thisflag |= CFKILL;
 	}
 	if ((s = backchar(f | FFRAND, n)) == TRUE)
-		s = ldelete((RSIZE)n, (f & FFARG) ? KFORW : KNONE);
+		s = ldelete((RSIZE)n, (f & FFANYARG) ? KFORW : KNONE);
 
 	return (s);
 }
@@ -519,7 +519,7 @@ joinline(int f, int n)
 	int doto;
 
 	undo_boundary_enable(FFRAND, 0);
-	if (f & FFARG) {
+	if (f & FFANYARG) {
 		gotoeol(FFRAND, 1);
 		forwdel(FFRAND, 1);
 	} else {

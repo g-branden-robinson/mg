@@ -501,7 +501,7 @@ re_readpattern(char *re_prompt)
 int
 setcasefold(int f, int n)
 {
-	if (f & FFARG) {
+	if (f & FFANYARG) {
 		casefoldsearch = FALSE;
 		ewprintf("Case-fold-search unset");
 	} else {
