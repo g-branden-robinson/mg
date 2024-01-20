@@ -263,7 +263,7 @@ readin(char *fname)
 		curbp->b_flag |= BFREADONLY;
 
 	if (startrow) {
-		gotoline(FFARG, startrow);
+		gotoline(FFANYARG, startrow);
 		startrow = 0;
 	}
 
@@ -635,7 +635,7 @@ buffsave(struct buffer *bp)
 int
 makebkfile(int f, int n)
 {
-	if (f & FFARG)
+	if (f & FFANYARG)
 		makebackup = n > 0;
 	else
 		makebackup = !makebackup;

@@ -233,7 +233,7 @@ veread(const char *fp, char *buf, size_t nbuf, int flag, va_list ap)
 	ttflush();
 	for (;;) {
 		c = getkey(FALSE);
-		if ((flag & EFAUTO) != 0 && c == CCHR('I')) {
+		if ((flag & EFANYCOMPLT) != 0 && c == CCHR('I')) {
 			if (cplflag == TRUE) {
 				complt_list(flag, buf, cpos);
 				cwin = TRUE;

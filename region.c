@@ -55,7 +55,7 @@ killregion(int f, int n)
 	curwp->w_doto = region.r_offset;
 	curwp->w_dotline = region.r_lineno;
 	s = ldelete(region.r_size, KFORW | KREG);
-	clearmark(FFARG, 0);
+	clearmark(FFANYARG, 0);
 
 	return (s);
 }
@@ -99,7 +99,7 @@ copyregion(int f, int n)
 			++loffs;
 		}
 	}
-	clearmark(FFARG, 0);
+	clearmark(FFANYARG, 0);
 
 	return (TRUE);
 }

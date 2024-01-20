@@ -33,7 +33,7 @@ changemode(int f, int n, char *newmode)
 		ewprintf("Can't find mode %s", newmode);
 		return (FALSE);
 	}
-	if (!(f & FFARG)) {
+	if (!(f & FFANYARG)) {
 		for (i = 0; i <= curbp->b_nmodes; i++)
 			if (curbp->b_modes[i] == m) {
 				/* mode already set */
@@ -83,7 +83,7 @@ notabmode(int f, int n)
 {
 	if (changemode(f, n, "notab") == FALSE)
 		return (FALSE);
-	if (f & FFARG) {
+	if (f & FFANYARG) {
 		if (n <= 0)
 			curbp->b_flag &= ~BFNOTAB;
 		else
@@ -98,7 +98,7 @@ overwrite_mode(int f, int n)
 {
 	if (changemode(f, n, "overwrite") == FALSE)
 		return (FALSE);
-	if (f & FFARG) {
+	if (f & FFANYARG) {
 		if (n <= 0)
 			curbp->b_flag &= ~BFOVERWRITE;
 		else
@@ -125,7 +125,7 @@ set_default_mode(int f, int n)
 		ewprintf("can't find mode %s", modebuf);
 		return (FALSE);
 	}
-	if (!(f & FFARG)) {
+	if (!(f & FFANYARG)) {
 		for (i = 0; i <= defb_nmodes; i++)
 			if (defb_modes[i] == m) {
 				/* mode already set */

@@ -302,7 +302,7 @@ markpara(int f, int n)
 	if (n == 0)
 		return (TRUE);
 
-	clearmark(FFARG, 0);
+	clearmark(FFANYARG, 0);
 
 	if (findpara() == FALSE)
 		return (TRUE);
@@ -456,7 +456,7 @@ setfillcol(int f, int n)
 	const char *es;
 	int nfill;
 
-	if ((f & FFARG) != 0) {
+	if ((f & FFANYARG) != 0) {
 		fillcol = n;
 	} else {
 		if ((rep = eread("Set fill-column: ", buf, sizeof(buf),
@@ -479,7 +479,7 @@ setfillcol(int f, int n)
 int
 sentencespace(int f, int n)
 {
-	if (f & FFARG)
+	if (f & FFANYARG)
 		dblspace = n > 1;
 	else
 		dblspace = !dblspace;

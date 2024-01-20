@@ -350,7 +350,7 @@ jumptomatch(void)
 		if (readin(adjf) != TRUE)
 			killbuffer(bp);
 	}
-	gotoline(FFARG, curmatch->lineno);
+	gotoline(FFANYARG, curmatch->lineno);
 	return (TRUE);
 }
 

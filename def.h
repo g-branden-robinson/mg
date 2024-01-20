@@ -80,8 +80,10 @@ typedef int	(*PF)(int, int);	/* generally useful type */
 #define FFUNIV		1	/* universal argument		 */
 #define FFNEGARG	2	/* negative only argument	 */
 #define FFOTHARG	4	/* other argument		 */
-#define FFARG		7	/* any argument			 */
 #define FFRAND		8	/* Called by other function	 */
+
+/* any argument type */
+#define FFANYARG	(FFUNIV|FFNEGARG|FFOTHARG)
 
 /*
  * Flags for "eread".
@@ -89,11 +91,13 @@ typedef int	(*PF)(int, int);	/* generally useful type */
 #define EFFUNC	0x0001		/* Autocomplete functions	 */
 #define EFBUF	0x0002		/* Autocomplete buffers		 */
 #define EFFILE	0x0004		/* Autocomplete file names	 */
-#define EFAUTO	0x0007		/* Some autocompletion on	 */
 #define EFNEW	0x0008		/* New prompt			 */
 #define EFCR	0x0010		/* Echo CR at end; last read	 */
 #define EFDEF	0x0020		/* Buffer contains default args	 */
 #define EFNUL	0x0040		/* Null minibuffer OK		 */
+
+/* any completion type */
+#define EFANYCOMPLT	(EFFUNC|EFBUF|EFFILE)
 
 /*
  * Direction of insert into kill ring

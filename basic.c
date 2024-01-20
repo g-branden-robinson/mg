@@ -304,7 +304,7 @@ forwpage(int f, int n)
 {
 	struct line  *lp;
 
-	if (!(f & FFARG)) {
+	if (!(f & FFANYARG)) {
 		n = curwp->w_ntrows - 2;	/* Default scroll.	 */
 		if (n <= 0)			/* Forget the overlap	 */
 			n = 1;			/* if tiny window.	 */
@@ -347,7 +347,7 @@ backpage(int f, int n)
 {
 	struct line  *lp, *lp2;
 
-	if (!(f & FFARG)) {
+	if (!(f & FFANYARG)) {
 		n = curwp->w_ntrows - 2;	/* Default scroll.	 */
 		if (n <= 0)			/* Don't blow up if the  */
 			return (backline(f, 1));/* window is tiny.	 */
@@ -391,7 +391,7 @@ out:
 int
 forw1page(int f, int n)
 {
-	if (!(f & FFARG)) {
+	if (!(f & FFANYARG)) {
 		n = 1;
 		f = FFUNIV;
 	}
@@ -402,7 +402,7 @@ forw1page(int f, int n)
 int
 back1page(int f, int n)
 {
-	if (!(f & FFARG)) {
+	if (!(f & FFANYARG)) {
 		n = 1;
 		f = FFUNIV;
 	}
@@ -510,7 +510,7 @@ gotoline(int f, int n)
 	char   buf[32], *bufp;
 	const char *err;
 
-	if (!(f & FFARG)) {
+	if (!(f & FFANYARG)) {
 		if ((bufp = eread("Goto line: ", buf, sizeof(buf),
 		    EFNUL | EFNEW | EFCR)) == NULL)
 			return (ABORT);

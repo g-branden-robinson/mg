@@ -90,7 +90,7 @@ executemacro(int f, int n)
 		for (j = 0; j < macrocount - 1; j++) {
 			funct = macro[j].m_funct;
 			if (funct == universal_argument) {
-				flag = FFARG;
+				flag = FFANYARG;
 				num = macro[++j].m_count;
 				continue;
 			}

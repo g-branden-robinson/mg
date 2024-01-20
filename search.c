@@ -487,7 +487,7 @@ is_find(int dir)
 	plen = strlen(pat);
 	if (plen != 0) {
 		if (dir == SRCH_FORW) {
-			(void)backchar(FFARG | FFRAND, plen);
+			(void)backchar(FFANYARG | FFRAND, plen);
 			if (forwsrch() == FALSE) {
 				curwp->w_doto = odoto;
 				curwp->w_dotp = odotp;
@@ -497,7 +497,7 @@ is_find(int dir)
 			return (TRUE);
 		}
 		if (dir == SRCH_BACK) {
-			(void)forwchar(FFARG | FFRAND, plen);
+			(void)forwchar(FFANYARG | FFRAND, plen);
 			if (backsrch() == FALSE) {
 				curwp->w_doto = odoto;
 				curwp->w_dotp = odotp;
@@ -905,20 +905,20 @@ zap(int including, int n)
 		if (s != TRUE) {
 			dobeep();
 			ewprintf("Search failed: \"%s\"", pat);
-			swapmark(FFARG, 0);
-			clearmark(FFARG, 0);
+			swapmark(FFANYARG, 0);
+			clearmark(FFANYARG, 0);
 			return (s);
 		}
 	}
 
 	if (!including) {
 		if (backward)
-			forwchar(FFARG, 1);
+			forwchar(FFANYARG, 1);
 		else
-			backchar(FFARG, 1);
+			backchar(FFANYARG, 1);
 	}
 
-	killregion(FFARG, 0);
-	clearmark(FFARG, 0);
+	killregion(FFANYARG, 0);
+	clearmark(FFANYARG, 0);
 	return (TRUE);
 }

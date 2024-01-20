@@ -105,7 +105,7 @@ extern int globalwd;
 int
 linenotoggle(int f, int n)
 {
-	if (f & FFARG)
+	if (f & FFANYARG)
 		linenos = n > 0;
 	else
 		linenos = !linenos;
@@ -118,7 +118,7 @@ linenotoggle(int f, int n)
 int
 colnotoggle(int f, int n)
 {
-	if (f & FFARG)
+	if (f & FFANYARG)
 		colnos = n > 0;
 	else
 		colnos = !colnos;

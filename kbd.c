@@ -43,7 +43,7 @@ int			 rptcount;
 int
 do_meta(int f, int n)
 {
-	if (f & FFARG)
+	if (f & FFANYARG)
 		use_metakey = n > 0;
 	else
 		use_metakey = !use_metakey;
@@ -59,7 +59,7 @@ static int	 bs_map = 0;
 int
 bsmap(int f, int n)
 {
-	if (f & FFARG)
+	if (f & FFANYARG)
 		bs_map = n > 0;
 	else
 		bs_map = !bs_map;
@@ -246,7 +246,7 @@ universal_argument(int f, int n)
 		}
 		if (funct != universal_argument) {
 			if (macrodef && macrocount < MAXMACRO - 1) {
-				if (f & FFARG)
+				if (f & FFANYARG)
 					macrocount--;
 				macro[macrocount++].m_count = nn;
 				macro[macrocount++].m_funct = funct;
@@ -317,7 +317,7 @@ digit_argument(int f, int n)
 		key.k_chars[key.k_count++] = c = getkey(TRUE);
 	}
 	if (macrodef && macrocount < MAXMACRO - 1) {
-		if (f & FFARG)
+		if (f & FFANYARG)
 			macrocount--;
 		else
 			macro[macrocount - 1].m_funct = universal_argument;
@@ -342,7 +342,7 @@ negative_argument(int f, int n)
 		key.k_chars[key.k_count++] = c = getkey(TRUE);
 	}
 	if (macrodef && macrocount < MAXMACRO - 1) {
-		if (f & FFARG)
+		if (f & FFANYARG)
 			macrocount--;
 		else
 			macro[macrocount - 1].m_funct = universal_argument;
@@ -370,7 +370,7 @@ selfinsert(int f, int n)
 	c = key.k_chars[key.k_count - 1];
 
 	if (macrodef && macrocount < MAXMACRO) {
-		if (f & FFARG)
+		if (f & FFANYARG)
 			macrocount -= 2;
 
 		/* last command was insert -- tack on the end */
@@ -501,7 +501,7 @@ setpromptdelay(int f, int n)
 	const char *es;
 	int delay;
 
-	if ((f & FFARG) != 0) {
+	if ((f & FFANYARG) != 0) {
 		delay = n;
 	} else {
 		if ((rep = eread("Set prompt delay in ms (currently"

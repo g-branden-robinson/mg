@@ -173,7 +173,7 @@ undo_enable(int f, int n)
 {
 	int pon = undo_enable_flag;
 
-	if (f & (FFARG | FFRAND))
+	if (f & (FFANYARG | FFRAND))
 		undo_enable_flag = n > 0;
 	else
 		undo_enable_flag = !undo_enable_flag;
@@ -201,7 +201,7 @@ undo_boundary_enable(int f, int n)
 
 	undo_add_boundary(FFRAND, 1);
 
-	if (f & (FFARG | FFRAND))
+	if (f & (FFANYARG | FFRAND))
 		boundary_flag = n > 0;
 	else
 		boundary_flag = !boundary_flag;
