@@ -109,7 +109,7 @@ compile(int f, int n)
 		return (FALSE);
 	curbp = bp;
 	compile_win = curwp = wp;
-	gotoline(FFARG, 0);
+	gotoline(FFANYARG, 0);
 	return (TRUE);
 }
 
@@ -303,7 +303,7 @@ compile_goto_error(int f, int n)
 	curwp = wp;
 	if (bp->b_fname[0] == '\0')
 		readin(adjf);
-	gotoline(FFARG, lineno);
+	gotoline(FFANYARG, lineno);
 	return (TRUE);
 fail:
 	free(line);
@@ -345,7 +345,7 @@ next_error(int f, int n)
 int
 globalwdtoggle(int f, int n)
 {
-	if (f & FFARG)
+	if (f & FFANYARG)
 		globalwd = n > 0;
 	else
 		globalwd = !globalwd;

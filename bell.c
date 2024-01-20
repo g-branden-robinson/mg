@@ -68,7 +68,7 @@ dobeep(void)
 int
 toggleaudiblebell(int f, int n)
 {
-	if (f & FFARG)
+	if (f & FFANYARG)
 		doaudiblebell = n > 0;
 	else
 		doaudiblebell = !doaudiblebell;
@@ -79,7 +79,7 @@ toggleaudiblebell(int f, int n)
 int
 togglevisiblebell(int f, int n)
 {
-	if (f & FFARG)
+	if (f & FFANYARG)
 		dovisiblebell = n > 0;
 	else
 		dovisiblebell = !dovisiblebell;

@@ -159,7 +159,7 @@ killline(int f, int n)
 	if ((lastflag & CFKILL) == 0)
 		kdelete();
 	thisflag |= CFKILL;
-	if (!(f & FFARG)) {
+	if (!(f & FFANYARG)) {
 		for (i = curwp->w_doto; i < llength(curwp->w_dotp); ++i)
 			if ((c = lgetc(curwp->w_dotp, i)) != ' ' && c != '\t')
 				break;
