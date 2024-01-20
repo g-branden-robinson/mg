@@ -574,7 +574,6 @@ queryrepl(int f, int n)
 		return (ABORT);
 	else if (rep[0] == '\0')
 		news[0] = '\0';
-	ewprintf("Query replacing %s with %s:", pat, news);
 	plen = strlen(pat);
 
 	/*
@@ -583,27 +582,32 @@ queryrepl(int f, int n)
 	 * into a tighter loop for efficiency.
 	 */
 	while (forwsrch() == TRUE) {
+		ewprintf("Query replacing %s with %s (? for help):",
+			 pat, news);
 retry:
 		update(CMODE);
 		switch (getkey(FALSE)) {
+		/* Replace and continue search */
 		case 'y':
 		case ' ':
 			if (lreplace((RSIZE)plen, news) == FALSE)
 				return (FALSE);
 			rcnt++;
 			break;
+		/* Replace and abort search */
 		case '.':
 			if (lreplace((RSIZE)plen, news) == FALSE)
 				return (FALSE);
 			rcnt++;
 			goto stopsearch;
-		/* ^G, CR or ESC */
+		/* Abort without replacing */
 		case CCHR('G'):
 			(void)ctrlg(FFRAND, 0);
-			goto stopsearch;
+			/* fall through */
 		case CCHR('['):
 		case CCHR('M'):
 			goto stopsearch;
+		/* Replace this and all further occurrences */
 		case '!':
 			do {
 				if (lreplace((RSIZE)plen, news) == FALSE)
@@ -611,23 +615,24 @@ retry:
 				rcnt++;
 			} while (forwsrch() == TRUE);
 			goto stopsearch;
+		/* Do not replace this occurrence */
 		case 'n':
-		case CCHR('H'):
-		/* To not replace */
 		case CCHR('?'):
 			break;
+		/* Get help */
+		case CCHR('H'):
 		default:
-			ewprintf("y/n or <SP>/<DEL>: replace/don't, [.] repl-end, [!] repl-rest, <CR>/<ESC> quit");
+			ewprintf("y/n or SP/DEL: replace/don't,"
+				 " [.] repl-end, [!] repl-rest,"
+				 " RET/ESC quit");
 			goto retry;
 		}
 	}
 stopsearch:
 	curwp->w_rflag |= WFFULL;
 	update(CMODE);
-	if (rcnt == 1)
-		ewprintf("Replaced 1 occurrence");
-	else
-		ewprintf("Replaced %d occurrences", rcnt);
+	ewprintf("Replaced %d occurrence%s", rcnt,
+			(rcnt == 1) ? "" : "s");
 	return (TRUE);
 }
 
