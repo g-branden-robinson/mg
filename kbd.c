@@ -254,29 +254,58 @@ universal_argument(int f, int n)
 	}
 }
 
+/*
+ * Return signed integer representing command argument.  Store the
+ * character that terminates the numeric sequence in argument `c`.
+ */
+static int
+collect_integer(int n, int *c)
+{
+	int	 c1, c2;
+	int	 got_digit, want_negation = FALSE;
+
+	for (;;) {
+		got_digit = FALSE;
+		c1 = getkey(TRUE);
+		if (c1 == CCHR('[')) {
+			c2 = getkey(TRUE);
+			if (c2 == '-')
+				want_negation = !want_negation;
+			else if (c2 < '0' || c2 > '9') {
+				ungetkey(c2);
+				break;
+			}
+			else {
+				got_digit = TRUE;
+				c1 = c2;
+			}
+		} else if (c1 == '-')
+			want_negation = !want_negation;
+		else if (c1 < '0' || c1 > '9')
+			break;
+		else
+			got_digit = TRUE;
+		if (got_digit) {
+			n *= 10;
+			n += c1 - '0';
+		}
+	}
+
+	if (want_negation)
+		n = -n;
+
+	*c = c1;
+	return n;
+}
+
 int
 digit_argument(int f, int n)
 {
 	KEYMAP	*curmap;
 	PF	 funct;
-	int	 nn, c, c2;
+	int	 nn, c;
 
-	nn = key.k_chars[key.k_count - 1] - '0';
-	for (;;) {
-		c = getkey(TRUE);
-		if (c == CCHR('[')) {
-			c2 = getkey(TRUE);
-			if (c2 < '0' || c2 > '9') {
-				ungetkey(c2);
-				break;
-			}
-			else
-				c = c2;
-		} else if (c < '0' || c > '9')
-			break;
-		nn *= 10;
-		nn += c - '0';
-	}
+	nn = collect_integer(key.k_chars[key.k_count - 1] - '0', &c);
 	key.k_chars[0] = c;
 	key.k_count = 1;
 	curmap = curbp->b_modes[curbp->b_nmodes]->p_map;
