@@ -64,8 +64,8 @@ typedef int	(*PF)(int, int);	/* generally useful type */
 #define FIOFNF	1		/* File not found.		 */
 #define FIOEOF	2		/* End of file.			 */
 #define FIOERR	3		/* Error.			 */
-#define FIOLONG 4		/* long line partially read	 */
-#define FIODIR 5		/* File is a directory		 */
+#define FIOLONG	4		/* Long line partially read	 */
+#define FIODIR	5		/* File is a directory		 */
 
 /*
  * Display colors.
@@ -86,14 +86,14 @@ typedef int	(*PF)(int, int);	/* generally useful type */
 /*
  * Flags for "eread".
  */
-#define EFFUNC	0x0001		/* Autocomplete functions.	 */
-#define EFBUF	0x0002		/* Autocomplete buffers.	 */
-#define EFFILE	0x0004		/* " files (maybe someday)	 */
+#define EFFUNC	0x0001		/* Autocomplete functions	 */
+#define EFBUF	0x0002		/* Autocomplete buffers		 */
+#define EFFILE	0x0004		/* Autocomplete file names	 */
 #define EFAUTO	0x0007		/* Some autocompletion on	 */
-#define EFNEW	0x0008		/* New prompt.			 */
-#define EFCR	0x0010		/* Echo CR at end; last read.	 */
-#define EFDEF	0x0020		/* buffer contains default args	 */
-#define EFNUL	0x0040		/* Null Minibuffer OK		 */
+#define EFNEW	0x0008		/* New prompt			 */
+#define EFCR	0x0010		/* Echo CR at end; last read	 */
+#define EFDEF	0x0020		/* Buffer contains default args	 */
+#define EFNUL	0x0040		/* Null minibuffer OK		 */
 
 /*
  * Direction of insert into kill ring
