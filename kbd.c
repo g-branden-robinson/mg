@@ -75,11 +75,11 @@ ungetkey(int c)
 }
 
 int
-getkey(int flag)
+getkey(int want_prompt)
 {
 	int	 c;
 
-	if (flag && !pushed) {
+	if (want_prompt && !pushed) {
 		if (prompt[0] != '\0' && ttwait(2000)) {
 			/* avoid problems with % */
 			ewprintf("%s", prompt);
@@ -107,7 +107,7 @@ getkey(int flag)
 		pushed = TRUE;
 		c = CCHR('[');
 	}
-	if (flag && promptp < &prompt[PROMPTL - 5]) {
+	if (want_prompt && promptp < &prompt[PROMPTL - 5]) {
 		promptp = getkeyname(promptp,
 		    sizeof(prompt) - (promptp - prompt) - 1, c);
 		*promptp++ = '-';
