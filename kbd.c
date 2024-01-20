@@ -31,7 +31,7 @@ static int mgwrap(PF, int, int);
 static int		 use_metakey = TRUE;
 static int		 pushed = FALSE;
 static int		 pushedc;
-static int		 prompt_delay = 2000;
+static int		 prompt_delay = 500;
 
 struct map_element	*ele;
 struct key		 key;
