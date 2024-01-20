@@ -586,9 +586,9 @@ complt(int flags, int c, char *buf, size_t nbuf, int cpos, int *nx)
 		}
 	}
 	if (nhits == 0)
-		msg = " [No match]";
+		msg = " [no match]";
 	else if (nhits > 1 && nxtra == 0)
-		msg = " [Ambiguous. Ctrl-G to cancel]";
+		msg = " [ambiguous; TAB to list, C-g to cancel]";
 	else {
 		/*
 		 * Being lazy - ought to check length, but all things
