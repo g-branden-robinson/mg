@@ -28,9 +28,10 @@ static int	 complt(int, int, char *, size_t, int, int *);
 static int	 complt_list(int, char *, int);
 static void	 eformat(const char *, va_list)
 			__attribute__((__format__ (printf, 1, 0)));
-static void	 eputi(int, int);
+static void	 eputd(int, int);
 static void	 eputl(long, int);
 static void	 eputs(const char *);
+static void	 eputu(unsigned, int, int);
 static void	 eputc(char);
 static struct list	*copy_list(struct list *);
 
@@ -852,9 +853,10 @@ ewprintf(const char *fmt, ...)
  * %c prints the "name" of the supplied character.
  * %k prints the name of the current key (and takes no arguments).
  * %d prints a decimal integer
- * %o prints an octal integer
+ * %o prints an unsigned octal integer
  * %p prints a pointer
  * %s prints a string
+ * %u prints an unsigned decimal integer
  * %ld prints a long word
  * Anything else is echoed verbatim
  */
@@ -887,11 +889,11 @@ eformat(const char *fp, va_list ap)
 				break;
 
 			case 'd':
-				eputi(va_arg(ap, int), 10);
+				eputd(va_arg(ap, int), 10);
 				break;
 
 			case 'o':
-				eputi(va_arg(ap, int), 8);
+				eputu(va_arg(ap, unsigned), 8, TRUE);
 				break;
 
 			case 'p':
@@ -917,6 +919,10 @@ eformat(const char *fp, va_list ap)
 				}
 				break;
 
+			case 'u':
+				eputu(va_arg(ap, unsigned), 10, FALSE);
+				break;
+
 			default:
 				eputc(c);
 			}
@@ -925,10 +931,10 @@ eformat(const char *fp, va_list ap)
 }
 
 /*
- * Put integer, in radix "r".
+ * Put integer `i` in radix `r`.
  */
 static void
-eputi(int i, int r)
+eputd(int i, int r)
 {
 	int	 q;
 
@@ -937,7 +943,7 @@ eputi(int i, int r)
 		i = -i;
 	}
 	if ((q = i / r) != 0)
-		eputi(q, r);
+		eputd(q, r);
 	eputc(i % r + '0');
 }
 
@@ -968,6 +974,23 @@ eputs(const char *s)
 
 	while ((c = *s++) != '\0')
 		eputc(c);
+}
+
+/*
+ * Put unsigned int `i` in radix `r`.
+ */
+static void
+eputu(unsigned int i, int r, int want_zero_padding)
+{
+	unsigned int	 q;
+
+	if ((q = (i / r)) != 0)
+		eputu(q, r, want_zero_padding);
+	else {
+		if (want_zero_padding)
+			eputc('0');
+	}
+	eputc(i % r + '0');
 }
 
 /*
