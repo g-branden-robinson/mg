@@ -197,11 +197,11 @@ apropos_command(int f, int n)
 		    buf, sizeof(buf));
 
 		if (addlinef(bp, "%-43s  %s", el->l_name,  buf) == FALSE) {
-			free_file_list(fnames);
+			free_list(fnames);
 			return (FALSE);
 		}
 	}
-	free_file_list(fnames);
+	free_list(fnames);
 	return (popbuftop(bp, WNONE));
 }
 

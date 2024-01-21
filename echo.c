@@ -602,7 +602,7 @@ complt(int flags, int c, char *buf, size_t nbuf, int cpos, int *nx)
 		}
 		/* XXX should grow nbuf */
 		ttflush();
-		free_file_list(wholelist);
+		free_list(wholelist);
 		*nx = nxtra;
 		if (nxtra < 0 && c != CCHR('M')) /* exact */
 			*nx = 0;
@@ -613,7 +613,7 @@ complt(int flags, int c, char *buf, size_t nbuf, int cpos, int *nx)
 	 * wholelist is NULL if we are doing buffers.  Want to free lists
 	 * that were created for us, but not the buffer list!
 	 */
-	free_file_list(wholelist);
+	free_list(wholelist);
 
 	/* Set up backspaces, etc., being mindful of echo line limit. */
 	msglen = strlen(msg);
@@ -736,7 +736,7 @@ complt_list(int flags, char *buf, int cpos)
 	 */
 	linesize = (ncol > maxwidth ? ncol : maxwidth) + 1;
 	if ((linebuf = malloc(linesize)) == NULL) {
-		free_file_list(wholelist);
+		free_list(wholelist);
 		return (FALSE);
 	}
 	width = 0;
@@ -779,7 +779,7 @@ complt_list(int flags, char *buf, int cpos)
 	 * that were built just for us should be freed.  However when we use
 	 * the buffer list, obviously we don't want it freed.
 	 */
-	free_file_list(wholelist);
+	free_list(wholelist);
 	popbuftop(bp, WEPHEM);	/* split the screen and put up the help
 				 * buffer */
 	update(CMODE);		/* needed to make the new stuff actually
@@ -982,11 +982,11 @@ eputc(char c)
 }
 
 void
-free_file_list(struct list *lp)
+free_list(struct list *lp)
 {
 	struct list	*next;
 
-	while (lp) {
+	while (lp != NULL) {
 		next = lp->l_next;
 		free(lp->l_name);
 		free(lp);
