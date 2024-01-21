@@ -622,7 +622,7 @@ founddef(char *defstr, int blkid, int expctr, int hasval, int elen)
 static int
 expandvals(char *cmdp, char *valp, char *bp)
 {
-	char	 excbuf[BUFSIZE], argbuf[BUFSIZE];
+	char	 argbuf[BUFSIZE];
 	char	 contbuf[BUFSIZE], varbuf[BUFSIZE];
 	char	*argp, *endp, *p, *v, *s = " ";
 	char	*regs;
@@ -661,7 +661,6 @@ expandvals(char *cmdp, char *valp, char *bp)
 				*p = '\0';		
 			}
 			endp = p + 1;
-			excbuf[0] = '\0';
 			varbuf[0] = '\0';
 			contbuf[0] = '\0';			
 			sizof = sizeof(varbuf);
