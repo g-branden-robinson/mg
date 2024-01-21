@@ -181,7 +181,9 @@ help_help(int f, int n)
 
 	if ((kp = name_map("help")) == NULL)
 		return (FALSE);
-	ewprintf("a b c: ");
+	ewprintf("a: apropos;"
+		 " b: describe-bindings;"
+		 " c: describe-key-briefly");
 	do {
 		funct = doscan(kp, getkey(FALSE), NULL);
 	} while (funct == NULL || funct == help_help);
