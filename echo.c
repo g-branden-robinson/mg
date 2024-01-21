@@ -337,7 +337,8 @@ veread(const char *fp, char *buf, size_t nbuf, int flag, va_list ap)
 				}
 				if (!dynbuf && epos + 1 >= nbuf) {
 					dobeep();
-					ewprintf("Line too long. Press Control-g to escape.");
+					ewprintf("Input too long; press"
+						 " C-g to cancel");
 					goto skipkey;
 				}
 				for (t = epos; t > cpos; t--)
@@ -493,7 +494,8 @@ veread(const char *fp, char *buf, size_t nbuf, int flag, va_list ap)
 			}
 			if (!dynbuf && epos + 1 >= nbuf) {
 				dobeep();
-				ewprintf("Line too long. Press Control-g to escape.");
+				ewprintf("Input too long; press C-g to"
+					 " cancel");
 				goto skipkey;
 			}
 			for (i = epos; i > cpos; i--)
