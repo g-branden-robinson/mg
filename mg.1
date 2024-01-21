@@ -1577,13 +1577,19 @@ file as
 .Ic find\-file
 would.)
 .It Ic what\-cursor\-position
-Display a bunch of useful information about the current location of
-point.
-The character under the cursor (in octal), the current line, row,
-and column, and approximate position of the cursor in the file (as a
-percentage) is displayed.
-The column position assumes an infinite
-position display; it does not truncate just because the screen does.
+Display useful information about point.
+The minibuffer reports what is at the cursor:
+either the end of the buffer
+.Pf ( Dq EOB ) ,
+or a character
+(in human-readable form and its decimal and octal encodings);
+the byte position of the cursor;
+the buffer length;
+appoximate location in the file as a percentage;
+the file position as a line number within the buffer;
+and the screen position as row and column numbers.
+The last assumes an infinitely wide display;
+it does not truncate just because the screen does.
 .It Ic write\-file
 Prompt for a file name,
 write the contents of the buffer to it,

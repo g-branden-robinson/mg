@@ -29,21 +29,20 @@ ntabstop(int col, int tabw)
 }
 
 /*
- * Display a bunch of useful information about the current location of point.
- * The character under the cursor (in octal), the current line, row, and
- * column, and approximate position of the cursor in the file (as a
- * percentage) is displayed.
- * Also included at the moment are some values in parenthesis for debugging
- * explicit newline inclusion into the buffer.
- * The column position assumes an infinite
- * position display; it does not truncate just because the screen does.
- * This is normally bound to "C-x =".
+ * Display useful information about point.  Report what is at the
+ * cursor: either the end of the buffer, or a character (in human-
+ * readable form and its decimal and octal encodings); the byte position
+ * of the cursor; the buffer length; appoximate location in the file as
+ * a percentage; the file position as a line number within the buffer;
+ * and the screen position as row and column numbers.  The last assumes
+ * an infinitely wide display; it does not truncate just because the
+ * screen does.
  */
 int
 showcpos(int f, int n)
 {
 	struct line	*clp;
-	char		*msg;
+	char		*prefix;
 	long	 nchar, cchar;
 	int	 nline, row;
 	int	 cline, cbyte;		/* Current line/char/byte */
@@ -51,7 +50,7 @@ showcpos(int f, int n)
 
 	/* collect the data */
 	clp = bfirstlp(curbp);
-	msg = "Char:";
+	prefix = "Char:";
 	cchar = 0;
 	cline = 0;
 	cbyte = 0;
@@ -77,9 +76,9 @@ showcpos(int f, int n)
 		if (clp == curbp->b_headp) {
 			if (cbyte == *curbp->b_nlchr &&
 			    cline == curbp->b_lines) {
-				/* swap faked \n for EOB msg */
+				/* swap faked \n for EOB prefix */
 				cbyte = EOF;
-				msg = "(EOB)";
+				prefix = "(EOB)";
 			}
 			break;
 		}
@@ -94,10 +93,17 @@ showcpos(int f, int n)
 		clp = lforw(clp);
 	}
 	ratio = nchar ? (100L * cchar) / nchar : 100;
-	ewprintf("%s %c (0%o)  point=%ld(%d%%)  line=%d  row=%d  col=%d" \
-            "  (blines=%d rlines=%d l_size=%d)", msg,
-	    cbyte, cbyte, cchar, ratio, cline, row, getcolpos(curwp),
-	    curbp->b_lines, nline, clp->l_size);
+	if (cbyte != EOF)
+		ewprintf("%s %c (%d, \\%o)  point=%ld of %ld (%ld%%)"
+			 " line=%ld  row=%ld  col=%ld",
+			 prefix, cbyte, cbyte, cbyte, cchar, nchar,
+			 ratio,
+			 cline, row, getcolpos(curwp));
+	else
+		ewprintf("%s  point=%ld of %ld (%ld%%)"
+			 " line=%ld  row=%ld  col=%ld",
+			 prefix, cchar, nchar, ratio,
+			 cline, row, getcolpos(curwp));
 	return (TRUE);
 }
 
