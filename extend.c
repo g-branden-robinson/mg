@@ -488,7 +488,7 @@ redefine_key(int f, int n)
 	KEYMAP		*mp;
 
 	if ((bufp = eread("Define key in keymap: ", tmp, sizeof(tmp),
-			  EFNEW)) == NULL)
+			  EFKMAP | EFNEW)) == NULL)
 		return (ABORT);
 	else if (bufp[0] == '\0')
 		return (FALSE);
