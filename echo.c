@@ -559,6 +559,9 @@ complt(int flags, int c, char *buf, size_t nbuf, int cpos, int *nx)
 	} else if ((flags & EFFILE) != 0) {
 		buf[cpos] = '\0';
 		wholelist = lh = make_file_list(buf);
+	} else if ((flags & EFKMAP) != 0) {
+		buf[cpos] = '\0';
+		wholelist = lh = make_keymap_list(buf);
 	} else
 		panic("broken complt call: flags");
 
@@ -689,6 +692,9 @@ complt_list(int flags, char *buf, int cpos)
 		cp = strrchr(buf, '/');
 		if (cp)
 			preflen = cp - buf + 1;
+	} else if ((flags & EFKMAP) != 0) {
+		buf[cpos] = '\0';
+		wholelist = lh = make_keymap_list(buf);
 	} else
 		panic("broken complt_list call: flags");
 
