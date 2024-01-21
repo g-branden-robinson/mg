@@ -571,3 +571,30 @@ name_map(const char *name)
 
 	return ((mp = name_mode(name)) == NULL ? NULL : mp->p_map);
 }
+
+/*
+ * Allocate and return a list of keymaps.
+ */
+struct list *
+make_keymap_list(char *buf)
+{
+	struct list	*previous = NULL, *current;
+	struct maps_s	*kmap = map_table;
+
+	if (kmap == NULL)
+		panic("no keymaps defined");
+
+	while (kmap != NULL) {
+		current = malloc(sizeof(struct list));
+
+		if (current == NULL)
+			panic("out of memory in make_keymap_list");
+
+		current->l_next = previous;
+		current->l_name = strdup(kmap->p_name);
+		previous = current;
+		kmap = kmap->p_next;
+	}
+
+	return (previous);
+}
