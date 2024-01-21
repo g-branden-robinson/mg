@@ -308,7 +308,7 @@ complete_function_list(const char *fname)
 	for (fn = funs; fn != NULL; fn = fn->fn_next) {
 		if (memcmp(fname, fn->fn_name, len) == 0) {
 			if ((el = malloc(sizeof(*el))) == NULL) {
-				free_file_list(head);
+				free_list(head);
 				return (NULL);
 			}
 			el->l_name = strdup(fn->fn_name);
