@@ -367,6 +367,7 @@ insertfile(char *fname, char *newname, int replacebuf)
 	olp = lback(curwp->w_dotp);
 	undo_enable(FFRAND, x2);
 
+	ewprintf("Reading file \"%s\"...", fname);
 	nline = 0;
 	siz = 0;
 	while ((s = ffgetline(ffp, line, linesize, &nbytes)) != FIOERR) {
@@ -427,6 +428,7 @@ retry:
 			break;
 		}
 	}
+	eerase();
 endoffile:
 	/* ignore errors */
 	(void)ffclose(ffp, NULL);
