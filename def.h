@@ -91,13 +91,14 @@ typedef int	(*PF)(int, int);	/* generally useful type */
 #define EFFUNC	0x0001		/* Autocomplete functions	 */
 #define EFBUF	0x0002		/* Autocomplete buffers		 */
 #define EFFILE	0x0004		/* Autocomplete file names	 */
-#define EFNEW	0x0008		/* New prompt			 */
-#define EFCR	0x0010		/* Echo CR at end; last read	 */
-#define EFDEF	0x0020		/* Buffer contains default args	 */
-#define EFNUL	0x0040		/* Null minibuffer OK		 */
+#define EFKMAP	0x0008		/* Autocomplete keymaps		 */
+#define EFNEW	0x0010		/* New prompt			 */
+#define EFCR	0x0020		/* Echo CR at end; last read	 */
+#define EFDEF	0x0040		/* Buffer contains default args	 */
+#define EFNUL	0x0080		/* Null minibuffer OK		 */
 
 /* any completion type */
-#define EFANYCOMPLT	(EFFUNC|EFBUF|EFFILE)
+#define EFANYCOMPLT	(EFFUNC|EFBUF|EFFILE|EFKMAP)
 
 /*
  * Direction of insert into kill ring
@@ -762,6 +763,9 @@ void		 dobeep(void);
 /* interpreter.c */
 int		 foundparen(char *, int, int);
 void		 cleanup(void);
+
+/* keymap.c */
+struct list *	 make_keymap_list(char *);
 
 /*
  * Externals.
