@@ -497,7 +497,7 @@ void		 ewprintf(const char *fmt, ...);
 char		*eread(const char *, char *, size_t, int, ...)
 				__attribute__((__format__ (printf, 1, 5)));
 int		 getxtra(struct list *, struct list *, int, int);
-void		 free_file_list(struct list *);
+void		 free_list(struct list *);
 
 /* fileio.c */
 int		 ffropen(FILE **, const char *, struct buffer *);
