@@ -406,6 +406,12 @@ makelist(void)
 		    bp->b_fname) == FALSE)
 			return (NULL);
 	}
+
+	if (!addlinef(blp, "") ||
+	    !addlinef(blp,
+		      ">: current buffer, M: modified, R: read-only"))
+		return (NULL);
+
 	blp->b_dotp = bfirstlp(blp);		/* put point at beginning of
 						 * buffer */
 	blp->b_doto = 0;
