@@ -690,7 +690,7 @@ complt_list(int flags, char *buf, int cpos)
 		if (cp)
 			preflen = cp - buf + 1;
 	} else
-		panic("broken complt call: flags");
+		panic("broken complt_list call: flags");
 
 	/*
 	 * Sort the list, since users expect to see it in alphabetic
