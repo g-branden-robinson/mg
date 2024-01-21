@@ -60,7 +60,6 @@ OBJS+=	cmode.o cscope.o dired.o grep.o tags.o
 
 
 # Portability stuff.
-CFLAGS+= 	 -Wno-strict-aliasing -Wno-deprecated-declarations
 EXE_EXT=
 
 .c.o:
