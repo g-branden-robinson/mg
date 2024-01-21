@@ -362,7 +362,7 @@ listbuffers(int f, int n)
 static struct buffer *
 makelist(void)
 {
-	int		w = ncol / 2;
+	int		 w = ncol / 2;
 	struct buffer	*bp, *blp;
 	struct line	*lp;
 
@@ -370,10 +370,10 @@ makelist(void)
 		return (NULL);
 	if (bclear(blp) != TRUE)
 		return (NULL);
-	blp->b_flag &= ~BFCHG;		/* Blow away old.	 */
+	blp->b_flag &= ~BFCHG;	/* Blow away old. */
 	blp->b_flag |= BFREADONLY;
 
-	listbuf_ncol = ncol;		/* cache ncol for listbuf_goto_buffer */
+	listbuf_ncol = ncol;	/* cache ncol for listbuf_goto_buffer */
 
 	if (addlinef(blp, "%-*s%s", w, " MR Buffer", "Size   File") == FALSE ||
 	    addlinef(blp, "%-*s%s", w, " -- ------", "----   ----") == FALSE)
@@ -382,7 +382,7 @@ makelist(void)
 	for (bp = bheadp; bp != NULL; bp = bp->b_bufp) {
 		RSIZE nbytes;
 
-		nbytes = 0;			/* Count bytes in buf.	 */
+		nbytes = 0;		/* Count bytes in buf. */
 		if (bp != blp) {
 			lp = bfirstlp(bp);
 			while (lp != bp->b_headp) {
@@ -390,19 +390,19 @@ makelist(void)
 				lp = lforw(lp);
 			}
 			if (nbytes)
-				nbytes--;	/* no bonus newline	 */
+				nbytes--; /* no bonus newline */
 		}
 
 		if (addlinef(blp, "%c%c%c %-*.*s%c%-6d %-*s",
-		    (bp == curbp) ? '>' : ' ',	/* current buffer ? */
-		    ((bp->b_flag & BFCHG) != 0) ? '*' : ' ',	/* changed ? */
+		    (bp == curbp) ? '>' : ' ',
+		    ((bp->b_flag & BFCHG) != 0) ? '*' : ' ',
 		    ((bp->b_flag & BFREADONLY) != 0) ? '*' : ' ',
-		    w - 5,		/* four chars already written */
-		    w - 5,		/* four chars already written */
-		    bp->b_bname,	/* buffer name */
+		    w - 5,		/* 4 chars already written */
+		    w - 5,		/* 4 chars already written */
+		    bp->b_bname,
 		    strlen(bp->b_bname) < w - 5 ? ' ' : '$', /* truncated? */
 		    nbytes,		/* buffer size */
-		    w - 7,		/* seven chars already written */
+		    w - 7,		/* 7 chars already written */
 		    bp->b_fname) == FALSE)
 			return (NULL);
 	}
