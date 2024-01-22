@@ -57,9 +57,6 @@ this?
 
 Ordering of commands in apropos help is not obvious.
 
-Ordering of bindings in describe-bindings (C-h b) is not obvious, and
-has weird (and multiple) blank lines scattered throughout.
-
 Add an insert-byte command accepting octal input.
 
 Use set-prompt-delay in an inverse sense to collect a keystroke

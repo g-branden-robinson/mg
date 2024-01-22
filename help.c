@@ -17,7 +17,7 @@
 #include "key.h"
 #include "macro.h"
 
-static int	showall(struct buffer *, KEYMAP *, char *);
+static int	showall(struct buffer *, KEYMAP *, char *, int);
 static int	findbind(KEYMAP *, PF, char *, size_t);
 
 /*
@@ -112,43 +112,64 @@ wallchart(int f, int n)
 	for (m = curbp->b_nmodes; m > 0; m--) {
 		if ((addlinef(bp, "Local keybindings for mode %s:",
 				curbp->b_modes[m]->p_name) == FALSE) ||
-		    (showall(bp, curbp->b_modes[m]->p_map, "") == FALSE) ||
-		    (addline(bp, "") == FALSE))
+		    (showall(bp, curbp->b_modes[m]->p_map, "", TRUE) == FALSE))
 			return (FALSE);
 	}
 	if ((addline(bp, "Global bindings:") == FALSE) ||
-	    (showall(bp, fundamental_map, "") == FALSE))
+	    (addline(bp, "") == FALSE) ||
+	    (showall(bp, fundamental_map, "", FALSE) == FALSE))
 		return (FALSE);
 	return (popbuftop(bp, WNONE));
 }
 
+/*
+ * Add a blank line to buffer `bp` if permitted (`can_blank`).
+ */
 static int
-showall(struct buffer *bp, KEYMAP *map, char *prefix)
+maybe_blank_line(struct buffer *bp, int can_blank)
+{
+	return (can_blank ? addline(bp, "") : TRUE);
+}
+
+/*
+ * Populate buffer `bp` with key bindings beginning with `prefix` from
+ * `map`.  Recursive; uses `can_blank` to manage output of blank lines.
+ */
+static int
+showall(struct buffer *bp, KEYMAP *map, char *prefix, int can_blank)
 {
 	KEYMAP	*newmap;
 	char	 buf[80], keybuf[84];
 	PF	 fun;
 	int	 c;
 
-	if (addline(bp, "") == FALSE)
-		return (FALSE);
-
-	/* XXX - 256 ? */
 	for (c = 0; c < 256; c++) {
+		if (c == 32) {
+			if (!maybe_blank_line(bp, can_blank))
+				return (FALSE);
+			can_blank = FALSE;
+		}
 		fun = doscan(map, c, &newmap);
 		if (fun == rescan || fun == selfinsert)
 			continue;
 		getkeyname(buf, sizeof(buf), c);
-		(void)snprintf(keybuf, sizeof(keybuf), "%s%s ", prefix, buf);
+		(void)snprintf(keybuf, sizeof(keybuf), "%s%s ", prefix,
+				buf);
 		if (fun == NULL) {
-			if (showall(bp, newmap, keybuf) == FALSE)
+			if (!maybe_blank_line(bp, can_blank))
+					return (FALSE);
+			can_blank = FALSE;
+			if (!showall(bp, newmap, keybuf, can_blank))
 				return (FALSE);
 		} else {
 			if (addlinef(bp, "%-16s%s", keybuf,
 				    function_name(fun)) == FALSE)
 				return (FALSE);
+			can_blank = TRUE;
 		}
 	}
+	if (!maybe_blank_line(bp, can_blank))
+		return (FALSE);
 	return (TRUE);
 }
 
