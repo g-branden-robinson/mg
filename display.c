@@ -51,19 +51,18 @@ struct score {
 	int	s_cost;		/* Display cost.		 */
 };
 
-void	vtmove(int, int);
-void	vtputc(int, struct mgwin *);
-void	vtpute(int, struct mgwin *);
-int	vtputs(const char *, struct mgwin *);
-void	vteeol(void);
-void	updext(int, int);
-void	modeline(struct mgwin *, int);
-void	setscores(int, int);
-void	traceback(int, int, int, int);
-void	ucopy(struct video *, struct video *);
-void	uline(int, struct video *, struct video *);
-void	hash(struct video *);
-
+static void	vtmove(int, int);
+static void	vtputc(int, struct mgwin *);
+static void	vtpute(int, struct mgwin *);
+static int	vtputs(const char *, struct mgwin *);
+static void	vteeol(void);
+static void	updext(int, int);
+static void	modeline(struct mgwin *, int);
+static void	setscores(int, int);
+static void	traceback(int, int, int, int);
+static void	uline(int, struct video *, struct video *);
+static void	ucopy(struct video *, struct video *);
+static void	hash(struct video *);
 
 int	sgarbf = TRUE;		/* TRUE if screen is garbage.	 */
 int	vtrow = HUGE;		/* Virtual cursor row.		 */
@@ -288,7 +287,7 @@ vttidy(void)
  * on the line, which would make "vtputc" a little bit
  * more efficient. No checking for errors.
  */
-void
+static void
 vtmove(int row, int col)
 {
 	vtrow = row;
@@ -307,7 +306,7 @@ vtmove(int row, int col)
  * makes the tab code loop if you are not careful.
  * Three guesses how we found this.
  */
-void
+static void
 vtputc(int c, struct mgwin *wp)
 {
 	struct video	*vp;
@@ -341,7 +340,7 @@ vtputc(int c, struct mgwin *wp)
  * yet on left edge, don't print it yet.  Check for overflow on the right
  * margin.
  */
-void
+static void
 vtpute(int c, struct mgwin *wp)
 {
 	struct video *vp;
@@ -378,7 +377,7 @@ vtpute(int c, struct mgwin *wp)
  * the software cursor is located. The display routines will decide if a
  * hardware erase to end of line command should be used to display this.
  */
-void
+static void
 vteeol(void)
 {
 	struct video *vp;
@@ -642,7 +641,7 @@ update(int modelinecolor)
  * virtual and physical screens the same when
  * display has done an update.
  */
-void
+static void
 ucopy(struct video *vvp, struct video *pvp)
 {
 	vvp->v_flag &= ~VFCHG;		/* Changes done.	 */
@@ -658,7 +657,7 @@ ucopy(struct video *vvp, struct video *pvp)
  * column greater than the terminal width. The line will be scrolled right or
  * left to let the user see where the cursor is.
  */
-void
+static void
 updext(int currow, int curcol)
 {
 	struct line	*lp;			/* pointer to current line */
@@ -694,7 +693,7 @@ updext(int currow, int curcol)
  * line when updating CMODE color lines, because of the way that
  * reverse video works on most terminals.
  */
-void
+static void
 uline(int row, struct video *vvp, struct video *pvp)
 {
 	char  *cp1;
@@ -783,7 +782,7 @@ uline(int row, struct video *vvp, struct video *pvp)
  * that if STANDOUT_GLITCH is defined, first and last magic_cookie_glitch
  * characters may never be seen.
  */
-void
+static void
 modeline(struct mgwin *wp, int modelinecolor)
 {
 	int	n, md;
@@ -856,7 +855,7 @@ modeline(struct mgwin *wp, int modelinecolor)
 /*
  * Output a string to the mode line, report how long it was.
  */
-int
+static int
 vtputs(const char *s, struct mgwin *wp)
 {
 	int n = 0;
@@ -876,7 +875,7 @@ vtputs(const char *s, struct mgwin *wp)
  * Tuned for the VAX by Bob McNamara; better than it used to be on
  * just about any machine.
  */
-void
+static void
 hash(struct video *vp)
 {
 	int	i, n;
@@ -924,7 +923,7 @@ hash(struct video *vp)
  * i = 1; do { } while (++i <=size)" will make the code quite a
  * bit better; but it looks ugly.
  */
-void
+static void
 setscores(int offs, int size)
 {
 	struct score	 *sp;
@@ -1011,7 +1010,7 @@ setscores(int offs, int size)
  * which is acceptable because this routine is much less compute
  * intensive then the code that builds the score matrix!
  */
-void
+static void
 traceback(int offs, int size, int i, int j)
 {
 	int	itrace, jtrace;
