@@ -418,6 +418,8 @@ end\-of\-line
 forward\-char
 .It C\-g
 keyboard\-quit
+.It C\-h C\-g
+keyboard\-quit
 .It C\-h C\-h
 help\-help
 .It C\-h a
@@ -548,8 +550,30 @@ shell\-command
 query\-replace
 .It M\-*
 pop\-tag\-mark
+.It M\-\-
+negative\-argument
 .It M\-.
 find\-tag
+.It M\-0
+digit\-argument
+.It M\-1
+digit\-argument
+.It M\-2
+digit\-argument
+.It M\-3
+digit\-argument
+.It M\-4
+digit\-argument
+.It M\-5
+digit\-argument
+.It M\-6
+digit\-argument
+.It M\-7
+digit\-argument
+.It M\-8
+digit\-argument
+.It M\-9
+digit\-argument
 .It M\-<
 beginning\-of\-buffer
 .It M\->
@@ -601,6 +625,10 @@ not\-modified
 .It M\-DEL
 backward\-kill\-word
 .It )
+blink\-and\-insert
+.It ]
+blink\-and\-insert
+.It }
 blink\-and\-insert
 .It DEL
 delete\-backward\-char
