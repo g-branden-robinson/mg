@@ -3,10 +3,7 @@
 /* This file is in the public domain. */
 
 /*
- *	Echo line reading and writing.
- *
- * Common routines for reading and writing characters in the echo line area
- * of the display screen. Used by the entire known universe.
+ *	Minibuffer management (formerly: "echo line")
  */
 
 #include <sys/queue.h>
@@ -35,10 +32,10 @@ static void	 eputu(unsigned, int, int);
 static void	 eputc(char);
 static struct list	*copy_list(struct list *);
 
-int		epresf = FALSE;		/* stuff in echo line flag */
+int		epresf = FALSE;		/* is minibuffer populated? */
 
 /*
- * Erase the echo line.
+ * Erase the minibuffer.
  */
 void
 eerase(void)
@@ -165,12 +162,13 @@ eyesno(const char *sp)
 }
 
 /*
- * This is the general "read input from the echo line" routine.  The basic
- * idea is that the prompt string "prompt" is written to the echo line, and
- * a one line reply is read back into the supplied "buf" (with maximum
- * length "len").
- * XXX: When checking for an empty return value, always check rep, *not* buf
- * as buf may be freed in pathological cases.
+ * This is the general "read input from the minibuffer" routine.  The
+ * basic idea is that the prompt string "prompt" is written to the
+ * minibuffer, and a one line reply is read back into the supplied "buf"
+ * (with maximum length "len").
+ *
+ * XXX: When checking for an empty return value, always check rep, *not*
+ * buf as buf may be freed in pathological cases.
  */
 char *
 eread(const char *fmt, char *buf, size_t nbuf, int flag, ...)
@@ -621,7 +619,7 @@ complt(int flags, int c, char *buf, size_t nbuf, int cpos, int *nx)
 	 */
 	free_list(wholelist);
 
-	/* Set up backspaces, etc., being mindful of echo line limit. */
+	/* Set up backspaces, etc., being mindful of length limit. */
 	msglen = strlen(msg);
 	nshown = (ttcol + msglen + 2 > ncol) ?
 		ncol - ttcol - 2 : msglen;
@@ -824,10 +822,9 @@ getxtra(struct list *lp1, struct list *lp2, int cpos, int wflag)
 }
 
 /*
- * Special "printf" for the echo line.  Each call to "ewprintf" starts a
- * new line in the echo area, and ends with an erase to end of the echo
- * line.  The formatting is done by a call to the standard formatting
- * routine.
+ * A "printf" for the minibuffer.  Each call to "ewprintf" starts
+ * a new line in the minibuffer, and ends with an erase to end of the
+ * minibuffer.
  */
 void
 ewprintf(const char *fmt, ...)
@@ -848,19 +845,20 @@ ewprintf(const char *fmt, ...)
 }
 
 /*
- * Printf style formatting. This is called by "ewprintf" to provide
- * formatting services to its clients.  The move to the start of the
- * echo line, and the erase to the end of the echo line, is done by
- * the caller. 
+ * Process a string with printf-style formatting.  `ewprintf` calls this
+ * to provide formatting services to its clients.  The caller must first
+ * move to the start of the minibuffer, and erase to the end of the
+ * minibuffer afterward.
+ *
  * %c prints the "name" of the supplied character.
  * %k prints the name of the current key (and takes no arguments).
- * %d prints a decimal integer
- * %o prints an unsigned octal integer
- * %p prints a pointer
- * %s prints a string
- * %u prints an unsigned decimal integer
- * %ld prints a long word
- * Anything else is echoed verbatim
+ * %d prints a decimal integer.
+ * %o prints an unsigned octal integer.
+ * %p prints a pointer.
+ * %s prints a string.
+ * %u prints an unsigned decimal integer.
+ * %ld prints a decimal integer from a `long`.
+ * Anything else is output verbatim.
  */
 static void
 eformat(const char *fp, va_list ap)
