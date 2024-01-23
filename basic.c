@@ -442,9 +442,8 @@ isetmark(void)
 }
 
 /*
- * Set the mark in the current window
- * to the value of point. A message is written to
- * the echo line.  (ewprintf knows about macros)
+ * Set mark in the current window to the value of point; write a message
+ * to the minibuffer.  (ewprintf knows about macros.)
  */
 int
 setmark(int f, int n)
