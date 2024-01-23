@@ -16,8 +16,7 @@
 const char	version[] = "Mg 2a (hboetes-20230501+gbr)";
 
 /*
- * Display the version. All this does
- * is copy the version string onto the echo line.
+ * Display the version; copy the version string into the minibuffer.
  */
 int
 showversion(int f, int n)

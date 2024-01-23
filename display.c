@@ -901,7 +901,7 @@ hash(struct video *vp)
  * Compute the Insert-Delete
  * cost matrix. The dynamic programming algorithm
  * described by James Gosling is used. This code assumes
- * that the line above the echo line is the last line involved
+ * that the line above the minibuffer is the last line involved
  * in the scroll region. This is easy to arrange on the VT100
  * because of the scrolling region. The "offs" is the origin 0
  * offset of the first row in the virtual/physical screen that
