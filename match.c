@@ -125,8 +125,9 @@ balance(void)
 
 /*
  * Display matching character.  Matching characters that are not in the
- * current window are displayed in the echo line. If in the current window,
- * move point to the matching character, sit there a while, then move back.
+ * current window are displayed in the minibuffer. If in the current
+ * window, move point to the matching character, sit there a while, then
+ * move back.
  */
 static void
 displaymatch(struct line *clp, int cbo)
@@ -166,7 +167,10 @@ displaymatch(struct line *clp, int cbo)
 		curwp->w_rflag |= WFMOVE;
 		update(CMODE);
 	} else {
-		/* match is not in this window, so display line in echo area */
+		/*
+		 * The match is not in this window, so display the line
+		 * in the minibuffer.
+		 */
 		bufo = 0;
 		for (cp = 0; cp < llength(clp); cp++) {
 			if (bufo >= sizeof(buf) - 1)
