@@ -73,6 +73,8 @@ toggleaudiblebell(int f, int n)
 	else
 		doaudiblebell = !doaudiblebell;
 
+	ewprintf("Audible bell is now %s",
+		 doaudiblebell ? "on" : "off");
 	return (TRUE);
 }
 
@@ -84,5 +86,7 @@ togglevisiblebell(int f, int n)
 	else
 		dovisiblebell = !dovisiblebell;
 
+	ewprintf("Visible bell is now %s",
+		 dovisiblebell ? "on" : "off");
 	return (TRUE);
 }
