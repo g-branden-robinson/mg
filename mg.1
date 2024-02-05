@@ -1851,14 +1851,23 @@ concise tutorial
 .Sh "See also"
 .Xr vi 1
 .Sh Caveats
-Since it is written completely in C, there is currently no
-language in which extensions can be written;
-however, keys can be rebound and certain parameters can be changed
-in startup files.
+When
+.Nm Ns 's
+ancestor MicroEmacs was written in the mid-1980s,
+extension languages for C were nearly unknown.
+.Nm
+still doesn't support any.
+However,
+customization remains possible through key rebinding and alteration of
+configuration parameters in startup files.
+.\" That's a pretty feeble consolation.
 .Pp
-In order to use 8-bit characters (such as German umlauts), the Meta key
-needs to be disabled via the
-.Ic meta\-key\-mode
-command.
+To use input characters with the eighth bit set,
+such as letters with a dieresis accent
+(or German umlaut),
+the meta key must be disabled;
+see
+.Ic meta\-key\-mode .
 .Pp
-Multi-byte character sets, such as UTF-8, are not supported.
+.Nm
+does not support multi-byte character encodings such as UTF-8.
