@@ -1120,12 +1120,14 @@ Unbind a key in the global (fundamental) key map.
 Toggle global working-directory mode.
 When enabled,
 .Nm
-defaults to opening files (and executing commands like
+defaults to opening files,
+and executing the commands
 .Ic compile
 and
-.Ic grep )
+.Ic grep ,
 relative to the global working directory.
-When disabled, a working directory is set for each buffer.
+When disabled,
+each buffer has its own working directory.
 .It Ic goto\-line
 Go to a specific line.
 If an argument is present, then
