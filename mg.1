@@ -784,11 +784,6 @@ lines rather than
 them.
 See
 .Ic fill\-paragraph . )
-.It Ic auto\-indent\-mode
-Set the buffer's indent mode.
-When enabled and a newline is inserted,
-.Nm
-copies any spaces or tabs indenting the breaking line to the new line.
 .It Ic back\-to\-indentation
 Move point to the first character on the line that is not a space or
 tab.
@@ -1154,6 +1149,11 @@ and des(c)ribe key briefly,
 and run the corresponding
 .Nm
 command.
+.It Ic indent\-mode
+Set the buffer's indent mode.
+When enabled and a newline is inserted,
+.Nm
+copies any spaces or tabs indenting the breaking line to the new line.
 .It Ic insert
 Prompt for a string and insert it at point.
 Typically used in macros.

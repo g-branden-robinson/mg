@@ -28,9 +28,9 @@ List of settings:
 
 List of modes:
 	auto-fill-mode
-	auto-indent-mode
 	column-number-mode
 	global-wd-mode
+	indent-mode
 	line-number-mode
 	no-tab-mode
 	overwrite-mode
