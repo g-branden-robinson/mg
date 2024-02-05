@@ -99,6 +99,7 @@ tagsvisit(int f, int n)
 
 	bufp = eread("Visit tags table (default %s): ", fname,
 	    NFILEN, EFFILE | EFCR | EFNEW | EFDEF, DEFAULTFN);
+	eerase();
 	if (bufp == NULL)
 		return (ABORT);
 
