@@ -1306,8 +1306,9 @@ Move point forward
 lines,
 remaining at the same column or the nearest to its left.
 .It Ic no\-tab\-mode
-Toggle notab mode.
-In this mode, spaces are inserted rather than tabs.
+Toggle no-tab mode in the buffer,
+where TAB key strokes are converted to a number of spaces sufficient to
+move point to the next tab stop.
 Can be set globally with
 .Ic set\-default\-mode .
 .It Ic not\-modified
