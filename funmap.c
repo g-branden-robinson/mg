@@ -45,7 +45,7 @@ static struct funmap functnames[] = {
 	{toggleaudiblebell, "audible-bell", 0},
 	{auto_execute, "auto-execute", 2},
 	{fillmode, "auto-fill-mode", 0},
-	{indentmode, "auto-indent-mode", 0},
+	{indentmode, "indent-mode", 0},
 	{backtoindent, "back-to-indentation", 0},
 	{backuptohomedir, "backup-to-home-directory", 0},
 	{backchar, "backward-char", 1},
