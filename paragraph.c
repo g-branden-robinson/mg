@@ -492,5 +492,8 @@ sentencespace(int f, int n)
 	else
 		dblspace = !dblspace;
 
+	ewprintf("Putting %s space%s after sentences now",
+		 dblspace ? "two" : "one",
+		 dblspace ? "s"   : "");
 	return (TRUE);
 }
