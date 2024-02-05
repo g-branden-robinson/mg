@@ -19,7 +19,7 @@ List of settings:
 	bsmap [sic] [not in GNU Emacs]                               *
 	has-meta-key [not in GNU Emacs]                              *
 	leave-tmpdir-backups [not in GNU Emacs]
-	make-backup-files [not in GNU Emacs]
+	make-backup-files [not in GNU Emacs]                         *
 	set-fill-column                                              *
 	set-prompt-delay [not in GNU Emacs]                          *
 	sentence-end-double-space [not in GNU Emacs]
