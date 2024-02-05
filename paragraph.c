@@ -457,22 +457,30 @@ setfillcol(int f, int n)
 	int nfill;
 
 	if ((f & FFANYARG) != 0) {
-		fillcol = n;
+		nfill = n;
 	} else {
-		if ((rep = eread("Set fill-column: ", buf, sizeof(buf),
-		    EFNEW | EFCR)) == NULL)
+		if ((rep = eread("Set fill column (currently %d): ",
+				 buf, sizeof(buf), EFNEW | EFCR,
+				 fillcol)) == NULL)
 			return (ABORT);
 		else if (rep[0] == '\0')
 			return (FALSE);
-		nfill = strtonum(rep, 0, INT_MAX, &es);
+		nfill = strtonum(rep, INT_MIN, INT_MAX, &es);
 		if (es != NULL) {
 			dobeep();
 			ewprintf("Invalid fill column: %s", rep);
 			return (FALSE);
 		}
-		fillcol = nfill;
-		ewprintf("Fill column set to %d", fillcol);
 	}
+
+	if (nfill < 1) {
+		ewprintf("Fill column must be positive");
+		return (FALSE);
+	}
+
+	fillcol = nfill;
+	ewprintf("Fill column is now %d", fillcol);
+
 	return (TRUE);
 }
 
