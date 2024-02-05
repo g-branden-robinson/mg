@@ -1271,9 +1271,16 @@ if any.
 .It Ic mark\-whole\-buffer
 Move point to the beginning of the buffer and set mark at its end.
 .It Ic meta\-key\-mode
-When disabled, the meta key can be used to insert extended-ascii (8-bit)
-characters.
-When enabled, the meta key acts as usual.
+Toggle recognition of the keyboard's meta key.
+When enabled
+(the default),
+the meta key is the
+.Dq M\-
+modifier.
+When disabled,
+and if the terminal supports the feature,
+the meta key sets the eighth bit of input characters,
+which can be used to insert character codes between 128 and 255.
 .It Ic negative\-argument
 Process a negative argument for keyboard-invoked functions.
 .It Ic newline
