@@ -630,9 +630,10 @@ buffsave(struct buffer *bp)
 
 /*
  * Since we don't have variables (we probably should) this is a command
- * processor for changing the value of the make backup flag.  If no argument
- * is given, sets makebackup to true, so backups are made.  If an argument is
- * given, no backup files are made when saving a new version of a file.
+ * processor for changing the value of the make backup flag.  If no
+ * argument is given, sets makebackup to true, so backups are made.  If
+ * an argument is given, no backup files are made when saving a new
+ * version of a file.
  */
 int
 makebkfile(int f, int n)
@@ -641,7 +642,9 @@ makebkfile(int f, int n)
 		makebackup = n > 0;
 	else
 		makebackup = !makebackup;
-	ewprintf("Backup files %sabled", makebackup ? "en" : "dis");
+
+	ewprintf("Backup file creation is now %sabled",
+		 makebackup ? "en" : "dis");
 	return (TRUE);
 }
 
