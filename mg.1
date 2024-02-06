@@ -1033,8 +1033,17 @@ sets it before moving point.
 .It Ic end\-of\-line
 Move point to the end of the line.
 .It Ic enlarge\-window
-Enlarge the current window by shrinking either the window above
-or below it.
+Enlarge the current window by
+.Va n
+lines.
+An enlarging window takes lines from the one below,
+unless the minibuffer is immediately below it;
+it then takes lines from the window above.
+A negative
+.Va n
+shrinks the window;
+see
+.Ic shrink\-window .
 .It Ic eval\-current\-buffer
 Evaluate the current buffer as a series of
 .Nm
