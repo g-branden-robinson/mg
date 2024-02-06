@@ -808,9 +808,19 @@ Move point backward
 .Va n
 characters.
 .It Ic backward\-kill\-word
-Kill text backwards by
+Kill
 .Va n
-words.
+words before point,
+counting the word point is on
+(if not at its first character),
+if any.
+A
+.Em word
+is delimited by a buffer boundary or any character that is not a letter,
+numeral,
+dollar sign,
+percent sign,
+or apostrophe.
 .It Ic backward\-paragraph
 Move cursor backwards
 .Va n
