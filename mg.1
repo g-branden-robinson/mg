@@ -917,12 +917,7 @@ and a space.
 See
 .Ic next\-error .
 .It Ic copy\-region\-as\-kill
-Copy all of the characters in the region to the kill zone,
-clearing the mark afterwards.
-This is a bit like a
-.Ic kill\-region
-followed by a
-.Ic yank .
+Copy the region to the kill zone without modifying the buffer.
 .It Ic count\-matches
 Count the number of lines matching the supplied regular expression.
 .It Ic count\-non\-matches
