@@ -126,7 +126,7 @@ balance(void)
 /*
  * Display matching character.  Matching characters that are not in the
  * current window are displayed in the echo line. If in the current window,
- * move dot to the matching character, sit there a while, then move back.
+ * move point to the matching character, sit there a while, then move back.
  */
 static void
 displaymatch(struct line *clp, int cbo)
@@ -142,7 +142,7 @@ displaymatch(struct line *clp, int cbo)
 
 	/*
 	 * Figure out if matching char is in current window by
-	 * searching from the top of the window to dot.
+	 * searching from the top of the window to point.
 	 */
 	inwindow = FALSE;
 	for (tlp = curwp->w_linep; tlp != lforw(curwp->w_dotp);

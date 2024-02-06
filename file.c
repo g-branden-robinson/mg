@@ -279,7 +279,7 @@ readin(char *fname)
  */
 
 /*
- * Insert a file in the current buffer, after dot. If file is a directory,
+ * Insert a file in the current buffer, after point. If file is a directory,
  * and 'replacebuf' is TRUE, invoke dired mode, else die with an error.
  * If file is a regular file, set mark at the end of the text inserted;
  * point at the beginning.  Return a standard status. Print a summary
@@ -358,7 +358,7 @@ insertfile(char *fname, char *newname, int replacebuf)
 	opos = curwp->w_doto;
 	oline = curwp->w_dotline;
 	/*
-	 * Open a new line at dot and start inserting after it.
+	 * Open a new line at point and start inserting after it.
 	 * We will delete this newline after insertion.
 	 * Disable undo, as we create the undo record manually.
 	 */

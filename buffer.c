@@ -128,7 +128,7 @@ usebufname(const char *bufp)
 }
 
 /*
- * Attach a buffer to a window. The values of dot and mark come
+ * Attach a buffer to a window. The values of point and mark come
  * from the buffer if the use count is 0. Otherwise, they come
  * from some other window.  *scratch* is the default alternate
  * buffer.
@@ -406,7 +406,7 @@ makelist(void)
 		    bp->b_fname) == FALSE)
 			return (NULL);
 	}
-	blp->b_dotp = bfirstlp(blp);		/* put dot at beginning of
+	blp->b_dotp = bfirstlp(blp);		/* put point at beginning of
 						 * buffer */
 	blp->b_doto = 0;
 	return (blp);				/* All done		 */
@@ -654,7 +654,7 @@ bclear(struct buffer *bp)
 	bp->b_flag &= ~BFCHG;	/* Not changed		 */
 	while ((lp = lforw(bp->b_headp)) != bp->b_headp)
 		lfree(lp);
-	bp->b_dotp = bp->b_headp;	/* Fix dot */
+	bp->b_dotp = bp->b_headp;	/* Fix point */
 	bp->b_doto = 0;
 	bp->b_markp = NULL;	/* Invalidate "mark"	 */
 	bp->b_marko = 0;
@@ -788,7 +788,7 @@ popbuf(struct buffer *bp, int flags)
 }
 
 /*
- * Insert another buffer at dot.  Very useful.
+ * Insert another buffer at point.  Very useful.
  */
 int
 bufferinsert(int f, int n)
