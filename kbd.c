@@ -367,10 +367,17 @@ selfinsert(int f, int n)
 	int	 c;
 	int	 count;
 
+	if (n < 1 && !(f & FFRAND)) {
+		dobeep_msg("Cannot self-insert with a nonpositive"
+			   " count");
+		return (FALSE);
+	}
+
 	if (n < 0)
 		return (FALSE);
 	if (n == 0)
 		return (TRUE);
+
 	c = key.k_chars[key.k_count - 1];
 
 	if (macrodef && macrocount < MAXMACRO) {
