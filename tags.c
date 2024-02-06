@@ -107,7 +107,7 @@ tagsvisit(int f, int n)
 }
 
 /*
- * Ask user for a tag while treating word at dot as default. Visit tags
+ * Ask user for a tag while treating word at point as default. Visit tags
  * file if not yet done, load tags and jump to definition of the tag.
  */
 int
@@ -163,7 +163,7 @@ unloadtags(void)
 /*
  * Lookup tag passed in tree and if found, push current location and
  * buffername onto stack, load the file with tag definition into a new
- * buffer and position dot at the pattern.
+ * buffer and position point at the pattern.
  */
 int
 pushtag(char *tok)
@@ -221,7 +221,7 @@ pushtag(char *tok)
 }
 
 /*
- * If tag stack is not empty pop stack and jump to recorded buffer, dot.
+ * If tag stack is not empty pop stack and jump to recorded buffer, point.
  */
 int
 poptag(int f, int n)
@@ -414,7 +414,7 @@ searchpat(char *s_pat)
 }
 
 /*
- * Return TRUE if dot is at beginning of a word or at beginning
+ * Return TRUE if point is at beginning of a word or at beginning
  * of line, else FALSE.
  */
 int
@@ -429,7 +429,7 @@ atbow(void)
 }
 
 /*
- * Extract the word at dot without changing dot position.
+ * Extract the word at point without changing point position.
  */
 int
 curtoken(int f, int n, char *token)
