@@ -944,9 +944,11 @@ or kill
 characters backward before point.
 .It Ic delete\-blank\-lines
 Delete blank lines around point.
-If point is sitting on a blank line, this command
-deletes all the blank lines above and below the current line.
-Otherwise, it deletes all of the blank lines after the current line.
+If point is on a blank line,
+.Nm
+deletes all contiguous blank lines above and below the line.
+Otherwise,
+it deletes only contiguous blank lines after the current line.
 .It Ic delete\-char
 Delete
 .Va n
