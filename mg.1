@@ -433,9 +433,9 @@ Otherwise, it is forced to off.
 To see the active keybindings at any time, type
 .Dq M\-x describe\-bindings .
 .Ss "Editor key bindings"
-Normal editing commands are very similar to GNU Emacs.
+The fundamental keymap resembles that of GNU Emacs.
 .Pp
-.Bl -tag -width xxxxxxxxxxxx -offset indent -compact
+.Bl -tag -width "C\-x 4 C\-f" -offset indent -compact
 .It C\-SPC
 set\-mark\-command
 .It C\-a
@@ -681,6 +681,10 @@ blink\-and\-insert
 .It DEL
 delete\-backward\-char
 .El
+.Pp
+To view the configured key bindings,
+type
+.Dq M\-x describe\-bindings .
 .Ss "Fundamental commands"
 .Bl -tag -width xxxxx
 .It Ic apropos
