@@ -39,6 +39,11 @@ insert(int f, int n)
 	char	 buf[BUFSIZE], *bufp, *cp;
 	int	 count, c;
 
+	if (n < 1) {
+		dobeep_msg("Cannot insert with a nonpositive count");
+		return (FALSE);
+	}
+
 	if (inmacro) {
 		while (--n >= 0) {
 			for (count = 0; count < maclcur->l_used; count++) {
