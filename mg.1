@@ -804,7 +804,9 @@ requires
 .Ic make\-backup\-files
 to be enabled.
 .It Ic backward\-char
-Move cursor backwards one character.
+Move point backward
+.Va n
+characters.
 .It Ic backward\-kill\-word
 Kill text backwards by
 .Va n
@@ -993,12 +995,9 @@ Splits the current window if necessary.
 .It Ic find\-tag
 Jump to definition of tag at point.
 .It Ic forward\-char
-Move cursor forwards (or backwards, if
-.Va n
-is negative)
+Move point forward
 .Va n
 characters.
-Returns an error if the end of buffer is reached.
 .It Ic forward\-paragraph
 Move forward
 .Va n
