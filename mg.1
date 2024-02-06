@@ -408,7 +408,7 @@ See
 .Ic pop\-tag\-mark ,
 and
 .Ic visit\-tags\-table .
-.Ss Xr cscope
+.Ss "cscope support"
 .Nm
 supports source code navigation using
 .Xr cscope 1 .
@@ -418,6 +418,9 @@ requires its executable and that of
 to be present in
 .Ev PATH
 for the feature to work.
+See section
+.Dq Xr cscope No key bindings
+below.
 .Ss "Editor commands"
 Invoke a command by its key binding,
 or by its name when prompted by
@@ -519,24 +522,6 @@ set\-mark\-command
 beginning\-of\-line
 .It C\-b
 backward\-char
-.It C\-c s c
-cscope\-find\-functions\-calling\-this\-function
-.It C\-c s d
-cscope\-find\-global\-definition
-.It C\-c s e
-cscope\-find\-egrep\-pattern
-.It C\-c s f
-cscope\-find\-this\-file
-.It C\-c s i
-cscope\-find\-files\-including\-file
-.It C\-c s n
-cscope\-next\-symbol
-.It C\-c s p
-cscope\-prev\-symbol
-.It C\-c s s
-cscope\-find\-this\-symbol
-.It C\-c s t
-cscope\-find\-this\-text\-string
 .It C\-d
 delete\-char
 .It C\-e
@@ -1411,6 +1396,34 @@ until the next instance of that character, including it.
 Like
 .Ic zap\-to\-char
 but doesn't delete the target character.
+.El
+.Ss "cscope key bindings"
+The default
+.Xr cscope
+key bindings all begin with
+.Dq "C\-c s" ,
+which may be taken as a mnemonic for
+.Dq "cscope" .
+.Pp
+.Bl -tag -width "C\-c s X" -offset indent -compact
+.It C\-c s c
+cscope\-find\-functions\-calling\-this\-function
+.It C\-c s d
+cscope\-find\-global\-definition
+.It C\-c s e
+cscope\-find\-egrep\-pattern
+.It C\-c s f
+cscope\-find\-this\-file
+.It C\-c s i
+cscope\-find\-files\-including\-file
+.It C\-c s n
+cscope\-next\-symbol
+.It C\-c s p
+cscope\-prev\-symbol
+.It C\-c s s
+cscope\-find\-this\-symbol
+.It C\-c s t
+cscope\-find\-this\-text\-string
 .El
 .Pp
 .Xr cscope
