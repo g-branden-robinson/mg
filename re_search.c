@@ -329,7 +329,7 @@ re_doreplace(RSIZE plen, char *st)
 
 /*
  * This routine does the real work of a forward search.  The pattern is
- * sitting in the external variable "pat".  If found, dot is updated, the
+ * sitting in the external variable "pat".  If found, point is updated, the
  * window system is notified of the change, and TRUE is returned.  If the
  * string isn't found, FALSE is returned.
  */
@@ -383,7 +383,7 @@ re_forwsrch(void)
 
 /*
  * This routine does the real work of a backward search.  The pattern is sitting
- * in the external variable "re_pat".  If found, dot is updated, the window
+ * in the external variable "re_pat".  If found, point is updated, the window
  * system is notified of the change, and TRUE is returned.  If the string isn't
  * found, FALSE is returned.
  */
@@ -398,7 +398,7 @@ re_backsrch(void)
 	tbo = curwp->w_doto;
 	tdotline = curwp->w_dotline;
 
-	/* Start search one position to the left of dot */
+	/* Start search one position to the left of point */
 	tbo = tbo - 1;
 	if (tbo < 0) {
 		/* must move up one line */
@@ -518,7 +518,7 @@ setcasefold(int f, int n)
 }
 
 /*
- * Delete all lines after dot that contain a string matching regex.
+ * Delete all lines after point that contain a string matching regex.
  */
 int
 delmatchlines(int f, int n)
@@ -534,7 +534,7 @@ delmatchlines(int f, int n)
 }
 
 /*
- * Delete all lines after dot that don't contain a string matching regex.
+ * Delete all lines after point that don't contain a string matching regex.
  */
 int
 delnonmatchlines(int f, int n)
@@ -561,7 +561,7 @@ killmatches(int cond)
 
 	clp = curwp->w_dotp;
 	if (curwp->w_doto == llength(clp))
-		/* Consider dot on next line */
+		/* Consider point on next line */
 		clp = lforw(clp);
 
 	while (clp != (curbp->b_headp)) {
@@ -634,7 +634,7 @@ countmatches(int cond)
 
 	clp = curwp->w_dotp;
 	if (curwp->w_doto == llength(clp))
-		/* Consider dot on next line */
+		/* Consider point on next line */
 		clp = lforw(clp);
 
 	while (clp != (curbp->b_headp)) {

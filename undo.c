@@ -33,10 +33,10 @@ static int drop_oldest_undo_record(void);
 /*
  * find_dot, find_lo()
  *
- * Find an absolute dot in the buffer from a line/offset pair, and vice-versa.
+ * Find an absolute point in the buffer from a line/offset pair, and vice-versa.
  *
  * Since lines can be deleted while they are referenced by undo record, we
- * need to have an absolute dot to have something reliable.
+ * need to have an absolute point to have something reliable.
  */
 static int
 find_dot(struct line *lp, int off)

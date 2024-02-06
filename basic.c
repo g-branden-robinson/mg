@@ -7,7 +7,7 @@
  *
  * The routines in this file are the basic
  * command functions for moving the cursor around on
- * the screen, setting mark, and swapping dot with
+ * the screen, setting mark, and swapping point with
  * mark. Only moves between lines, which might make the
  * current buffer framing bad, are hard.
  */
@@ -133,7 +133,7 @@ gotobob(int f, int n)
 }
 
 /*
- * Go to the end of the buffer. Leave dot 3 lines from the bottom of the
+ * Go to the end of the buffer. Leave point 3 lines from the bottom of the
  * window if buffer length is longer than window length; same as emacs.
  * Setting WFFULL is conservative, but almost always the case. A universal
  * argument of higher than 9 puts the cursor back to the start of buffer.
@@ -320,12 +320,12 @@ forwpage(int f, int n)
 	curwp->w_linep = lp;
 	curwp->w_rflag |= WFFULL;
 
-	/* if in current window, don't move dot */
+	/* if in current window, don't move point */
 	for (n = curwp->w_ntrows; n-- && lp != curbp->b_headp; lp = lforw(lp))
 		if (lp == curwp->w_dotp)
 			return (TRUE);
 
-	/* Advance the dot the slow way, for line nos */
+	/* Advance point the slow way, for line nos */
 	while (curwp->w_dotp != curwp->w_linep) {
 		curwp->w_dotp = lforw(curwp->w_dotp);
 		curwp->w_dotline++;
@@ -365,14 +365,14 @@ backpage(int f, int n)
 	curwp->w_linep = lp;
 	curwp->w_rflag |= WFFULL;
 
-	/* if in current window, don't move dot */
+	/* if in current window, don't move point */
 	for (n = curwp->w_ntrows; n-- && lp != curbp->b_headp; lp = lforw(lp))
 		if (lp == curwp->w_dotp)
 			return (TRUE);
 
         lp2 = lforw(lp2);
 
-	/* Move the dot the slow way, for line nos */
+	/* Move point the slow way, for line nos */
 	while (curwp->w_dotp != lp2) {
                 if (curwp->w_dotline <= curwp->w_ntrows)
 			goto out;
@@ -443,7 +443,7 @@ isetmark(void)
 
 /*
  * Set the mark in the current window
- * to the value of dot. A message is written to
+ * to the value of point. A message is written to
  * the echo line.  (ewprintf knows about macros)
  */
 int
@@ -469,7 +469,7 @@ clearmark(int f, int n)
 }
 
 /*
- * Swap the values of "dot" and "mark" in
+ * Swap the values of "point" and "mark" in
  * the current window. This is pretty easy, because
  * all of the hard work gets done by the standard routine
  * that moves the mark about. The only possible

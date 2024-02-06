@@ -189,7 +189,7 @@ struct list {
  * There is a window structure allocated for
  * every active display window. The windows are kept in a
  * big list, in top to bottom screen order, with the listhead at
- * "wheadp". Each window contains its own values of dot and mark.
+ * "wheadp". Each window contains its own values of point and mark.
  * The flag field contains some bits that are set by commands
  * to guide redisplay; although this is a bit of a compromise in
  * terms of decoupling, the full blown redisplay is just too
@@ -209,7 +209,7 @@ struct mgwin {
 	char		 w_rflag;	/* Redisplay Flags.		*/
 	char		 w_flag;	/* Flags.			*/
 	struct line	*w_wrapline;
-	int		 w_dotline;	/* current line number of dot	*/
+	int		 w_dotline;	/* current line number of point	*/
 	int		 w_markline;	/* current line number of mark	*/
 };
 #define w_wndp	w_list.l_p.l_wp
@@ -255,7 +255,7 @@ struct fileinfo {
  * below, exists for every buffer in the system. The buffers are
  * kept in a big list, so that commands that search for a buffer by
  * name can find the buffer header. There is a safe store for the
- * dot and mark in the header, but this is only valid if the buffer
+ * point and mark in the header, but this is only valid if the buffer
  * is not being displayed (that is, if "b_nwnd" is 0). The text for
  * the buffer is kept in a circularly linked list of lines, with
  * a pointer to the header line in "b_headp".
@@ -280,7 +280,7 @@ struct buffer {
 	struct fileinfo	 b_fi;		/* File attributes		 */
 	struct undoq	 b_undo;	/* Undo actions list		 */
 	struct undo_rec *b_undoptr;
-	int		 b_dotline;	/* Line number of dot */
+	int		 b_dotline;	/* Line number of point */
 	int		 b_markline;	/* Line number of mark */
 	int		 b_lines;	/* Number of lines in file	*/
 };

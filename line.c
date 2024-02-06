@@ -10,10 +10,10 @@
  * also touch the buffer and window structures to make sure that the
  * necessary updating gets done.
  *
- * Note that this code only updates the dot and mark values in the window
+ * Note that this code only updates point and mark values in the window
  * list.  Since all the code acts on the current window, the buffer that
  * we are editing must be displayed, which means that "b_nwnd" is non-zero,
- * which means that the dot and mark values in the buffer headers are
+ * which means that point and mark values in the buffer headers are
  * nonsense.
  */
 
@@ -147,11 +147,11 @@ lchange(int flag)
 }
 
 /*
- * Insert "n" copies of the character "c" at the current location of dot.
+ * Insert "n" copies of the character "c" at the current location of point.
  * In the easy case all that happens is the text is stored in the line.
  * In the hard case, the line has to be reallocated.  When the window list
  * is updated, take special care; I screwed it up once.  You always update
- * dot in the current window.  You update mark and a dot in another window
+ * point in the current window.  You update mark and point in another window
  * if it is greater than the place where you did the insert. Return TRUE
  * if all is well, and FALSE on errors.
  */
@@ -261,7 +261,7 @@ lnewline_at(struct line *lp1, int doto)
 	lchange(WFFULL);
 
 	curwp->w_bufp->b_lines++;
-	/* Check if mark is past dot (even on current line) */
+	/* Check if mark is past point (even on current line) */
 	if (curwp->w_markline > curwp->w_dotline  ||
 	   (curwp->w_dotline == curwp->w_markline &&
 	    curwp->w_marko >= doto))
@@ -325,7 +325,7 @@ lnewline_at(struct line *lp1, int doto)
 }
 
 /*
- * Insert a newline into the buffer at the current location of dot in the
+ * Insert a newline into the buffer at the current location of point in the
  * current window.
  */
 int
@@ -344,10 +344,10 @@ lnewline(void)
 }
 
 /*
- * This function deletes "n" bytes, starting at dot. (actually, n+1, as the
+ * This function deletes "n" bytes, starting at point. (actually, n+1, as the
  * newline is included) It understands how to deal with end of lines, etc.
  * It returns TRUE if all of the characters were deleted, and FALSE if
- * they were not (because dot ran into the end of the buffer).
+ * they were not (because point ran into the end of the buffer).
  * The "kflag" indicates either no insertion, or direction  of insertion
  * into the kill zone.
  */
@@ -438,7 +438,7 @@ out:
  * line is the magic header line always return TRUE; merging the last line
  * with the header line can be thought of as always being a successful
  * operation.  Even if nothing is done, this makes the kill zone work
- * "right". If the mark is past the dot (actually, markline > dotline),
+ * "right". If the mark is past point (actually, markline > dotline),
  * decrease the markline accordingly to keep line numbers in sync.
  * Easy cases can be done by shuffling data around.  Hard cases
  * require that lines be moved about in memory.  Return FALSE on error and
@@ -519,7 +519,7 @@ ldelnewline(void)
 }
 
 /*
- * Replace plen characters before dot with argument string.  Control-J
+ * Replace plen characters before point with argument string.  Control-J
  * characters in st are interpreted as newlines.  There is a casehack
  * disable flag (normally it likes to match case of replacement to what
  * was there).

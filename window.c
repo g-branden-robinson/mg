@@ -37,7 +37,7 @@ new_window(struct buffer *bp)
 }
 
 /*
- * Reposition dot in the current window to line "n".  If the argument is
+ * Reposition point in the current window to line "n".  If the argument is
  * positive, it is that line.  If it is negative it is that line from the
  * bottom.  If it is 0 the window is centered (this is what the standard
  * redisplay code does).
@@ -143,7 +143,7 @@ prevwind(int f, int n)
 /*
  * This command makes the current window the only window on the screen.  Try
  * to set the framing so that "." does not have to move on the display.  Some
- * care has to be taken to keep the values of dot and mark in the buffer
+ * care has to be taken to keep the values of point and mark in the buffer
  * structures right if the destruction of a window makes a buffer become
  * undisplayed.
  */
@@ -220,7 +220,7 @@ splitwind(int f, int n)
 		return (FALSE);
 	}
 
-	/* use the current dot and mark */
+	/* use the current point and mark */
 	wp->w_dotp = curwp->w_dotp;
 	wp->w_doto = curwp->w_doto;
 	wp->w_markp = curwp->w_markp;
@@ -288,7 +288,7 @@ splitwind(int f, int n)
 /*
  * Enlarge the current window.  Find the window that loses space.  Make sure
  * it is big enough.  If so, hack the window descriptions, and ask redisplay
- * to do all the hard work.  You don't just set "force reframe" because dot
+ * to do all the hard work.  You don't just set "force reframe" because point
  * would move.
  */
 int

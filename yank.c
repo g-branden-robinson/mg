@@ -140,12 +140,12 @@ kchunk(char *cp1, RSIZE chunk, int kflag)
 }
 
 /*
- * Kill line.  If called without an argument, it kills from dot to the end
+ * Kill line.  If called without an argument, it kills from point to the end
  * of the line, unless it is at the end of the line, when it kills the
  * newline.  If called with an argument of 0, it kills from the start of the
- * line to dot.  If called with a positive argument, it kills from dot
+ * line to point.  If called with a positive argument, it kills from point
  * forward over that number of newlines.  If called with a negative argument
- * it kills any text before dot on the current line, then it kills back
+ * it kills any text before point on the current line, then it kills back
  * abs(arg) lines.
  */
 int
@@ -216,7 +216,7 @@ done:
  * instead of a call to "lnewline" so that the magic stuff that happens when
  * you type a carriage return also happens when a carriage return is yanked
  * back from the kill zone.  An attempt has been made to fix the cosmetic
- * bug associated with a yank when dot is on the top line of the window
+ * bug associated with a yank when point is on the top line of the window
  * (nothing moves, because all of the new text landed off screen).
  */
 int

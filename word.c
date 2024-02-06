@@ -495,7 +495,7 @@ out:
 }
 
 /*
- * Return TRUE if the character at dot is a character that is considered to be
+ * Return TRUE if the character at point is a character that is considered to be
  * part of a word. The word character list is hard coded. Should be settable.
  */
 int

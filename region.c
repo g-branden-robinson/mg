@@ -193,7 +193,7 @@ upperregion(int f, int n)
  * This routine figures out the bound of the region in the current window,
  * and stores the results into the fields of the REGION structure. Dot and
  * mark are usually close together, but I don't know the order, so I scan
- * outward from dot, in both directions, looking for mark. The size is kept
+ * outward from point, in both directions, looking for mark. The size is kept
  * in a long. At the end, after the size is figured out, it is assigned to
  * the size field of the region structure. If this assignment loses any bits,
  * then we print an error. This is "type independent" overflow checking. All
@@ -277,7 +277,7 @@ setsize(struct region *rp, RSIZE size)
 static char	prefix_string[PREFIXLENGTH] = {'>', '\0'};
 
 /*
- * Prefix the region with whatever is in prefix_string.  Leaves dot at the
+ * Prefix the region with whatever is in prefix_string.  Leaves point at the
  * beginning of the line after the end of the region.  If an argument is
  * given, prompts for the line prefix string.
  */
@@ -391,7 +391,7 @@ region_put_data(const char *buf, int len)
 
 /*
  * Mark whole buffer by first traversing to end-of-buffer
- * and then to beginning-of-buffer. Mark, dot are implicitly
+ * and then to beginning-of-buffer. Mark, point are implicitly
  * set to eob, bob respectively during traversal.
  */
 int

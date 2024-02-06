@@ -29,7 +29,7 @@ ntabstop(int col, int tabw)
 }
 
 /*
- * Display a bunch of useful information about the current location of dot.
+ * Display a bunch of useful information about the current location of point.
  * The character under the cursor (in octal), the current line, row, and
  * column, and approximate position of the cursor in the file (as a
  * percentage) is displayed.
@@ -62,7 +62,7 @@ showcpos(int f, int n)
 		   compare with b_lines */
 		++nline;
 		if (clp == curwp->w_dotp) {
-			/* obtain (raw) dot line # and compare with w_dotline */
+			/* obtain (raw) point line # and compare with w_dotline */
 			cline = nline;
 			cchar = nchar + curwp->w_doto;
 			if (curwp->w_doto == llength(clp))
@@ -127,7 +127,7 @@ getcolpos(struct mgwin *wp)
 }
 
 /*
- * Twiddle the two characters in front of and under dot, then move forward
+ * Twiddle the two characters in front of and under point, then move forward
  * one character.  Treat new-line characters the same as any other.
  * Normally bound to "C-t".  This always works within a line, so "WFEDIT"
  * is good enough.
@@ -144,13 +144,13 @@ twiddle(int f, int n)
 	dotp = curwp->w_dotp;
 	doto = curwp->w_doto;
 
-	/* Don't twiddle if the dot is on the first char of buffer */
+	/* Don't twiddle if point is on the first char of buffer */
 	if (doto == 0 && lback(dotp) == curbp->b_headp) {
 		dobeep();
 		ewprintf("Beginning of buffer");
 		return(FALSE);
 	}
-	/* Don't twiddle if the dot is on the last char of buffer */
+	/* Don't twiddle if point is on the last char of buffer */
 	if (doto == llength(dotp) && lforw(dotp) == curbp->b_headp) {
 		dobeep();
 		return(FALSE);
@@ -228,8 +228,8 @@ enewline(int f, int n)
 }
 
 /*
- * Delete blank lines around dot. What this command does depends if dot is
- * sitting on a blank line. If dot is sitting on a blank line, this command
+ * Delete blank lines around point. What this command does depends if point is
+ * sitting on a blank line. If point is sitting on a blank line, this command
  * deletes all the blank lines above and below the current line. If it is
  * sitting on a non blank line then it deletes all of the blank lines after
  * the line. Normally this command is bound to "C-x C-o". Any argument is
@@ -256,7 +256,7 @@ deblank(int f, int n)
 }
 
 /*
- * Delete any whitespace around dot, then insert a space.
+ * Delete any whitespace around point, then insert a space.
  */
 int
 justone(int f, int n)
@@ -269,7 +269,7 @@ justone(int f, int n)
 }
 
 /*
- * Delete any whitespace around dot.
+ * Delete any whitespace around point.
  */
 int
 delwhite(int f, int n)
@@ -404,7 +404,7 @@ lfindent(int f, int n)
 /*
  * Indent the current line. Delete existing leading whitespace,
  * and use tabs/spaces to achieve correct indentation. Try
- * to leave dot where it started.
+ * to leave point where it started.
  */
 int
 indent(int f, int n)
@@ -496,7 +496,7 @@ space_to_tabstop(int f, int n)
 }
 
 /*
- * Move the dot to the first non-whitespace character of the current line.
+ * Move point to the first non-whitespace character of the current line.
  */
 int
 backtoindent(int f, int n)

@@ -821,7 +821,7 @@ refreshbuffer(struct buffer *bp)
 	if (ddel)
 		redelete(bp);		
 
-	/* find dot line */
+	/* find point line */
 	bp->b_dotp = bfirstlp(bp);
 	if (tmp_w_dotline > bp->b_lines)
 		tmp_w_dotline = bp->b_lines - 1;
@@ -982,7 +982,7 @@ dired_(char *dname)
 			break;
 	}
 
-	/* We want dot on the entry right after "..", if possible. */
+	/* We want point on the entry right after "..", if possible. */
 	if (++i < bp->b_lines - 2) {
 		bp->b_dotp = lforw(bp->b_dotp);
 		bp->b_dotline++;

@@ -671,7 +671,7 @@ replstr(int f, int n)
 
 /*
  * This routine does the real work of a forward search.  The pattern is sitting
- * in the external variable "pat".  If found, dot is updated, the window system
+ * in the external variable "pat".  If found, point is updated, the window system
  * is notified of the change, and TRUE is returned.  If the string isn't found,
  * FALSE is returned.
  */
@@ -731,7 +731,7 @@ fail:		;
 
 /*
  * This routine does the real work of a backward search.  The pattern is
- * sitting in the external variable "pat".  If found, dot is updated, the
+ * sitting in the external variable "pat".  If found, point is updated, the
  * window system is notified of the change, and TRUE is returned.  If the
  * string isn't found, FALSE is returned.
  */
@@ -865,7 +865,7 @@ zapuptochar(int f, int n)
 }
 
 /*
- * Prompt for a character and deletes from the point up to, optionally
+ * Prompt for a character and deletes from point up to, optionally
  * including, the first instance of that character.  Marks is cleared
  * afterwards.
  */
