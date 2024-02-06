@@ -950,11 +950,10 @@ deletes all contiguous blank lines above and below the line.
 Otherwise,
 it deletes only contiguous blank lines after the current line.
 .It Ic delete\-char
-Delete
+Delete the character at point,
+or kill
 .Va n
-characters forward.
-If any argument is present, it kills rather than deletes,
-saving the result in the kill zone.
+characters forward from point.
 .It Ic delete\-horizontal\-space
 Delete any whitespace around point.
 .It Ic delete\-leading\-space
