@@ -443,9 +443,26 @@ Otherwise, it is forced to off.
 To see the active keybindings at any time, type
 .Dq M\-x describe\-bindings .
 .Ss "Editor key bindings"
-Normal editing commands are very similar to GNU Emacs.
+The fundamental keymap resembles that of GNU Emacs.
+Unlike that program,
+in
+.Nm
+the ordinary input keys
+(letters,
+numerals,
+and punctuation)
+are not explicitly bound to
+.Ic self\-insert\-command ,
+but behave as if they were.
+(See
+.Ic auto\-fill\-mode ,
+however.)
 .Pp
-.Bl -tag -width xxxxxxxxxxxx -offset indent -compact
+The command
+.Dq M\-x describe\-bindings
+summarizes the bindings in effect at any time.
+.Pp
+.Bl -tag -width "C\-x 4 C\-f" -offset indent -compact
 .It C\-SPC
 set\-mark\-command
 .It C\-a
