@@ -855,33 +855,9 @@ followed by a
 .It Ic count\-matches
 Count the number of lines matching the supplied regular expression.
 .It Ic count\-non\-matches
-Count the number of lines not matching the supplied regular expression.
-.It Ic cscope\-create\-list\-of\-files\-to\-index
-Create cscope's List and Index in the given directory.
-.It Ic cscope\-find\-called\-functions
-List functions called from the given function.
-.It Ic cscope\-find\-egrep\-pattern
-List locations matching the given extended regular expression pattern.
-.It Ic cscope\-find\-files\-including\-file
-List files that #include the given filename.
-.It Ic cscope\-find\-functions\-calling\-this\-function
-List functions calling the given function.
-.It Ic cscope\-find\-global\-definition
-List global definitions for the given literal.
-.It Ic cscope\-find\-this\-file
-List filenames matching the given filename.
-.It Ic cscope\-find\-this\-symbol
-List the matches for the given symbol.
-.It Ic cscope\-find\-this\-text\-string
-List locations matching the given text string.
-.It Ic cscope\-next\-file
-Navigate to the next file.
-.It Ic cscope\-next\-symbol
-Navigate to the next match.
-.It Ic cscope\-prev\-file
-Navigate to the previous file.
-.It Ic cscope\-prev\-symbol
-Navigate to the previous match.
+Prompt for regular expression and report count of lines not matching it.
+See
+.Ic count\-matches .
 .It Ic define\-key
 Prompts the user for a named keymap (mode),
 a key, and an
@@ -1435,6 +1411,49 @@ until the next instance of that character, including it.
 Like
 .Ic zap\-to\-char
 but doesn't delete the target character.
+.El
+.Pp
+.Xr cscope
+commands report progress or results in a buffer named
+.Dq *cscope* .
+These commands are not implemented in GNU Emacs.
+.Pp
+.Bl -tag
+.It Ic cscope\-create\-list\-of\-files\-to\-index
+Prompt for a directory name,
+preloading with the parent of the buffer's file,
+and run
+.Xr cscope
+to index it.
+Progress is reported to a new buffer
+.Dq *cscope* .
+.It Ic cscope\-find\-called\-functions
+Prompt for function name,
+preloading with symbol name at point
+(if any),
+and list indexed functions called by the named function.
+.It Ic cscope\-find\-egrep\-pattern
+List locations matching the given extended regular expression pattern.
+.It Ic cscope\-find\-files\-including\-file
+List files that #include the given filename.
+.It Ic cscope\-find\-functions\-calling\-this\-function
+List functions calling the given function.
+.It Ic cscope\-find\-global\-definition
+List global definitions for the given literal.
+.It Ic cscope\-find\-this\-file
+List filenames matching the given filename.
+.It Ic cscope\-find\-this\-symbol
+List the matches for the given symbol.
+.It Ic cscope\-find\-this\-text\-string
+List locations matching the given text string.
+.It Ic cscope\-next\-file
+Navigate to the next file.
+.It Ic cscope\-next\-symbol
+Navigate to the next match.
+.It Ic cscope\-prev\-file
+Navigate to the previous file.
+.It Ic cscope\-prev\-symbol
+Navigate to the previous match.
 .El
 .Ss "Directory editor key bindings"
 Specific key bindings are available in dired mode.
