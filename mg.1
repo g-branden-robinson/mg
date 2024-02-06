@@ -919,9 +919,15 @@ See
 .It Ic copy\-region\-as\-kill
 Copy the region to the kill zone without modifying the buffer.
 .It Ic count\-matches
-Count the number of lines matching the supplied regular expression.
+Prompt for a regular expression and report the count of matching lines in
+the buffer.
+.Nm
+uses POSIX extended regular expression (ERE) syntax.
+See
+.Xr regex 7 .
 .It Ic count\-non\-matches
-Prompt for regular expression and report count of lines not matching it.
+Prompt for a regular expression and report the count of non-matching
+lines in the buffer.
 See
 .Ic count\-matches .
 .It Ic define\-key
