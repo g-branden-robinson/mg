@@ -955,7 +955,12 @@ or kill
 .Va n
 characters forward from point.
 .It Ic delete\-horizontal\-space
-Delete any whitespace around point.
+Delete any
+.Em whitespace
+(as defined by
+.Xr isspace 3 )
+around point.
+(GNU Emacs deletes only spaces and tabs.)
 .It Ic delete\-leading\-space
 Delete leading whitespace on the current line.
 .It Ic delete\-trailing\-space
