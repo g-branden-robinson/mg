@@ -765,10 +765,13 @@ Toggle use of the audible system or terminal bell.
 See
 .Ic visible\-bell .
 .It Ic auto\-execute
-Register an auto-execute hook; that is, specify a filename pattern
-(conforming to the shell's filename globbing rules) and an associated
-function to execute when a file matching the specified pattern
-is read into a buffer.
+Register an automatic execution hook;
+prompt for a
+.Xr glob 3
+pattern and an
+.Nm
+command to run when the editor loads a file with a name matching that
+pattern into a buffer.
 .It Ic auto\-fill\-mode
 Toggle auto-fill mode (sometimes called mail-mode) in the current buffer,
 where text inserted past the fill column is automatically wrapped
