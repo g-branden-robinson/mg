@@ -822,10 +822,14 @@ dollar sign,
 percent sign,
 or apostrophe.
 .It Ic backward\-paragraph
-Move cursor backwards
-.Va n
-paragraphs.
-Paragraphs are delimited by <NL><NL> or <NL><TAB> or <NL><SPACE>.
+Move point backward to the character before the
+.Va n Ns th
+previous paragraph,
+counting any paragraph point is on.
+A
+.Em paragraph
+is delimited by a buffer boundary or a newline followed by another
+newline.
 .It Ic backward\-word
 Move cursor backwards by the specified number of words.
 .It Ic beginning\-of\-buffer
@@ -1009,10 +1013,12 @@ Move point forward
 .Va n
 characters.
 .It Ic forward\-paragraph
-Move forward
-.Va n
-paragraphs.
-Paragraphs are delimited by <NL><NL> or <NL><TAB> or <NL><SPACE>.
+Move point forward to the character after the
+.Va n Ns th
+subsequent paragraph,
+counting any paragraph point is on.
+See
+.Ic backward\-paragraph .
 .It Ic forward\-word
 Move the cursor forward by the specified number of words.
 .It Ic global\-set\-key
