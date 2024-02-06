@@ -1000,9 +1000,14 @@ Open a dired buffer containing the current buffer's directory location.
 .It Ic downcase\-region
 Change uppercase characters in the region to lowercase.
 .It Ic downcase\-word
-Set characters to lower case, starting at point, and ending
+Change uppercase characters in
+(the remainder of)
+any word at point,
+and
 .Va n
-words away.
+words forward,
+counting the word point is on,
+to lowercase.
 .It Ic emacs\-version
 Return an
 .Nm
@@ -1474,8 +1479,14 @@ C\-u C\-u C\-f moves the cursor forward 16 characters.
 .It Ic upcase\-region
 Change lowercase characters in the region to uppercase.
 .It Ic upcase\-word
-Move the cursor forward by the specified number of words.
-As it moves, convert any characters to upper case.
+Change lowercase characters in
+(the remainder of)
+any word at point,
+and
+.Va n
+words forward,
+counting the word point is on,
+to uppercase.
 .It Ic visible\-bell
 Toggle the visible bell.
 If this toggle is on, the modeline will flash.
