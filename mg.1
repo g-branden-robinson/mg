@@ -1218,9 +1218,13 @@ if any.
 .It Ic kill\-region
 Kill the region and clear mark.
 .It Ic kill\-word
-Delete forward
+Kill
 .Va n
-words.
+words after point,
+counting the word point is on
+(if any)
+and killing the portion of it before point if not at its first
+character.
 .It Ic leave\-tmpdir\-backups
 Modifies the behaviour of
 .Ic backup\-to\-home\-directory .
