@@ -850,14 +850,19 @@ sets it before moving point.
 .It Ic beginning\-of\-line
 Move point to the beginning of the line.
 .It Ic blink\-and\-insert
-Self-insert a character, then search backwards and blink its
-matching delimiter.
-For delimiters other than
-parenthesis, brackets, and braces, the character itself
-is used as its own match.
-Can be used in the startup file with the
-.Ic global\-set\-key
-command.
+As
+.Ic self\-insert\-command ,
+then search backward and indicate the inserted character's matching
+delimiter.
+Parentheses,
+brackets,
+braces,
+and
+.Dq "angle brackets"
+(less-than and greater-than signs)
+match their counterparts,
+accounting for nesting;
+other characters match themselves.
 .It Ic bsmap\-mode
 Toggle bsmap mode, where DEL and C\-h are swapped.
 .It Ic c\-mode
