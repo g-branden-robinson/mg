@@ -863,8 +863,15 @@ and
 match their counterparts,
 accounting for nesting;
 other characters match themselves.
+.\" bsmap-mode is not in GNU Emacs 27.
 .It Ic bsmap\-mode
-Toggle bsmap mode, where DEL and C\-h are swapped.
+Toggle swapping of the meanings of the DEL and C\-h key strokes.
+This feature is a workaround for incorrect
+.Xr terminfo 5
+terminal descriptions.
+If backspacing twice produces a help prompt in the minibuffer and C\-h
+destructively backspaces in a window,
+enable this setting.
 .It Ic c\-mode
 Toggle a KNF-compliant mode for editing C program files.
 .It Ic call\-last\-kbd\-macro
