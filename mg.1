@@ -966,11 +966,15 @@ Delete leading whitespace on the same line as point.
 .It Ic delete\-trailing\-space
 Delete trailing whitespace on the same line as point.
 .It Ic delete\-matching\-lines
-Delete all lines after point that contain a string matching
-the supplied regular expression.
+Prompt for a regular expression,
+then delete all matching lines after point.
+See
+.Ic count\-matches.
 .It Ic delete\-non\-matching\-lines
-Delete all lines after point that don't contain a string matching
-the supplied regular expression.
+Prompt for a regular expression,
+then delete all non-matching lines after point.
+See
+.Ic count\-matches.
 .It Ic delete\-other\-windows
 Make the current window the only window visible on the screen.
 .It Ic delete\-window
