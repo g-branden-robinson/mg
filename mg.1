@@ -938,13 +938,10 @@ and an
 command,
 then create a key binding in the designated map.
 .It Ic delete\-backward\-char
-Delete backwards
+Delete the character before point,
+or kill
 .Va n
-characters.
-Like
-.Ic delete\-char ,
-this actually does a kill if presented
-with an argument.
+characters backward before point.
 .It Ic delete\-blank\-lines
 Delete blank lines around point.
 If point is sitting on a blank line, this command
