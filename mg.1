@@ -889,11 +889,16 @@ See
 and
 .Ic end\-kbd\-macro .
 .It Ic capitalize\-word
-Capitalize
+Capitalize characters in
+(the remainder of)
+any word at point,
+and
 .Va n
-words;
-that is,
-convert the first character of the word to upper case,
+words forward,
+counting the word point is on.
+In Emacs,
+.Em capitalization
+converts the first character of a word to upper case,
 and subsequent letters to lower case.
 .It Ic cd
 Change the global working directory.
