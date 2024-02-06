@@ -183,7 +183,7 @@ is the key at the upper right that performs a destructive
 backspace.
 (If your backspace key brings up a help prompt instead,
 see
-.Ic bsmap\-mode
+.Ic bsmap
 below.)
 Function keys,
 arrow keys,
@@ -216,7 +216,7 @@ is equivalent to
 the eighth bit set,
 and your terminal is configured to support doing so,
 see
-.Ic meta\-key\-mode
+.Ic has\-meta\-key
 below.
 .Do ESC Em x Dc
 will continue to run an
@@ -859,8 +859,7 @@ and
 match their counterparts,
 accounting for nesting;
 other characters match themselves.
-.\" bsmap-mode is not in GNU Emacs 27.
-.It Ic bsmap\-mode
+.It Ic bsmap
 Toggle swapping of the meanings of the DEL and C\-h key strokes.
 This feature is a workaround for incorrect
 .Xr terminfo 5
@@ -1137,6 +1136,17 @@ The prompt is prepopulated with
 and a space.
 See
 .Ic next\-error .
+.It Ic has\-meta\-key
+Toggle recognition of the keyboard's meta key.
+When enabled
+(the default),
+the meta key is the
+.Dq M\-
+modifier.
+When disabled,
+and if the terminal supports the feature,
+the meta key sets the eighth bit of input characters,
+which can be used to insert character codes between 128 and 255.
 .It Ic help\-help
 Prompt for one of (a)propos,
 list (b)indings,
@@ -1260,17 +1270,6 @@ counting the paragraph point is on,
 if any.
 .It Ic mark\-whole\-buffer
 Move point to the beginning of the buffer and set mark at its end.
-.It Ic meta\-key\-mode
-Toggle recognition of the keyboard's meta key.
-When enabled
-(the default),
-the meta key is the
-.Dq M\-
-modifier.
-When disabled,
-and if the terminal supports the feature,
-the meta key sets the eighth bit of input characters,
-which can be used to insert character codes between 128 and 255.
 .It Ic negative\-argument
 Toggle the sign of the argument for the pending command.
 .It Ic newline
@@ -1869,7 +1868,7 @@ such as letters with a dieresis accent
 (or German umlaut),
 the meta key must be disabled;
 see
-.Ic meta\-key\-mode .
+.Ic has\-meta\-key .
 .Pp
 .Nm
 does not support multi-byte character encodings such as UTF-8.

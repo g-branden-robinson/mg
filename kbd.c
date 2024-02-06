@@ -47,7 +47,9 @@ do_meta(int f, int n)
 		use_metakey = n > 0;
 	else
 		use_metakey = !use_metakey;
-	ewprintf("Meta keys %sabled", use_metakey ? "en" : "dis");
+
+	ewprintf("Now assuming keyboard %s a meta key",
+		 use_metakey ? "has" : "lacks");
 	return (TRUE);
 }
 
@@ -63,7 +65,9 @@ bsmap(int f, int n)
 		bs_map = n > 0;
 	else
 		bs_map = !bs_map;
-	ewprintf("Backspace mapping %sabled", bs_map ? "en" : "dis");
+
+	ewprintf("Now assuming backspace key produces %s",
+		 bs_map ? "C-h" : "DEL");
 	return (TRUE);
 }
 

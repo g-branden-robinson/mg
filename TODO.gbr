@@ -16,11 +16,11 @@ Thus, report outcome of toggle operations in minibuffer.
 List of settings:
 	audible-bell [not in GNU Emacs]                              *
 	backup-to-home-directory [not in GNU Emacs]
-	bsmap-mode [sic] [not in GNU Emacs]
+	bsmap [sic] [not in GNU Emacs]                               *
+	has-meta-key [not in GNU Emacs]                              *
 	leave-tmpdir-backups [not in GNU Emacs]
 	make-backup-files [not in GNU Emacs]
 	set-fill-column                                              *
-	meta-key-mode [sic] [not in GNU Emacs]
 	set-prompt-delay [not in GNU Emacs]                          *
 	sentence-end-double-space [not in GNU Emacs]
 	toggle-read-only-all [not in GNU Emacs; "global" (sort of)]

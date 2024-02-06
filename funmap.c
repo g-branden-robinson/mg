@@ -55,7 +55,7 @@ static struct funmap functnames[] = {
 	{gotobob, "beginning-of-buffer", 0},
 	{gotobol, "beginning-of-line", 0},
 	{showmatch, "blink-and-insert", 1},		/* startup only	*/
-	{bsmap, "bsmap-mode", 0},
+	{bsmap, "bsmap", 0},
 	{NULL, "c-x 4 prefix", 0},			/* internal	*/
 	{NULL, "c-x prefix", 0},			/* internal	*/
 	{executemacro, "call-last-kbd-macro", 0},
@@ -152,7 +152,7 @@ static struct funmap functnames[] = {
 	{makedir, "make-directory", 1},
 	{markpara, "mark-paragraph", 1},
 	{markbuffer, "mark-whole-buffer", 0},
-	{do_meta, "meta-key-mode", 0},	/* better name, anyone? */
+	{do_meta, "has-meta-key", 0},
 	{negative_argument, "negative-argument", 1},
 	{enewline, "newline", 1},
 	{lfindent, "newline-and-indent", 1},
