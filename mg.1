@@ -789,10 +789,10 @@ them.
 See
 .Ic fill\-paragraph . )
 .It Ic auto\-indent\-mode
-Toggle indent mode in the current buffer,
-where indentation is preserved after a newline.
-Can be set globally with
-.Ic set\-default\-mode .
+Toggle the buffer's indent mode.
+When enabled and a newline is inserted,
+.Nm
+copies any spaces or tabs indenting the breaking line to the new line.
 .It Ic back\-to\-indentation
 Move point to the first non-whitespace character on the current line.
 .It Ic backup\-to\-home\-directory
