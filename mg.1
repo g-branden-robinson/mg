@@ -418,6 +418,30 @@ requires its executable and that of
 to be present in
 .Ev PATH
 for the feature to work.
+.Ss "Editor commands"
+Commands are invoked by
+.Dq M\-x ,
+or by binding to a key.
+Many commands take an optional numerical parameter,
+.Va n .
+This parameter is set either by
+.No M\- Ns Va n
+(where
+.Va n
+is the numerical argument) before the command, or by
+one or more invocations of the universal argument, usually bound to C\-u.
+When invoked in this manner, the value of the numeric parameter to
+be passed is displayed in the minibuffer before the M\-x.
+One common use of the parameter is in mode toggles
+(for example,
+make\-backup\-files).
+If no parameter is supplied, the mode is toggled to its
+alternate state.
+If a positive parameter is supplied, the mode is forced to on.
+Otherwise, it is forced to off.
+.Pp
+To see the active keybindings at any time, type
+.Dq M\-x describe\-bindings .
 .Ss "Editor key bindings"
 Normal editing commands are very similar to GNU Emacs.
 .Pp
@@ -669,35 +693,6 @@ blink\-and\-insert
 .It DEL
 delete\-backward\-char
 .El
-.Pp
-For a complete description of
-.Nm
-commands, see
-.Sx "Editor commands" .
-To see the active keybindings at any time, type
-.Dq M\-x describe\-bindings .
-.Ss "Editor commands"
-Commands are invoked by
-.Dq M\-x ,
-or by binding to a key.
-Many commands take an optional numerical parameter,
-.Va n .
-This parameter is set either by
-.No M\- Ns Va n
-(where
-.Va n
-is the numerical argument) before the command, or by
-one or more invocations of the universal argument, usually bound to C\-u.
-When invoked in this manner, the value of the numeric parameter to
-be passed is displayed in the minibuffer before the M\-x.
-One common use of the parameter is in mode toggles
-(for example,
-make\-backup\-files).
-If no parameter is supplied, the mode is toggled to its
-alternate state.
-If a positive parameter is supplied, the mode is forced to on.
-Otherwise, it is forced to off.
-.\"
 .Bl -tag -width xxxxx
 .It Ic apropos
 Help Apropos.
