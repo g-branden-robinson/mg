@@ -139,8 +139,7 @@ set_default_mode(int f, int n)
 				/* mode already set */
 				return (TRUE);
 		if (defb_nmodes >= PBMODES - 1) {
-			dobeep();
-			ewprintf("Too many modes");
+			dobeep_msg("Too many modes");
 			return (FALSE);
 		}
 		defb_modes[++defb_nmodes] = m;
