@@ -23,7 +23,7 @@ List of settings:
 	set-fill-column                                              *
 	set-prompt-delay [not in GNU Emacs]                          *
 	sentence-end-double-space [not in GNU Emacs]                 *
-	toggle-read-only-all [not in GNU Emacs; "global" (sort of)]
+	toggle-read-only-all [not in GNU Emacs; "global" (sort of)]  *
 	visible-bell [not in GNU Emacs]                              *
 
 List of modes:
