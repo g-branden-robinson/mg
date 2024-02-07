@@ -765,7 +765,7 @@ See also
 .It Ic column\-number\-mode
 Toggle whether the column number is displayed in the modeline.
 .It Ic copy\-region\-as\-kill
-Copy all of the characters in the region to the kill buffer,
+Copy all of the characters in the region to the kill zone,
 clearing the mark afterwards.
 This is a bit like a
 .Ic kill\-region
@@ -825,7 +825,7 @@ Delete
 .Va n
 characters forward.
 If any argument is present, it kills rather than deletes,
-saving the result in the kill buffer.
+saving the result in the kill zone.
 .It Ic delete\-horizontal\-space
 Delete any whitespace around point.
 .It Ic delete\-leading\-space
@@ -1341,10 +1341,10 @@ that file.
 Update the remembered file name and clear the buffer
 changed flag.
 .It Ic yank
-Yank text from the kill buffer.
+Yank text from the kill zone.
 Unlike Emacs, the
 .Nm
-kill buffer consists only
+kill zone consists only
 of the most recent kill.
 It is not a ring.
 .It Ic zap\-to\-char
