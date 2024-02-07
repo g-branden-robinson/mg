@@ -102,7 +102,7 @@ togglereadonly(int f, int n)
 	else {
 		curbp->b_flag &= ~BFREADONLY;
 		if (curbp->b_flag & BFCHG)
-			ewprintf("Warning: Buffer was modified");
+			ewprintf("Warning: buffer was modified");
 	}
 
 	curwp->w_rflag |= WFMODE;
