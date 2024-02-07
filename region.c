@@ -47,7 +47,7 @@ killregion(int f, int n)
 
 	if ((s = getregion(&region)) != TRUE)
 		return (s);
-	/* This is a kill-type command, so do magic kill buffer stuff. */
+	/* This is a kill-type command, so do magic kill zone stuff. */
 	if ((lastflag & CFKILL) == 0)
 		kdelete();
 	thisflag |= CFKILL;
@@ -61,7 +61,7 @@ killregion(int f, int n)
 }
 
 /*
- * Copy all of the characters in the region to the kill buffer,
+ * Copy all of the characters in the region to the kill zone,
  * clearing the mark afterwards.
  * This is a bit like a kill region followed by a yank.
  */

@@ -349,7 +349,7 @@ lnewline(void)
  * It returns TRUE if all of the characters were deleted, and FALSE if
  * they were not (because dot ran into the end of the buffer).
  * The "kflag" indicates either no insertion, or direction  of insertion
- * into the kill buffer.
+ * into the kill zone.
  */
 int
 ldelete(RSIZE n, int kflag)
@@ -437,7 +437,7 @@ out:
  * Delete a newline and join the current line with the next line. If the next
  * line is the magic header line always return TRUE; merging the last line
  * with the header line can be thought of as always being a successful
- * operation.  Even if nothing is done, this makes the kill buffer work
+ * operation.  Even if nothing is done, this makes the kill zone work
  * "right". If the mark is past the dot (actually, markline > dotline),
  * decrease the markline accordingly to keep line numbers in sync.
  * Easy cases can be done by shuffling data around.  Hard cases
