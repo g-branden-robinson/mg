@@ -471,6 +471,12 @@ the sequence
 .Dq "\%C\-u \- 5 \%C\-f"
 moves 5 characters
 .Em backward .
+If you enter many digits to make the parameter an extreme positive or
+negative value,
+.Nm
+stops accepting input when it cannot handle a larger value,
+.\" positive or negative 200 million on a machine with 32-bit ints
+and proceeds with the parameter as entered to that point.
 Given a nonsense parameter,
 an
 .Nm

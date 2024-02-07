@@ -268,6 +268,8 @@ universal_argument(int f, int n)
 static int
 collect_integer(int n, int *c, int want_negation)
 {
+	static const int limit = INT_MAX / 10;
+
 	int	 c1, c2;
 	int	 got_digit;
 
@@ -293,8 +295,14 @@ collect_integer(int n, int *c, int want_negation)
 		else
 			got_digit = TRUE;
 		if (got_digit) {
-			n *= 10;
-			n += c1 - '0';
+			if (abs(n) > limit) {
+				dobeep();
+				break;
+			}
+			else {
+				n *= 10;
+				n += c1 - '0';
+			}
 		}
 	}
 
