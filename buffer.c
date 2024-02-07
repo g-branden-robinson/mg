@@ -868,7 +868,7 @@ notmodified(int f, int n)
 			wp->w_rflag |= WFMODE;
 		wp = wp->w_wndp;
 	}
-	ewprintf("Modification-flag cleared");
+	ewprintf("Buffer modification flag cleared");
 	return (TRUE);
 }
 
