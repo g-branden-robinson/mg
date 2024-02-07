@@ -799,7 +799,8 @@ refreshbuffer(struct buffer *bp)
 	tmp_b_fname = strdup(bp->b_fname);
 	if (tmp_b_fname == NULL) {
 		dobeep();
-		ewprintf("Out of memory");
+		ewprintf("Out of memory: cannot allocate %z bytes",
+			 strlen(bp->b_fname) + 1);
 		return (NULL);
 	}
 	tmp_w_dotline = curwp->w_dotline;

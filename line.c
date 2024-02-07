@@ -544,7 +544,8 @@ lreplace(RSIZE plen, char *st)
 
 	if ((repl = strdup(st)) == NULL) {
 		dobeep();
-		ewprintf("out of memory");
+		ewprintf("Out of memory: cannot allocate %z bytes",
+			 strlen(st) + 1);
 		return (FALSE);
 	}
 	rlen = strlen(repl);
