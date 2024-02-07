@@ -279,6 +279,41 @@ can be defined to automate a repetitious sequence of key strokes;
 it is discarded when replaced or when
 .Nm
 exits.
+.Ss Motion
+The most basic motion commands move the cursor within the window by
+columns or lines;
+these are
+.Ic backward\-char ,
+.Ic forward\-char ,
+.Ic previous\-line ,
+and
+.Ic next\-line .
+By default these are bound to the arrow keys,
+and to
+C\-b,
+C\-f,
+C\-p,
+and
+C\-n,
+respectively.
+.Pp
+Other commands offer motion by different units
+(words,
+sentences,
+paragraphs,
+pages).
+.Pp
+Most motion commands take a numeric parameter,
+multiplying their effect for speed and efficiency;
+see subsection
+.Sx "Editor commands"
+below.
+Motion halts at buffer boundaries;
+for example,
+using
+.Dq "C\-u 5000 C\-n"
+to move forward five thousand lines in a one-hundred-line buffer moves
+to the end of it.
 .Ss "Point and mark"
 The current cursor location in
 .Nm
