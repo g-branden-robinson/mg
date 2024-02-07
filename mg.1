@@ -1129,17 +1129,27 @@ causing the line to break,
 or
 .Dq wrap .
 .It Ic isearch\-backward
-Use incremental searching, initially in the reverse direction.
-isearch ignores any explicit arguments.
-If invoked during macro definition or evaluation, the non-incremental
+Prompt for a literal pattern and incrementally search the buffer
+backward for it.
+.Nm
+ignores a parameter,
+unlike GNU Emacs.
+During macro definition or evaluation,
+.Nm
+uses
 .Ic search\-backward
-is invoked instead.
+instead.
 .It Ic isearch\-forward
-Use incremental searching, initially in the forward direction.
-isearch ignores any explicit arguments.
-If invoked during macro definition or evaluation, the non-incremental
+Prompt for a literal pattern and incrementally search the buffer
+forward for it.
+.Nm
+ignores a parameter,
+unlike GNU Emacs.
+During macro definition or evaluation,
+.Nm
+uses
 .Ic search\-forward
-is invoked instead.
+instead.
 .It Ic join\-line
 Join the current line to the previous.
 If called with an argument,
