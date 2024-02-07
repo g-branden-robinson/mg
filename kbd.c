@@ -259,10 +259,10 @@ universal_argument(int f, int n)
  * character that terminates the numeric sequence in argument `c`.
  */
 static int
-collect_integer(int n, int *c)
+collect_integer(int n, int *c, int want_negation)
 {
 	int	 c1, c2;
-	int	 got_digit, want_negation = FALSE;
+	int	 got_digit;
 
 	for (;;) {
 		got_digit = FALSE;
@@ -305,7 +305,8 @@ digit_argument(int f, int n)
 	PF	 funct;
 	int	 nn, c;
 
-	nn = collect_integer(key.k_chars[key.k_count - 1] - '0', &c);
+	nn = collect_integer(key.k_chars[key.k_count - 1] - '0', &c,
+			     FALSE);
 	key.k_chars[0] = c;
 	key.k_count = 1;
 	curmap = curbp->b_modes[curbp->b_nmodes]->p_map;
@@ -328,20 +329,9 @@ negative_argument(int f, int n)
 {
 	KEYMAP	*curmap;
 	PF	 funct;
-	int	 c;
-	int	 nn = 0;
+	int	 nn, c;
 
-	for (;;) {
-		c = getkey(TRUE);
-		if (c < '0' || c > '9')
-			break;
-		nn *= 10;
-		nn += c - '0';
-	}
-	if (nn)
-		nn = -nn;
-	else
-		nn = -n;
+	nn = collect_integer(0, &c, TRUE);
 	key.k_chars[0] = c;
 	key.k_count = 1;
 	curmap = curbp->b_modes[curbp->b_nmodes]->p_map;
