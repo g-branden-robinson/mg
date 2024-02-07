@@ -21,6 +21,7 @@ List of settings:
 	make-backup-files [not in GNU Emacs]
 	set-fill-column
 	meta-key-mode [sic] [not in GNU Emacs]
+	set-prompt-delay [not in GNU Emacs]                          *
 	sentence-end-double-space [not in GNU Emacs]
 	toggle-read-only-all [not in GNU Emacs; "global" (sort of)]
 	visible-bell [not in GNU Emacs]

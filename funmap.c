@@ -207,6 +207,7 @@ static struct funmap functnames[] = {
 	{setfillcol, "set-fill-column", 1},
 	{setmark, "set-mark-command", 0},
 	{setprefix, "set-prefix-string", 1},
+	{setpromptdelay, "set-prompt-delay", 1},
 	{shellcommand, "shell-command", 1},
 	{piperegion, "shell-command-on-region", 1},
 	{shrinkwind, "shrink-window", 1},

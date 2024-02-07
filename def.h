@@ -520,6 +520,7 @@ int		 negative_argument(int, int);
 int		 ask_selfinsert(int, int);
 int		 selfinsert(int, int);
 int		 quote(int, int);
+int		 setpromptdelay(int, int);
 
 /* main.c */
 int		 ctrlg(int, int);

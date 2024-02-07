@@ -236,8 +236,10 @@ When a key sequence does not completely specify a command,
 updates the minibuffer with the key strokes seen so far to cue the user
 for additional input.
 (This update occurs after a brief delay to avoid frustrating fast
-typists in slow environments.)
-Some
+typists in slow environments;
+see
+.Ic set\-prompt\-delay
+below.)
 .Nm
 commands like
 .Ic find\-file
@@ -1465,6 +1467,11 @@ Built in modes include: fill, indent, notab and overwrite.
 Prompt the user for a fill column.
 Used by
 .Ic auto\-fill\-mode .
+.It Ic set\-prompt\-delay
+Prompt for the delay
+(in milliseconds)
+before updating the minibuffer in response to incomplete key stroke
+input.
 .It Ic set\-mark\-command
 Sets the mark in the current window to the current point location.
 .It Ic set\-prefix\-string
