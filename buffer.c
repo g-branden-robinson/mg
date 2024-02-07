@@ -984,10 +984,10 @@ dorevert(void)
 	if (access(curbp->b_fname, F_OK|R_OK) != 0) {
 		dobeep();
 		if (errno == ENOENT)
-			ewprintf("File %s no longer exists!",
+			ewprintf("File \"%s\" no longer exists!",
 			    curbp->b_fname);
 		else
-			ewprintf("File %s is no longer readable!",
+			ewprintf("File \"%s\" is no longer readable!",
 			    curbp->b_fname);
 		return (FALSE);
 	}
@@ -1031,7 +1031,8 @@ diffbuffer(int f, int n)
 
 	if (access(DIFFTOOL, X_OK) != 0) {
 		dobeep();
-		ewprintf("%s not found or not executable.", DIFFTOOL);
+		ewprintf("\"%s\" does not exist or is not executable",
+			 DIFFTOOL);
 		return (FALSE);
 	}
 
