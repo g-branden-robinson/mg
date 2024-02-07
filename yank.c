@@ -16,7 +16,7 @@
 
 #define KBLOCK	 8192		/* Kill grow.                    */
 
-static char	*kbufp = NULL;	/* Kill buffer data.		 */
+static char	*kbufp = NULL;	/* Kill zone data.		 */
 static RSIZE	 kused = 0;	/* # of bytes used in KB.	 */
 static RSIZE	 ksize = 0;	/* # of bytes allocated in KB.	 */
 static RSIZE	 kstart = 0;	/* # of first used byte in KB.	 */
@@ -24,8 +24,8 @@ static RSIZE	 kstart = 0;	/* # of first used byte in KB.	 */
 static int	 kgrow(int);
 
 /*
- * Delete all of the text saved in the kill buffer.  Called by commands when
- * a new kill context is created. The kill buffer array is released, just in
+ * Delete all of the text saved in the kill zone.  Called by commands when
+ * a new kill context is created. The kill zone array is released, just in
  * case the buffer has grown to an immense size.  No errors.
  */
 void
@@ -39,9 +39,9 @@ kdelete(void)
 }
 
 /*
- * Insert a character to the kill buffer, enlarging the buffer if there
+ * Insert a character to the kill zone, enlarging the buffer if there
  * isn't any room. Always grow the buffer in chunks, on the assumption
- * that if you put something in the kill buffer you are going to put more
+ * that if you put something in the kill zone you are going to put more
  * stuff there too later. Return TRUE if all is well, and FALSE on errors.
  * Print a message on errors.  Dir says whether to put it at back or front.
  * This call is ignored if  KNONE is set.
@@ -65,8 +65,8 @@ kinsert(int c, int dir)
 }
 
 /*
- * kgrow - just get more kill buffer for the callee. If dir = KBACK
- * we are trying to get space at the beginning of the kill buffer.
+ * kgrow - just get more kill zone for the callee. If dir = KBACK
+ * we are trying to get space at the beginning of the kill zone.
  */
 static int
 kgrow(int dir)
@@ -77,7 +77,7 @@ kgrow(int dir)
 	if ((unsigned)(ksize + KBLOCK) <= (unsigned)ksize) {
 		/* probably 16 bit unsigned */
 		dobeep();
-		ewprintf("Kill buffer size at maximum");
+		ewprintf("Kill zone size at maximum");
 		return (FALSE);
 	}
 	if ((nbufp = malloc((unsigned)(ksize + KBLOCK))) == NULL) {
@@ -96,7 +96,7 @@ kgrow(int dir)
 }
 
 /*
- * This function gets characters from the kill buffer. If the character
+ * This function gets characters from the kill zone. If the character
  * index "n" is off the end, it returns "-1". This lets the caller just
  * scan along until it gets a "-1" back.
  */
@@ -109,7 +109,7 @@ kremove(int n)
 }
 
 /*
- * Copy a string into the kill buffer. kflag gives direction.
+ * Copy a string into the kill zone. kflag gives direction.
  * if KNONE, do nothing.
  */
 int
@@ -117,7 +117,7 @@ kchunk(char *cp1, RSIZE chunk, int kflag)
 {
 	/*
 	 * HACK - doesn't matter, and fixes back-over-nl bug for empty
-	 *	kill buffers.
+	 *	kill zone.
 	 */
 	if (kused == kstart)
 		kflag = KFORW;
@@ -155,7 +155,7 @@ killline(int f, int n)
 	RSIZE	 chunk;
 	int	 i, c;
 
-	/* clear kill buffer if last wasn't a kill */
+	/* clear kill zone if last wasn't a kill */
 	if ((lastflag & CFKILL) == 0)
 		kdelete();
 	thisflag |= CFKILL;
@@ -210,12 +210,12 @@ done:
 }
 
 /*
- * Yank text back from the kill buffer.  This is really easy.  All of the work
+ * Yank text back from the kill zone.  This is really easy.  All of the work
  * is done by the standard insert routines.  All you do is run the loop, and
  * check for errors.  The blank lines are inserted with a call to "newline"
  * instead of a call to "lnewline" so that the magic stuff that happens when
  * you type a carriage return also happens when a carriage return is yanked
- * back from the kill buffer.  An attempt has been made to fix the cosmetic
+ * back from the kill zone.  An attempt has been made to fix the cosmetic
  * bug associated with a yank when dot is on the top line of the window
  * (nothing moves, because all of the new text landed off screen).
  */

@@ -321,7 +321,7 @@ veread(const char *fp, char *buf, size_t nbuf, int flag, va_list ap)
 				ttflush();
 			}
 			break;
-		case CCHR('Y'): /* yank from kill buffer */
+		case CCHR('Y'): /* yank from kill zone */
 			i = 0;
 			while ((y = kremove(i++)) >= 0 && y != *curbp->b_nlchr) {
 				int t;
@@ -352,7 +352,7 @@ veread(const char *fp, char *buf, size_t nbuf, int flag, va_list ap)
 			}
 			ttflush();
 			break;
-		case CCHR('K'): /* copy here-EOL to kill buffer */
+		case CCHR('K'): /* copy here-EOL to kill zone */
 			kdelete();
 			for (i = cpos; i < epos; i++)
 				kinsert(buf[i], KFORW);
