@@ -86,10 +86,14 @@ togglereadonlyall(int f, int n)
 	return (TRUE);
 }
 
+/*
+ * This toggle doesn't need a minibuffer message to report the new
+ * read-only status, since the sigils in the modeline change.
+ */
 int
 togglereadonly(int f, int n)
 {
-	int s;
+	int	 s;
 
 	if ((s = checkdirty(curbp)) != TRUE)
 		return (s);
@@ -100,8 +104,8 @@ togglereadonly(int f, int n)
 		if (curbp->b_flag & BFCHG)
 			ewprintf("Warning: Buffer was modified");
 	}
-	curwp->w_rflag |= WFMODE;
 
+	curwp->w_rflag |= WFMODE;
 	return (TRUE);
 }
 
