@@ -66,20 +66,23 @@ int
 togglereadonlyall(int f, int n)
 {
 	struct buffer *bp = NULL;
-	int len = 0;
+	int	 len = 0;
 
 	allbro = !allbro;
 	for (bp = bheadp; bp != NULL; bp = bp->b_bufp) {
 		len = strlen(bp->b_bname);
-		if (bp->b_bname[0] != '*' && bp->b_bname[len - 1] != '*') {
+		if (bp->b_bname[0] != '*' &&
+		    bp->b_bname[len - 1] != '*') {
 			if (allbro)
 				bp->b_flag |= BFREADONLY;
 			else
 				bp->b_flag &= ~BFREADONLY;
 		}
 	}
-	curwp->w_rflag |= WFMODE;
 
+	curwp->w_rflag |= WFMODE;
+	ewprintf("All buffers are now %s",
+		 allbro ? "read-only" : "modifiable");
 	return (TRUE);
 }
 
