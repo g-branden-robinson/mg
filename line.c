@@ -171,8 +171,7 @@ linsert(int n, int c)
 		return (s);
 	
 	if (curbp->b_flag & BFREADONLY) {
-		dobeep();
-		ewprintf("Buffer is read-only");
+		dobeep_msg("Buffer is read-only");
 		return (FALSE);
 	}
 
@@ -187,8 +186,7 @@ linsert(int n, int c)
 
 		/* now should only happen in empty buffer */
 		if (curwp->w_doto != 0) {
-			dobeep();
-			ewprintf("bug: linsert");
+			dobeep_msg("bug: linsert");
 			return (FALSE);
 		}
 		/* allocate a new line */
@@ -336,8 +334,7 @@ lnewline(void)
 	if ((s = checkdirty(curbp)) != TRUE)
 		return (s);
 	if (curbp->b_flag & BFREADONLY) {
-		dobeep();
-		ewprintf("Buffer is read-only");
+		dobeep_msg("Buffer is read-only");
 		return (FALSE);
 	}
 	return (lnewline_at(curwp->w_dotp, curwp->w_doto));
@@ -368,8 +365,7 @@ ldelete(RSIZE n, int kflag)
 	if ((s = checkdirty(curbp)) != TRUE)
 		return (s);
 	if (curbp->b_flag & BFREADONLY) {
-		dobeep();
-		ewprintf("Buffer is read-only");
+		dobeep_msg("Buffer is read-only");
 		goto out;
 	}
 	len = n;
@@ -455,8 +451,7 @@ ldelnewline(void)
 	if ((s = checkdirty(curbp)) != TRUE)
 		return (s);
 	if (curbp->b_flag & BFREADONLY) {
-		dobeep();
-		ewprintf("Buffer is read-only");
+		dobeep_msg("Buffer is read-only");
 		return (FALSE);
 	}
 
@@ -537,8 +532,7 @@ lreplace(RSIZE plen, char *st)
 	if ((s = checkdirty(curbp)) != TRUE)
 		return (s);
 	if (curbp->b_flag & BFREADONLY) {
-		dobeep();
-		ewprintf("Buffer is read-only");
+		dobeep_msg("Buffer is read-only");
 		return (FALSE);
 	}
 
