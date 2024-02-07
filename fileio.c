@@ -656,12 +656,13 @@ backuptohomedir(int f, int n)
 {
 	const char	*c = _PATH_MG_DIR;
 	char		*p;
+	int		 use_home_dir = TRUE;
 
 	if (bkupdir == NULL) {
 		p = adjustname(c, TRUE);
 		bkupdir = strndup(p, NFILEN);
 		if (bkupdir == NULL)
-			return(FALSE);
+			use_home_dir = FALSE;
 
 		if (mkdir(bkupdir, 0700) == -1 && errno != EEXIST) {
 			free(bkupdir);
@@ -672,7 +673,10 @@ backuptohomedir(int f, int n)
 		bkupdir = NULL;
 	}
 
-	return (TRUE);
+	ewprintf("Now backing files up to %s",
+		 (bkupdir != NULL) ? bkupdir
+				   : "same directory as original");
+	return (use_home_dir);
 }
 
 /*
