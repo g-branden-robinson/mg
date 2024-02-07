@@ -343,7 +343,7 @@ transposepara(int f, int n)
 	/* take a note of buffer flags - we may need them */
 	flg = curbp->b_flag;	
 
-	/* clean out kill buffer then kill region */
+	/* clean out kill zone then kill region */
 	kdelete();
 	if ((status = killregion(FFRAND, 1)) != TRUE)
 		return (status);
