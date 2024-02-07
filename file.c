@@ -562,7 +562,7 @@ filewrite(int f, int n)
 /*
  * Save the contents of the current buffer back into its associated file.
  */
-static int	makebackup = TRUE;
+int	makebackup = TRUE;
 
 int
 filesave(int f, int n)
