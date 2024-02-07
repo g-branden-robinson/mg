@@ -1037,8 +1037,8 @@ diffbuffer(int f, int n)
 	}
 
 	if (curbp->b_fname[0] == 0)
-		return(dobeep_msg("Cannot diff buffer not associated with "
-		    "any files."));
+		return(dobeep_msg("Cannot diff a buffer not associated"
+				  "with a file"));
 
 	lpend = curbp->b_headp;
 	for (lp = lforw(lpend); lp != lpend; lp = lforw(lp)) {
