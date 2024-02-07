@@ -840,10 +840,8 @@ bufferinsert(int f, int n)
 			return (FALSE);
 		nline++;
 	}
-	if (nline == 1)
-		ewprintf("[Inserted 1 line]");
-	else
-		ewprintf("[Inserted %d lines]", nline);
+	ewprintf("[Inserted %d line%s]", nline,
+		 (nline == 1) ? "" : "s");
 
 	clp = curwp->w_linep;		/* cosmetic adjustment	*/
 	if (curwp->w_dotp == clp) {	/* for offscreen insert */
