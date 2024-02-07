@@ -14,7 +14,6 @@ You can't set _all_ of the foregoing modes proper; you get a "Too many
 modes" error.  The limit is 2 fewer than it could be.  Fix it.
 
 Other:
-	toggle-read-only [buffer-specific flag]
 	set-tab-width [not in GNU Emacs; both global & buffer-specific]
 
 Maybe split out a set-default-tab-width.  (That's currently the effect
