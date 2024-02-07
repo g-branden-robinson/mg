@@ -676,9 +676,14 @@ backuptohomedir(int f, int n)
 		bkupdir = NULL;
 	}
 
-	ewprintf("Now backing files up to %s",
-		 (bkupdir != NULL) ? bkupdir
-				   : "same directory as original");
+	if (!makebackup)
+		ewprintf("backup-to-home-directory has no effect when"
+			 " make-backup-files not set");
+	else
+		ewprintf("Now backing files up to %s",
+			 (bkupdir != NULL) ? bkupdir
+				: "same directory as original");
+
 	return (use_home_dir);
 }
 
@@ -690,6 +695,16 @@ int
 toggleleavetmp(int f, int n)
 {
 	leavetmp = !leavetmp;
+
+	if (!makebackup)
+		ewprintf("leave-tmpdir-backups has no effect when"
+			 " make-backup-files not set");
+	else if (bkupdir == NULL)
+		ewprintf("leave-tmpdir-backups has no effect when"
+			 " backup-to-home-directory not set");
+	else
+		ewprintf("Files in " TMPDIR " now %sbacked up in "
+			 TMPDIR, leavetmp ? "" : "no longer ");
 
 	return (TRUE);
 }
