@@ -1,31 +1,5 @@
 Document minibuffer bindings in mg.1
 
-Better distinguish modes from what we can call "settings".
-
-Modes are generally more complex, and their enablement is presented on
-the modeline.
-
-Settings are simple Boolean or integer values, and are not reported in
-the modeline.  However, we can make their toggling/setting commands
-report their (new) value in the minibuffer once they complete.
-set-fill-column already works this way.
-
-Thus, report outcome of toggle operations in minibuffer.
-
-                                                                   done?
-List of settings:
-	audible-bell [not in GNU Emacs]                              *
-	backup-to-home-directory [not in GNU Emacs]                  *
-	bsmap [sic] [not in GNU Emacs]                               *
-	has-meta-key [not in GNU Emacs]                              *
-	leave-tmpdir-backups [not in GNU Emacs]                      *
-	make-backup-files [not in GNU Emacs]                         *
-	set-fill-column                                              *
-	set-prompt-delay [not in GNU Emacs]                          *
-	sentence-end-double-space [not in GNU Emacs]                 *
-	toggle-read-only-all [not in GNU Emacs; "global" (sort of)]  *
-	visible-bell [not in GNU Emacs]                              *
-
 List of modes:
 	auto-fill-mode
 	column-number-mode
