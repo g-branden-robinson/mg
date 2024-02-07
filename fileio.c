@@ -35,11 +35,14 @@
 #define DEFFILEMODE 0666
 #endif
 
+#define TMPDIR "/tmp"
+
 static char *bkuplocation(const char *);
 static int   bkupleavetmp(const char *);
 
 static char *bkupdir;
-static int   leavetmp = 0;	/* 1 = leave any '~' files in tmp dir */
+static int   leavetmp = FALSE;	/* TRUE = leave '~' files in TMPDIR */
+
 
 /*
  * Open a file for reading.
@@ -681,7 +684,7 @@ backuptohomedir(int f, int n)
 
 /*
  * For applications that use mg as the editor and have a desire to keep
- * '~' files in /tmp, toggle the location: /tmp | ~/.mg.d
+ * '~' files in TMPDIR, toggle the location: TMPDIR | ~/.mg.d
  */
 int
 toggleleavetmp(int f, int n)
@@ -701,7 +704,7 @@ bkupleavetmp(const char *fn)
 	if (!leavetmp)
 		return(FALSE);
 
-	if (strncmp(fn, "/tmp", 4) == 0)
+	if (strncmp(fn, TMPDIR, 4) == 0)
 		return (TRUE);
 
 	return (FALSE);
