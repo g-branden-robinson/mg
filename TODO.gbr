@@ -15,7 +15,7 @@ Thus, report outcome of toggle operations in minibuffer.
                                                                    done?
 List of settings:
 	audible-bell [not in GNU Emacs]                              *
-	backup-to-home-directory [not in GNU Emacs]
+	backup-to-home-directory [not in GNU Emacs]                  *
 	bsmap [sic] [not in GNU Emacs]                               *
 	has-meta-key [not in GNU Emacs]                              *
 	leave-tmpdir-backups [not in GNU Emacs]
