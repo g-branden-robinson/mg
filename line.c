@@ -172,7 +172,7 @@ linsert(int n, int c)
 	
 	if (curbp->b_flag & BFREADONLY) {
 		dobeep();
-		ewprintf("Buffer is read only");
+		ewprintf("Buffer is read-only");
 		return (FALSE);
 	}
 
@@ -337,7 +337,7 @@ lnewline(void)
 		return (s);
 	if (curbp->b_flag & BFREADONLY) {
 		dobeep();
-		ewprintf("Buffer is read only");
+		ewprintf("Buffer is read-only");
 		return (FALSE);
 	}
 	return (lnewline_at(curwp->w_dotp, curwp->w_doto));
@@ -369,7 +369,7 @@ ldelete(RSIZE n, int kflag)
 		return (s);
 	if (curbp->b_flag & BFREADONLY) {
 		dobeep();
-		ewprintf("Buffer is read only");
+		ewprintf("Buffer is read-only");
 		goto out;
 	}
 	len = n;
@@ -456,7 +456,7 @@ ldelnewline(void)
 		return (s);
 	if (curbp->b_flag & BFREADONLY) {
 		dobeep();
-		ewprintf("Buffer is read only");
+		ewprintf("Buffer is read-only");
 		return (FALSE);
 	}
 
@@ -538,7 +538,7 @@ lreplace(RSIZE plen, char *st)
 		return (s);
 	if (curbp->b_flag & BFREADONLY) {
 		dobeep();
-		ewprintf("Buffer is read only");
+		ewprintf("Buffer is read-only");
 		return (FALSE);
 	}
 
