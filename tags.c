@@ -224,12 +224,14 @@ pushtag(char *tok)
 	if ((s = malloc(sizeof(struct tagpos))) == NULL)
 	{
 		dobeep();
-		ewprintf("Out of memory");
+		ewprintf("Out of memory: cannot allocate %z bytes",
+			 sizeof(struct tagpos));
 		return (FALSE);
 	}
 	if ((s->bname = strdup(bname)) == NULL) {
 		dobeep();
-		ewprintf("Out of memory");
+		ewprintf("Out of memory: cannot allocate %z bytes",
+			 strlen(bname) + 1);
 		free(s);
 		return (FALSE);
 	}
@@ -396,7 +398,8 @@ addctag(char *s)
 
 	if ((t = malloc(sizeof(struct ctag))) == NULL) {
 		dobeep();
-		ewprintf("Out of memory");
+		ewprintf("Out of memory: cannot allocate %z bytes",
+			 sizeof(struct ctag));
 		goto cleanup;
 	}
 	t->tag = s;
