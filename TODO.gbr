@@ -61,8 +61,6 @@ has weird (and multiple) blank lines scattered throughout.
 
 why can't you tab-complete the list of valid key maps in define-key?
 
-Doesn't support multi-digit arguments (e.g., M-1 M-2 for "12").
-
 Add an insert-byte command accepting octal input.
 
 Use set-prompt-delay in an inverse sense to collect a keystroke
