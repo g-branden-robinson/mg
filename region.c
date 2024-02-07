@@ -99,8 +99,9 @@ copyregion(int f, int n)
 			++loffs;
 		}
 	}
-	clearmark(FFANYARG, 0);
 
+	clearmark(FFANYARG, 0);
+	ewprintf("Region copied to kill zone");
 	return (TRUE);
 }
 
