@@ -95,7 +95,7 @@ eynorr(const char *sp)
 	if (inmacro)
 		return (TRUE);
 
-	ewprintf("%s? (y, n or r) ", sp);
+	ewprintf("%s? (y, n, or r) ", sp);
 	for (;;) {
 		s = getkey(FALSE);
 		if (s == 'y' || s == 'Y' || s == ' ') {
@@ -114,7 +114,7 @@ eynorr(const char *sp)
 			eerase();
 			return (ctrlg(FFRAND, 1));
 		}
-		ewprintf("Please answer y, n or r.");
+		ewprintf("Please answer y, n, or r.");
 	}
 	/* NOTREACHED */
 }
