@@ -7,8 +7,10 @@
  */
 
 #include <sys/queue.h>
+#include <limits.h> // INT_MIN, INT_MAX
 #include <signal.h>
 #include <stdio.h>
+#include <stdlib.h> // strtonum()
 
 #include "def.h"
 #include "kbd.h"
@@ -29,6 +31,7 @@ static int mgwrap(PF, int, int);
 static int		 use_metakey = TRUE;
 static int		 pushed = FALSE;
 static int		 pushedc;
+static int		 prompt_delay = 2000;
 
 struct map_element	*ele;
 struct key		 key;
@@ -80,7 +83,7 @@ getkey(int want_prompt)
 	int	 c;
 
 	if (want_prompt && !pushed) {
-		if (prompt[0] != '\0' && ttwait(2000)) {
+		if (prompt[0] != '\0' && ttwait(prompt_delay)) {
 			/* avoid problems with % */
 			ewprintf("%s", prompt);
 			/* put the cursor back */
@@ -485,4 +488,42 @@ mgwrap(PF funct, int f, int n)
 	}
 
 	return ((*funct)(f, n));
+}
+
+/*
+ * Set delay amount (in in milliseconds) before presenting a
+ * disambiguation prompt in the minibuffer.
+ */
+int
+setpromptdelay(int f, int n)
+{
+	char buf[32], *rep;
+	const char *es;
+	int delay;
+
+	if ((f & FFARG) != 0) {
+		delay = n;
+	} else {
+		if ((rep = eread("Set prompt delay in ms (currently"
+				 " %d ms): ", buf, sizeof buf,
+				 EFNEW | EFCR, prompt_delay)) == NULL)
+			return (ABORT);
+		else if (rep[0] == '\0')
+			return (FALSE);
+		delay = strtonum(rep, INT_MIN, INT_MAX, &es);
+		if (es != NULL) {
+			dobeep();
+			ewprintf("Invalid prompt delay: %s", rep);
+			return (FALSE);
+		}
+	}
+
+	if (delay < 0) {
+		dobeep_msg("Prompt delay cannot be negative");
+		return (FALSE);
+	}
+
+	prompt_delay = delay;
+	ewprintf("Prompt delay is now %d ms", prompt_delay);
+	return (TRUE);
 }
