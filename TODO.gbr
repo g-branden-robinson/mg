@@ -1,18 +1,5 @@
 Document minibuffer bindings in mg.1
 
-List of modes:
-	auto-fill-mode
-	column-number-mode
-	global-wd-mode
-	indent-mode
-	line-number-mode
-	no-tab-mode
-	overwrite-mode
-	c-mode
-
-You can't set _all_ of the foregoing modes proper; you get a "Too many
-modes" error.  The limit is 2 fewer than it could be.  Fix it.
-
 Other:
 	set-tab-width [not in GNU Emacs; both global & buffer-specific]
 
