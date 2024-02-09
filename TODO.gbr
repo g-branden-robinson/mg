@@ -1,10 +1,8 @@
 Document minibuffer bindings in mg.1
 
-Other:
-	set-tab-width [not in GNU Emacs; both global & buffer-specific]
-
 Maybe split out a set-default-tab-width.  (That's currently the effect
-if you run it with an argument.)
+if you run it with an argument.)  Neither it nor `set-tab-width` are in
+GNU Emacs.
 
 auto-execute assignments can't be listed
 auto-execute assignments can't be removed
