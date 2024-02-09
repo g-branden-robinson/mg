@@ -207,7 +207,8 @@ main(int argc, char **argv)
 			long long lval;
 			const char *errstr;
 
-			lval = strtonum(&argv[i][1], INT_MIN, INT_MAX, &errstr);
+			lval = strtonum(&argv[i][1], INT_MIN, INT_MAX,
+					&errstr);
 			if (argv[i][1] == '\0' || errstr != NULL)
 				goto notnum;
 			startrow = lval;

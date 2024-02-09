@@ -277,8 +277,8 @@ compile_goto_error(int f, int n)
 		goto fail;
 	if ((ln = strsep(&lp, ":")) == NULL || *ln == '\0')
 		goto fail;
-	lineno = (int)strtonum(ln, INT_MIN, INT_MAX, &errstr);
-	if (errstr)
+	lineno = (int) strtonum(ln, INT_MIN, INT_MAX, &errstr);
+	if (errstr != NULL)
 		goto fail;
 
 	if (fname && fname[0] != '/') {

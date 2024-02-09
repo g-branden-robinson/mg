@@ -22,9 +22,6 @@ _sequence_ from define-key and describe-key-briefly (that is, they
 assume the sequence is done when the delay elapses).  May require adding
 logic to report an ambiguous prefix.
 
-Stop using strtonum() for range checks in command handlers.  A parameter
-bypasses the check with no diagnostic.
-
 Want C-h in minibuffer for `quickhelp`; save minibuffer contents,
 replace it with 1 line (< 80 columns) if help, and await C-h to pop
 back.

@@ -507,7 +507,7 @@ int
 gotoline(int f, int n)
 {
 	char   buf[32], *bufp;
-	const char *err;
+	const char *errstr;
 
 	if (!(f & FFANYARG)) {
 		if ((bufp = eread("Goto line: ", buf, sizeof(buf),
@@ -515,9 +515,9 @@ gotoline(int f, int n)
 			return (ABORT);
 		if (bufp[0] == '\0')
 			return (ABORT);
-		n = (int)strtonum(buf, INT_MIN, INT_MAX, &err);
-		if (err)
-			return(dobeep_msgs("Line number", err));
+		n = (int) strtonum(buf, INT_MIN, INT_MAX, &errstr);
+		if (errstr != NULL)
+			return(dobeep_msgs("Line number", errstr));
 	}
 	return(setlineno(n));
 }

@@ -517,7 +517,7 @@ int
 setpromptdelay(int f, int n)
 {
 	char buf[32], *rep;
-	const char *es;
+	const char *errstr;
 	int delay;
 
 	if ((f & FFANYARG) != 0) {
@@ -529,8 +529,8 @@ setpromptdelay(int f, int n)
 			return (ABORT);
 		else if (rep[0] == '\0')
 			return (FALSE);
-		delay = strtonum(rep, INT_MIN, INT_MAX, &es);
-		if (es != NULL) {
+		delay = (int) strtonum(rep, INT_MIN, INT_MAX, &errstr);
+		if (errstr != NULL) {
 			dobeep();
 			ewprintf("Invalid prompt delay: %s", rep);
 			return (FALSE);

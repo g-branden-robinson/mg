@@ -449,8 +449,8 @@ addentry(struct buffer *bp, char *csline)
 	if (getattr(csline, &t) == FALSE)
 		return (FALSE);
 
-	lineno = strtonum(t.lineno, INT_MIN, INT_MAX, &errstr);
-	if (errstr)
+	lineno = (int) strtonum(t.lineno, INT_MIN, INT_MAX, &errstr);
+	if (errstr != NULL)
 		return (FALSE);
 
 	if (addentryfn == NULL || strcmp(addentryfn, t.fname) != 0) {
