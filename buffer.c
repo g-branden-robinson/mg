@@ -56,7 +56,7 @@ settabw(int f, int n)
 			return (ABORT);
 		if (bufp[0] == '\0')
 			return (ABORT);
-		width = strtonum(buf, INT_MIN, INT_MAX, &errstr);
+		width = (int) strtonum(buf, INT_MIN, INT_MAX, &errstr);
 		if (errstr != NULL) {
 			dobeep();
 			ewprintf("Invalid tab width: %s", bufp);
