@@ -74,6 +74,10 @@ grep(int f, int n)
 		return (ABORT);
 	else if (bufp[0] == '\0')
 		return (FALSE);
+	/*
+	 * This trick forces grep to report the file name; POSIX does
+	 * not support GNU grep's `-H` option.
+	 */
 	if (strlcat(cprompt, " /dev/null", sizeof(cprompt)) >= sizeof(cprompt))
 		return (FALSE);
 
