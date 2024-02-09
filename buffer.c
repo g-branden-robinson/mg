@@ -9,10 +9,11 @@
 #include <sys/queue.h>
 #include <errno.h>
 #include <libgen.h>
+#include <limits.h> /* INT_MIN, INT_MAX */
 #include <signal.h>
 #include <stdarg.h>
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h> /* strtonum() */
 #include <string.h>
 #include <unistd.h>
 
@@ -41,24 +42,42 @@ settabw(int f, int n)
 {
 	char	buf[8], *bufp;
 	const char *errstr;
+	int width = 8;
+	int had_parameter = 0;
 
 	if (f & FFANYARG) {
-		if (n <= 0 || n > 16)
+		had_parameter = 1;
+		width = n;
+	} else {
+		if ((bufp = eread("Set buffer's tab width (currently"
+				  " %d): ", buf, sizeof(buf),
+				  EFNUL | EFNEW | EFCR, curbp->b_tabw))
+		     == NULL)
+			return (ABORT);
+		if (bufp[0] == '\0')
+			return (ABORT);
+		width = strtonum(buf, INT_MIN, INT_MAX, &errstr);
+		if (errstr != NULL) {
+			dobeep();
+			ewprintf("Invalid tab width: %s", bufp);
 			return (FALSE);
-		defb_tabw = n;
-		return (TRUE);
+		}
 	}
 
-	if ((bufp = eread("Tab Width: ", buf, sizeof(buf),
-	    EFNUL | EFNEW | EFCR)) == NULL)
-		return (ABORT);
-	if (bufp[0] == '\0')
-		return (ABORT);
-	n = strtonum(buf, 1, 16, &errstr);
-	if (errstr)
-		return (dobeep_msgs("Tab width", errstr));
-	curbp->b_tabw = n;
-	curwp->w_rflag |= WFFRAME;
+	if ((width < 1) || (width > 16)) {
+		dobeep_msg("Tab width must be in the range 1..16");
+		return (FALSE);
+	}
+
+	if (had_parameter) {
+		defb_tabw = width;
+		ewprintf("Default tab width is now %d", defb_tabw);
+	} else {
+		curbp->b_tabw = n;
+		curwp->w_rflag |= WFFRAME;
+		ewprintf("Buffer tab width is now %d", curbp->b_tabw);
+	}
+
 	return (TRUE);
 }
 
