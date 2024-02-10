@@ -267,7 +267,7 @@ fbackupfile(const char *fn)
 		errno = serrno;
 		return (FALSE);
 	}
-	while ((nread = read(from, buf, sizeof(buf))) > 0) {
+	while ((nread = read(from, buf, sizeof buf)) > 0) {
 		if (write(to, buf, (size_t)nread) != nread) {
 			nread = -1;
 			break;
@@ -329,7 +329,7 @@ adjustname(const char *fn, int slashslash)
 		return (NULL);
 
 	if (realpath(path, fnb) == NULL)
-		(void)strlcpy(fnb, path, sizeof(fnb));
+		(void) strlcpy(fnb, path, sizeof fnb);
 
 	free(path);
 	return (fnb);
@@ -412,7 +412,7 @@ copy(char *frname, char *toname)
 		close(ifd);
 		return (FALSE);
 	}
-	while ((sr = read(ifd, buf, sizeof(buf))) > 0) {
+	while ((sr = read(ifd, buf, sizeof buf)) > 0) {
 		if (write(ofd, buf, (size_t)sr) != sr) {
 			ewprintf("write error : %s", strerror(errno));
 			break;
@@ -497,7 +497,7 @@ make_file_list(char *buf)
 			return (NULL);
 	}
 	/* Now we get the prefix of the name the user typed. */
-	if (strlcpy(prefixx, buf, sizeof(prefixx)) >= sizeof(prefixx))
+	if (strlcpy(prefixx, buf, sizeof prefixx) >= sizeof prefixx)
 		return (NULL);
 	cp = strrchr(prefixx, '/');
 	if (cp == NULL)
@@ -752,7 +752,7 @@ expandtilde(const char *fn)
 	if (cp == NULL)
 		cp = fn + strlen(fn); /* point to the NUL byte */
 	ulen = cp - &fn[1];
-	if (ulen >= sizeof(user)) {
+	if (ulen >= sizeof user) {
 		if ((ret = strndup(fn, NFILEN)) == NULL)
 			return (NULL);
 		return(ret);
@@ -765,9 +765,10 @@ expandtilde(const char *fn)
 		pw = getpwnam(user);
 	}
 	if (pw != NULL) {
-		plen = strlcpy(path, pw->pw_dir, sizeof(path));
+		plen = strlcpy(path, pw->pw_dir, sizeof path);
 		if (plen == 0 || path[plen - 1] != '/') {
-			if (strlcat(path, "/", sizeof(path)) >= sizeof(path)) {
+			if (strlcat(path, "/", sizeof path)
+			    >= sizeof path) {
 				dobeep();
 				ewprintf("Path too long");
 				return (NULL);
@@ -777,7 +778,7 @@ expandtilde(const char *fn)
 		if (*fn == '/')
 			fn++;
 	}
-	if (strlcat(path, fn, sizeof(path)) >= sizeof(path)) {
+	if (strlcat(path, fn, sizeof path) >= sizeof path) {
 		dobeep();
 		ewprintf("Path too long");
 		return (NULL);

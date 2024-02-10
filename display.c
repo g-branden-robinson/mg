@@ -166,7 +166,7 @@ vtresize(int force, int newrow, int newcol)
 		return (TRUE);
 
 	if (first_run)
-		memset(&blanks, 0, sizeof(blanks));
+		memset(&blanks, 0, sizeof blanks);
 
 	if (rowchanged || first_run) {
 		int vidstart;
@@ -330,7 +330,7 @@ vtputc(int c, struct mgwin *wp)
 	else {
 		char bf[5];
 
-		snprintf(bf, sizeof(bf), "\\%o", c);
+		snprintf(bf, sizeof bf, "\\%o", c);
 		vtputs(bf, wp);
 	}
 }
@@ -366,7 +366,7 @@ vtpute(int c, struct mgwin *wp)
 	} else {
 		char bf[5], *cp;
 
-		snprintf(bf, sizeof(bf), "\\%o", c);
+		snprintf(bf, sizeof bf, "\\%o", c);
 		for (cp = bf; *cp != '\0'; cp++)
 			vtpute(*cp, wp);
 	}
@@ -520,7 +520,7 @@ update(int modelinecolor)
 		else {
 			char bf[5];
 
-			snprintf(bf, sizeof(bf), "\\%o", c);
+			snprintf(bf, sizeof bf, "\\%o", c);
 			curcol += strlen(bf);
 		}
 	}
@@ -837,13 +837,13 @@ modeline(struct mgwin *wp, int modelinecolor)
 	++n;
 
 	if (linenos && colnos)
-		len = snprintf(sl, sizeof(sl), "--L%d--C%d", wp->w_dotline,
+		len = snprintf(sl, sizeof sl, "--L%d--C%d", wp->w_dotline,
 		    getcolpos(wp));
 	else if (linenos)
-		len = snprintf(sl, sizeof(sl), "--L%d", wp->w_dotline);
+		len = snprintf(sl, sizeof sl, "--L%d", wp->w_dotline);
 	else if (colnos)
-		len = snprintf(sl, sizeof(sl), "--C%d", getcolpos(wp));
-	if ((linenos || colnos) && len < sizeof(sl) && len != -1)
+		len = snprintf(sl, sizeof sl, "--C%d", getcolpos(wp));
+	if ((linenos || colnos) && len < sizeof sl && len != -1)
 		n += vtputs(sl, wp);
 
 	while (n < ncol) {			/* Pad out.		 */

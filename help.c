@@ -36,9 +36,10 @@ desckey(int f, int n)
 	if (inmacro)
 		return (TRUE);	/* ignore inside keyboard macro */
 
-	num = strlcpy(dprompt, "Describe key briefly: ", sizeof(dprompt));
-	if (num >= sizeof(dprompt))
-		num = sizeof(dprompt) - 1;
+	num = strlcpy(dprompt, "Describe key briefly: ",
+		      sizeof dprompt);
+	if (num >= sizeof dprompt)
+		num = sizeof dprompt - 1;
 	pep = dprompt + num;
 	key.k_count = 0;
 	m = curbp->b_nmodes;
@@ -47,8 +48,9 @@ desckey(int f, int n)
 		for (;;) {
 			ewprintf("%s", dprompt);
 			pep[-1] = ' ';
-			pep = getkeyname(pep, sizeof(dprompt) - (pep - dprompt),
-			    key.k_chars[key.k_count++] = c = getkey(FALSE));
+			pep = getkeyname(pep,
+					 sizeof dprompt - (pep - dprompt),
+					 key.k_chars[key.k_count++] = c = getkey(FALSE));
 			if ((funct = doscan(curmap, c, &curmap)) != NULL)
 				break;
 			*pep++ = '-';
@@ -152,8 +154,8 @@ showall(struct buffer *bp, KEYMAP *map, char *prefix, int can_blank)
 		fun = doscan(map, c, &newmap);
 		if (fun == rescan || fun == selfinsert)
 			continue;
-		getkeyname(buf, sizeof(buf), c);
-		(void)snprintf(keybuf, sizeof(keybuf), "%s%s ", prefix,
+		getkeyname(buf, sizeof buf, c);
+		(void) snprintf(keybuf, sizeof keybuf, "%s%s ", prefix,
 				buf);
 		if (fun == NULL) {
 			if (!maybe_blank_line(bp, can_blank))
@@ -201,7 +203,8 @@ apropos_command(int f, int n)
 	struct list		*fnames, *el;
 	char		 string[32];
 
-	if (eread("apropos: ", string, sizeof(string), EFNUL | EFNEW) == NULL)
+	if (eread("apropos: ", string, sizeof string, EFNUL | EFNEW)
+	    == NULL)
 		return (ABORT);
 	/* FALSE means we got a 0 character string, which is fine */
 	bp = bfind("*help*", TRUE);
@@ -217,7 +220,7 @@ apropos_command(int f, int n)
 
 		buf[0] = '\0';
 		findbind(fundamental_map, name_function(el->l_name),
-		    buf, sizeof(buf));
+		    buf, sizeof buf);
 
 		if (addlinef(bp, "%-43s  %s", el->l_name,  buf) == FALSE) {
 			free_list(fnames);
@@ -244,8 +247,9 @@ findbind(KEYMAP *map, PF fun, char *buf, size_t len)
 			return (TRUE);
 		}
 		if (nfun == NULL) {
-			if (findbind(newmap, fun, buf2, sizeof(buf2)) == TRUE) {
-				getkeyname(keybuf, sizeof(keybuf), c);
+			if (findbind(newmap, fun, buf2, sizeof(buf2))
+			    == TRUE) {
+				getkeyname(keybuf, sizeof keybuf, c);
 				(void)snprintf(buf, len, "%s %s", keybuf, buf2);
 				return (TRUE);
 			}
