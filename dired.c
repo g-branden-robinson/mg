@@ -246,12 +246,12 @@ dired(int f, int n)
 	struct buffer	*bp;
 
 	if (curbp->b_fname[0] != '\0') {
-		(void)strlcpy(dname, curbp->b_fname, sizeof(dname));
+		(void) strlcpy(dname, curbp->b_fname, sizeof dname);
 		if ((slash = strrchr(dname, '/')) != NULL) {
 			*(slash + 1) = '\0';
 		}
 	} else {
-		if (getcwd(dname, sizeof(dname)) == NULL)
+		if (getcwd(dname, sizeof dname) == NULL)
 			dname[0] = '\0';
 	}
 
@@ -275,12 +275,12 @@ d_otherwindow(int f, int n)
 	struct mgwin	*wp;
 
 	if (curbp->b_fname[0] != '\0') {
-		(void)strlcpy(dname, curbp->b_fname, sizeof(dname));
+		(void) strlcpy(dname, curbp->b_fname, sizeof dname);
 		if ((slash = strrchr(dname, '/')) != NULL) {
 			*(slash + 1) = '\0';
 		}
 	} else {
-		if (getcwd(dname, sizeof(dname)) == NULL)
+		if (getcwd(dname, sizeof dname) == NULL)
 			dname[0] = '\0';
 	}
 
@@ -358,7 +358,8 @@ d_findfile(int f, int n)
 	int		 s;
 	char		 fname[NFILEN];
 
-	if ((s = d_makename(curwp->w_dotp, fname, sizeof(fname))) == ABORT)
+	if ((s = d_makename(curwp->w_dotp, fname, sizeof fname))
+	    == ABORT)
 		return (FALSE);
 	if (s == TRUE)
 		bp = dired_(fname);
@@ -404,7 +405,8 @@ d_ffotherwindow(int f, int n)
 	struct buffer	*bp;
 	struct mgwin	*wp;
 
-	if ((s = d_makename(curwp->w_dotp, fname, sizeof(fname))) == ABORT)
+	if ((s = d_makename(curwp->w_dotp, fname, sizeof fname))
+	    == ABORT)
 		return (FALSE);
 	if ((bp = (s ? dired_(fname) : findbuffer(fname))) == NULL)
 		return (FALSE);
@@ -431,7 +433,7 @@ d_expunge(int f, int n)
 		curwp->w_dotline++;
 		nlp = lforw(lp);
 		if (llength(lp) && lgetc(lp, 0) == 'D') {
-			switch (d_makename(lp, fname, sizeof(fname))) {
+			switch (d_makename(lp, fname, sizeof fname)) {
 			case ABORT:
 				dobeep();
 				ewprintf("Bad line in dired buffer");
@@ -483,19 +485,19 @@ d_copy(int f, int n)
 	size_t		 off;
 	struct buffer	*bp;
 
-	if (d_makename(curwp->w_dotp, frname, sizeof(frname)) != FALSE) {
+	if (d_makename(curwp->w_dotp, frname, sizeof frname) != FALSE) {
 		dobeep();
 		ewprintf("Not a file");
 		return (FALSE);
 	}
-	off = strlcpy(toname, curbp->b_fname, sizeof(toname));
-	if (off >= sizeof(toname) - 1) {	/* can't happen, really */
+	off = strlcpy(toname, curbp->b_fname, sizeof toname);
+	if (off >= sizeof toname - 1) {	/* can't happen, really */
 		dobeep();
 		ewprintf("Directory name too long");
 		return (FALSE);
 	}
 	(void)xbasename(sname, frname, NFILEN);
-	bufp = eread("Copy %s to: ", toname, sizeof(toname),
+	bufp = eread("Copy %s to: ", toname, sizeof toname,
 	    EFDEF | EFNEW | EFCR, sname);
 	if (bufp == NULL)
 		return (ABORT);
@@ -505,9 +507,9 @@ d_copy(int f, int n)
 	topath = adjustname(toname, TRUE);
 	if (stat(topath, &statbuf) == 0) {
 		if (S_ISDIR(statbuf.st_mode)) {
-			ret = snprintf(toname, sizeof(toname), "%s/%s",
+			ret = snprintf(toname, sizeof toname, "%s/%s",
 			    topath, sname);
-			if (ret < 0 || ret >= sizeof(toname) - 1) {
+			if (ret < 0 || ret >= sizeof toname - 1) {
 				dobeep();
 				ewprintf("Directory name too long");
 				return (FALSE);
@@ -542,20 +544,20 @@ d_rename(int f, int n)
 	struct buffer	*bp;
 	char		 sname[NFILEN];
 
-	if (d_makename(curwp->w_dotp, frname, sizeof(frname)) != FALSE) {
+	if (d_makename(curwp->w_dotp, frname, sizeof frname) != FALSE) {
 		dobeep();
 		ewprintf("Not a file");
 		return (FALSE);
 	}
-	off = strlcpy(toname, curbp->b_fname, sizeof(toname));
-	if (off >= sizeof(toname) - 1) {	/* can't happen, really */
+	off = strlcpy(toname, curbp->b_fname, sizeof toname);
+	if (off >= sizeof toname - 1) {	/* can't happen, really */
 		dobeep();
 		ewprintf("Name too long");
 		return (FALSE);
 	}
 	(void)xbasename(sname, frname, NFILEN);
-	bufp = eread("Rename %s to: ", toname,
-	    sizeof(toname), EFDEF | EFNEW | EFCR, sname);
+	bufp = eread("Rename %s to: ", toname, sizeof toname,
+		     EFDEF | EFNEW | EFCR, sname);
 	if (bufp == NULL)
 		return (ABORT);
 	else if (bufp[0] == '\0')
@@ -564,9 +566,9 @@ d_rename(int f, int n)
 	topath = adjustname(toname, TRUE);
 	if (stat(topath, &statbuf) == 0) {
 		if (S_ISDIR(statbuf.st_mode)) {
-			ret = snprintf(toname, sizeof(toname), "%s/%s",
+			ret = snprintf(toname, sizeof toname, "%s/%s",
 			    topath, sname);
-			if (ret < 0 || ret >= sizeof(toname) - 1) {
+			if (ret < 0 || ret >= sizeof toname - 1) {
 				dobeep();
 				ewprintf("Directory name too long");
 				return (FALSE);
@@ -615,7 +617,7 @@ d_shell_command(int f, int n)
 	if (bclear(bp) != TRUE)
 		return (ABORT);
 
-	if (d_makename(curwp->w_dotp, fname, sizeof(fname)) != FALSE) {
+	if (d_makename(curwp->w_dotp, fname, sizeof fname) != FALSE) {
 		dobeep();
 		ewprintf("bad line");
 		return (ABORT);
@@ -623,7 +625,8 @@ d_shell_command(int f, int n)
 
 	command[0] = '\0';
 	(void)xbasename(sname, fname, NFILEN);
-	bufp = eread("! on %s: ", command, sizeof(command), EFNEW, sname);
+	bufp = eread("! on %s: ", command, sizeof command, EFNEW,
+		     sname);
 	if (bufp == NULL)
 		return (ABORT);
 
@@ -665,7 +668,7 @@ d_exec(int space, struct buffer *bp, const char *input, const char *cmd, ...)
 	va_end(ap);
 
 	/* Allocate and build the argv. */
-	if ((argv = calloc(n, sizeof(*argv))) == NULL) {
+	if ((argv = calloc(n, sizeof *argv)) == NULL) {
 		dobeep();
 		ewprintf("Can't allocate argv : %s", strerror(errno));
 		goto out;
@@ -720,7 +723,7 @@ d_exec(int space, struct buffer *bp, const char *input, const char *cmd, ...)
 		infd = fds[1] = -1;
 		if ((fin = fdopen(fds[0], "r")) == NULL)
 			goto out;
-		while (fgets(buf, sizeof(buf), fin) != NULL) {
+		while (fgets(buf, sizeof buf, fin) != NULL) {
 			cp = strrchr(buf, *bp->b_nlchr);
 			if (cp == NULL && !feof(fin)) {	/* too long a line */
 				int c;
@@ -919,7 +922,7 @@ d_filevisitalt (int f, int n)
 {
 	char	 fname[NFILEN];
 
-	if (d_makename(curwp->w_dotp, fname, sizeof(fname)) == ABORT)
+	if (d_makename(curwp->w_dotp, fname, sizeof fname) == ABORT)
 		return (FALSE);
 
 	return(do_filevisitalt(fname));
@@ -990,8 +993,8 @@ dired_(char *dname)
 	}
 	d_warpdot(bp->b_dotp, &bp->b_doto);
 
-	(void)strlcpy(bp->b_fname, dname, sizeof(bp->b_fname));
-	(void)strlcpy(bp->b_cwd, dname, sizeof(bp->b_cwd));
+	(void) strlcpy(bp->b_fname, dname, sizeof bp->b_fname);
+	(void) strlcpy(bp->b_cwd, dname, sizeof bp->b_cwd);
 	if ((bp->b_modes[1] = name_mode("dired")) == NULL) {
 		bp->b_modes[0] = name_mode("fundamental");
 		dobeep();
@@ -1135,7 +1138,7 @@ dired_jump(int f, int n)
 			return (d_updirectory(f, n));
 	}
 
-	if (getbufcwd(dname, sizeof(dname)) != TRUE)
+	if (getbufcwd(dname, sizeof dname) != TRUE)
 		return (FALSE);
 
 	fname = curbp->b_fname;
@@ -1162,7 +1165,7 @@ d_gotofile(int f, int n)
 	char		 fpath[NFILEN];
 	char		*fpth, *fnp = NULL;
 
-	if (getbufcwd(fpath, sizeof(fpath)) != TRUE)
+	if (getbufcwd(fpath, sizeof fpath) != TRUE)
 		fpath[0] = '\0';
 	lenfpath = strlen(fpath);
 	fnp = eread("Goto file: ", fpath, NFILEN,

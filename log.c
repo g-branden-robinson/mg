@@ -180,15 +180,15 @@ mglog_undo(void)
 		    rec->pos
 		    );
 		if (rec->content) {
-			(void)strlcat(buf, "\"", sizeof(buf));
-			snprintf(tmp, sizeof(tmp), "%.*s",
+			(void) strlcat(buf, "\"", sizeof buf);
+			snprintf(tmp, sizeof tmp, "%.*s",
 			    *rec->content == '\n' ? 2 : rec->region.r_size,
 			    *rec->content == '\n' ? jptr : rec->content);
-			(void)strlcat(buf, tmp, sizeof(buf));
-			(void)strlcat(buf, "\"", sizeof(buf));
+			(void) strlcat(buf, tmp, sizeof buf);
+			(void) strlcat(buf, "\"", sizeof buf);
 		}
-		snprintf(tmp, sizeof(tmp), " [%d]", rec->region.r_size);
-		if (strlcat(buf, tmp, sizeof(buf)) >= sizeof(buf)) {
+		snprintf(tmp, sizeof tmp, " [%d]", rec->region.r_size);
+		if (strlcat(buf, tmp, sizeof buf) >= sizeof buf) {
 			dobeep();
 			ewprintf("Undo record too large. Aborted.");
 			return (FALSE);
@@ -392,11 +392,9 @@ mglogfiles_create(FILE ** fd, char *mglogfile)
 {
 	char		 tmp[NFILEN], *tmp2;
 
-	if (strlcpy(tmp, mglogdir, sizeof(tmp)) >
-	    sizeof(tmp))
+	if (strlcpy(tmp, mglogdir, sizeof tmp) > sizeof tmp)
 		return (NULL);
-	if (strlcat(tmp, mglogfile, sizeof(tmp)) >
-	    sizeof(tmp))
+	if (strlcat(tmp, mglogfile, sizeof tmp) > sizeof tmp)
 		return (NULL);
 	if ((tmp2 = strndup(tmp, NFILEN)) == NULL)
 		return (NULL);

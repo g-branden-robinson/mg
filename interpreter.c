@@ -499,14 +499,14 @@ multiarg(char *cmdp, char *argbuf, int numparams)
 					    argp));
 			}
 
-			if (strlcpy(excbuf, cmdp, sizeof(excbuf))
-			    >= sizeof(excbuf))
+			if (strlcpy(excbuf, cmdp, sizeof excbuf)
+			    >= sizeof excbuf)
 				return (dobeep_msg("strlcpy error"));
-			if (strlcat(excbuf, s, sizeof(excbuf))
-			    >= sizeof(excbuf))
+			if (strlcat(excbuf, s, sizeof excbuf)
+			    >= sizeof excbuf)
 				return (dobeep_msg("strlcat error"));
-			if (strlcat(excbuf, argp, sizeof(excbuf))
-			    >= sizeof(excbuf))
+			if (strlcat(excbuf, argp, sizeof excbuf)
+			    >= sizeof excbuf)
 				return (dobeep_msg("strlcat error"));
 
 			excline(excbuf, 0, 0);
@@ -632,7 +632,7 @@ expandvals(char *cmdp, char *valp, char *bp)
 	/* now find the first argument */
 	p = skipwhite(valp);
 
-	if (strlcpy(argbuf, p, sizeof(argbuf)) >= sizeof(argbuf))
+	if (strlcpy(argbuf, p, sizeof argbuf) >= sizeof argbuf)
 		return (dobeep_msg("strlcpy error"));
 	argp = argbuf;
 	spc = 1; /* initially fake a space so we find first argument */
@@ -663,7 +663,7 @@ expandvals(char *cmdp, char *valp, char *bp)
 			endp = p + 1;
 			varbuf[0] = '\0';
 			contbuf[0] = '\0';
-			sizof = sizeof(varbuf);
+			sizof = sizeof varbuf;
 			v = varbuf;
 			regs = "[\"]+.*[\"]+";
        			if (doregex(regs, argp))
@@ -675,7 +675,7 @@ expandvals(char *cmdp, char *valp, char *bp)
 
 				*p = ' ';
 				(void)(strlcpy(contbuf, endp,
-				    sizeof(contbuf)) >= sizeof(contbuf));
+				    sizeof contbuf) >= sizeof contbuf);
 
 				(void)(strlcat(varbuf, contbuf,
 				    sizof) >= sizof);
@@ -907,7 +907,7 @@ stringappend(char *ptr, char *dobuf, int dosiz)
 	varbuf[0] = funbuf[0] = '\0';
 	f = funbuf;
 	v = varbuf;
-	sizof = sizeof(varbuf);
+	sizof = sizeof varbuf;
 	*dobuf = '\0';
 
 	p = skipwhite(ptr);

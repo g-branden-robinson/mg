@@ -125,7 +125,7 @@ getcolpos(struct mgwin *wp)
 		else if (isprint(c)) {
 			col++;
 		} else {
-			col += snprintf(tmp, sizeof(tmp), "\\%o", c);
+			col += snprintf(tmp, sizeof tmp, "\\%o", c);
 		}
 
 	}

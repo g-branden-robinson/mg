@@ -542,7 +542,7 @@ maps_add(KEYMAP *map, const char *name)
 {
 	struct maps_s	*mp;
 
-	if ((mp = malloc(sizeof(*mp))) == NULL)
+	if ((mp = malloc(sizeof *mp)) == NULL)
 		return (FALSE);
 
 	mp->p_name = name;

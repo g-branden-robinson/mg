@@ -460,7 +460,7 @@ setfillcol(int f, int n)
 		nfill = n;
 	} else {
 		if ((rep = eread("Set fill column (currently %d): ",
-				 buf, sizeof(buf), EFNEW | EFCR,
+				 buf, sizeof buf, EFNEW | EFCR,
 				 fillcol)) == NULL)
 			return (ABORT);
 		else if (rep[0] == '\0')

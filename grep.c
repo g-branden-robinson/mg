@@ -68,7 +68,7 @@ grep(int f, int n)
 	struct buffer	*bp;
 	struct mgwin	*wp;
 
-	(void)strlcpy(cprompt, "grep -n ", sizeof(cprompt));
+	(void) strlcpy(cprompt, "grep -n ", sizeof cprompt);
 	if ((bufp = eread("Run grep: ", cprompt, NFILEN,
 	    EFDEF | EFNEW | EFCR)) == NULL)
 		return (ABORT);
@@ -78,7 +78,8 @@ grep(int f, int n)
 	 * This trick forces grep to report the file name; POSIX does
 	 * not support GNU grep's `-H` option.
 	 */
-	if (strlcat(cprompt, " /dev/null", sizeof(cprompt)) >= sizeof(cprompt))
+	if (strlcat(cprompt, " /dev/null", sizeof cprompt)
+	    >= sizeof cprompt)
 		return (FALSE);
 
 	if ((bp = compile_mode("*grep*", cprompt)) == NULL)
@@ -97,7 +98,7 @@ compile(int f, int n)
 	struct buffer	*bp;
 	struct mgwin	*wp;
 
-	(void)strlcpy(cprompt, compile_last_command, sizeof(cprompt));
+	(void) strlcpy(cprompt, compile_last_command, sizeof cprompt);
 	if ((bufp = eread("Compile command: ", cprompt, NFILEN,
 	    EFDEF | EFNEW | EFCR)) == NULL)
 		return (ABORT);
@@ -105,7 +106,8 @@ compile(int f, int n)
 		return (FALSE);
 	if (savebuffers(f, n) == ABORT)
 		return (ABORT);
-	(void)strlcpy(compile_last_command, bufp, sizeof(compile_last_command));
+	(void) strlcpy(compile_last_command, bufp,
+		       sizeof compile_last_command);
 
 	if ((bp = compile_mode("*compile*", cprompt)) == NULL)
 		return (FALSE);
@@ -147,8 +149,9 @@ gid(int f, int n)
 			break;
 	}
 	/* Fill the symbol in cprompt[] */
-	for (j = 0; j < sizeof(cprompt) - 1 && i < llength(curwp->w_dotp);
-	    j++, i++) {
+	for (j = 0;
+	     j < sizeof cprompt - 1 && i < llength(curwp->w_dotp);
+	     j++, i++) {
 		c = lgetc(curwp->w_dotp, i);
 		if (!isalnum(c) && c != '_')
 			break;
@@ -161,8 +164,8 @@ gid(int f, int n)
 		return (ABORT);
 	else if (bufp[0] == '\0')
 		return (FALSE);
-	len = snprintf(command, sizeof(command), "gid %s", cprompt);
-	if (len < 0 || len >= sizeof(command))
+	len = snprintf(command, sizeof command, "gid %s", cprompt);
+	if (len < 0 || len >= sizeof command)
 		return (FALSE);
 
 	if ((bp = compile_mode("*gid*", command)) == NULL)
@@ -190,21 +193,21 @@ compile_mode(const char *name, const char *command)
 	buf = NULL;
 	sz = 0;
 
-	n = snprintf(qcmd, sizeof(qcmd), "%s 2>&1", command);
-	if (n < 0 || n >= sizeof(qcmd))
+	n = snprintf(qcmd, sizeof qcmd, "%s 2>&1", command);
+	if (n < 0 || n >= sizeof qcmd)
 		return (NULL);
 
 	bp = bfind(name, TRUE);
 	if (bclear(bp) != TRUE)
 		return (NULL);
 
-	if (getbufcwd(bp->b_cwd, sizeof(bp->b_cwd)) != TRUE)
+	if (getbufcwd(bp->b_cwd, sizeof bp->b_cwd) != TRUE)
 		return (NULL);
 	addlinef(bp, "cd %s", bp->b_cwd);
 	addline(bp, qcmd);
 	addline(bp, "");
 
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
+	if (getcwd(cwd, sizeof cwd) == NULL)
 		panic("Can't get current directory!");
 	if (chdir(bp->b_cwd) == -1) {
 		dobeep();
@@ -226,7 +229,8 @@ compile_mode(const char *name, const char *command)
 		ewprintf("Problem reading pipe");
 	ret = pclose(fpipe);
 	t = time(NULL);
-	strftime(timestr, sizeof(timestr), "%a %b %e %T %Y", localtime(&t));
+	strftime(timestr, sizeof timestr, "%a %b %e %T %Y",
+		 localtime(&t));
 	addline(bp, "");
 	if (WIFEXITED(ret)) {
 		status = WEXITSTATUS(ret);
@@ -286,9 +290,9 @@ compile_goto_error(int f, int n)
 		goto fail;
 
 	if (fname && fname[0] != '/') {
-		if (getbufcwd(path, sizeof(path)) == FALSE)
+		if (getbufcwd(path, sizeof path) == FALSE)
 			goto fail;
-		if (strlcat(path, fname, sizeof(path)) >= sizeof(path))
+		if (strlcat(path, fname, sizeof path) >= sizeof path)
 			goto fail;
 		adjf = path;
 	} else {

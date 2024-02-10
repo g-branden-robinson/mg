@@ -254,7 +254,7 @@ funmap_add(PF fun, const char *fname, int fparams)
 {
 	struct funmap *fn;
 
-	if ((fn = malloc(sizeof(*fn))) == NULL)
+	if ((fn = malloc(sizeof *fn)) == NULL)
 		return (FALSE);
 
 	fn->fn_funct = fun;
@@ -307,7 +307,7 @@ complete_function_list(const char *fname)
 	head = NULL;
 	for (fn = funs; fn != NULL; fn = fn->fn_next) {
 		if (memcmp(fname, fn->fn_name, len) == 0) {
-			if ((el = malloc(sizeof(*el))) == NULL) {
+			if ((el = malloc(sizeof *el)) == NULL) {
 				free_list(head);
 				return (NULL);
 			}

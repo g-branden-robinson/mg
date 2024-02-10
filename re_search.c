@@ -424,7 +424,8 @@ re_backsrch(void)
 		while (!regexec(&regex_buff, ltext(clp) ? ltext(clp) : "",
 		    RE_NMATCH, regex_match, REG_STARTEND) &&
 		    regex_match[0].rm_so <= tbo) {
-			memcpy(&lastmatch, &regex_match[0], sizeof(regmatch_t));
+			memcpy(&lastmatch, &regex_match[0],
+			       sizeof(regmatch_t));
 			regex_match[0].rm_so++;
 			regex_match[0].rm_eo = llength(clp);
 		}
@@ -433,7 +434,8 @@ re_backsrch(void)
 			tdotline--;
 			tbo = llength(clp);
 		} else {
-			memcpy(&regex_match[0], &lastmatch, sizeof(regmatch_t));
+			memcpy(&regex_match[0], &lastmatch,
+			       sizeof(regmatch_t));
 			curwp->w_doto = regex_match[0].rm_so;
 			curwp->w_dotp = clp;
 			curwp->w_dotline = tdotline;
@@ -468,7 +470,7 @@ re_readpattern(char *re_prompt)
 		return (ABORT);
 	if (rep[0] != '\0') {
 		/* New pattern given */
-		(void)strlcpy(re_pat, tpat, sizeof(re_pat));
+		(void) strlcpy(re_pat, tpat, sizeof re_pat);
 		if (casefoldsearch)
 			flags = REG_EXTENDED | REG_ICASE;
 		else
@@ -478,7 +480,8 @@ re_readpattern(char *re_prompt)
 		error = regcomp(&regex_buff, re_pat, flags);
 		if (error != 0) {
 			char	message[256];
-			regerror(error, &regex_buff, message, sizeof(message));
+			regerror(error, &regex_buff, message,
+				 sizeof message);
 			dobeep();
 			ewprintf("Regex Error: %s", message);
 			re_pat[0] = '\0';

@@ -60,7 +60,7 @@ insert(int f, int n)
 		/* CFINS means selfinsert can tack on the end */
 		thisflag |= CFINS;
 
-	if ((bufp = eread("Insert: ", buf, sizeof(buf), EFNEW)) == NULL)
+	if ((bufp = eread("Insert: ", buf, sizeof buf, EFNEW)) == NULL)
 		return (ABORT);
 	else if (bufp[0] == '\0')
 		return (FALSE);
@@ -116,7 +116,7 @@ remap(KEYMAP *curmap, int c, PF funct, KEYMAP *pref_map)
 		if (n1 <= MAPELEDEF && n1 <= n2) {
 			ele--;
 			if ((pfp = calloc(c - ele->k_base + 1,
-			    sizeof(PF))) == NULL)
+			     sizeof(PF))) == NULL)
 				return (dobeep_msg("Out of memory"));
 
 			nold = ele->k_num - ele->k_base + 1;
@@ -129,7 +129,7 @@ remap(KEYMAP *curmap, int c, PF funct, KEYMAP *pref_map)
 			ele->k_funcp = pfp;
 		} else if (n2 <= MAPELEDEF) {
 			if ((pfp = calloc(ele->k_num - c + 1,
-			    sizeof(PF))) == NULL)
+			     sizeof(PF))) == NULL)
 				return (dobeep_msg("Out of memory"));
 
 			nold = ele->k_num - ele->k_base + 1;
@@ -224,7 +224,7 @@ remap(KEYMAP *curmap, int c, PF funct, KEYMAP *pref_map)
 				curmap = newmap;
 			}
 			if ((pfp = calloc(ele->k_num - c + !n2,
-			    sizeof(PF))) == NULL)
+			     sizeof(PF))) == NULL)
 				return (dobeep_msg("Out of memory"));
 
 			ele->k_funcp[n1] = NULL;
@@ -350,14 +350,14 @@ dobind(KEYMAP *curmap, const char *p, int unbind)
 		(void)doscan(curmap, c = maclcur->l_text[s], NULL);
 		maclcur = maclcur->l_fp;
 	} else {
-		n = strlcpy(bprompt, p, sizeof(bprompt));
-		if (n >= sizeof(bprompt))
-			n = sizeof(bprompt) - 1;
+		n = strlcpy(bprompt, p, sizeof bprompt);
+		if (n >= sizeof bprompt)
+			n = sizeof bprompt - 1;
 		pep = bprompt + n;
 		for (;;) {
 			ewprintf("%s", bprompt);
 			pep[-1] = ' ';
-			pep = getkeyname(pep, sizeof(bprompt) -
+			pep = getkeyname(pep, sizeof bprompt -
 			    (pep - bprompt), c = getkey(FALSE));
 			if (doscan(curmap, c, &curmap) != NULL)
 				break;
@@ -368,8 +368,8 @@ dobind(KEYMAP *curmap, const char *p, int unbind)
 	if (unbind)
 		funct = rescan;
 	else {
-		if ((bufp = eread("%s to command: ", bprompt, sizeof(bprompt),
-		    EFFUNC | EFNEW, bprompt)) == NULL)
+		if ((bufp = eread("%s to command: ", bprompt,
+		     sizeof bprompt, EFFUNC | EFNEW, bprompt)) == NULL)
 			return (ABORT);
 		else if (bufp[0] == '\0')
 			return (FALSE);
@@ -492,16 +492,16 @@ redefine_key(int f, int n)
 	char		 tmp[32], *bufp;
 	KEYMAP		*mp;
 
-	if ((bufp = eread("Define key in keymap: ", tmp, sizeof(tmp),
+	if ((bufp = eread("Define key in keymap: ", tmp, sizeof tmp,
 			  EFKMAP | EFNEW)) == NULL)
 		return (ABORT);
 	else if (bufp[0] == '\0')
 		return (FALSE);
-	(void)strlcat(buf, tmp, sizeof(buf));
+	(void) strlcat(buf, tmp, sizeof buf);
 	if ((mp = name_map(tmp)) == NULL)
 		return (dobeep_msgs("Unknown map", tmp));
 
-	if (strlcat(buf, " key: ", sizeof(buf)) >= sizeof(buf))
+	if (strlcat(buf, " key: ", sizeof buf) >= sizeof buf)
 		return (FALSE);
 
 	return (dobind(mp, buf, FALSE));
@@ -579,7 +579,7 @@ evalexpr(int f, int n)
 	char	 exbuf[BUFSIZE], *bufp;
 	int	 llen;
 
-	if ((bufp = eread("Eval: ", exbuf, sizeof(exbuf),
+	if ((bufp = eread("Eval: ", exbuf, sizeof exbuf,
 	    EFNEW | EFCR)) == NULL)
 		return (ABORT);
 	else if (bufp[0] == '\0')
@@ -658,7 +658,7 @@ load(FILE *ffp, const char *fname)
 	char	 excbuf[BUFSIZE];
 
 	line = 0;
-	while ((s = ffgetline(ffp, excbuf, sizeof(excbuf) - 1, &nbytes))
+	while ((s = ffgetline(ffp, excbuf, sizeof excbuf - 1, &nbytes))
 	    == FIOSUC) {
 		line++;
 		excbuf[nbytes] = '\0';

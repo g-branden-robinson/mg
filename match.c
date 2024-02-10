@@ -173,13 +173,13 @@ displaymatch(struct line *clp, int cbo)
 		 */
 		bufo = 0;
 		for (cp = 0; cp < llength(clp); cp++) {
-			if (bufo >= sizeof(buf) - 1)
+			if (bufo >= sizeof buf - 1)
 				break;
 
 			c = lgetc(clp, cp);
 			if (c != '\t') {
 				if (ISCTRL(c)) {
-					if (bufo >= sizeof(buf) - 3)
+					if (bufo >= sizeof buf - 3)
 						break;
 					buf[bufo++] = '^';
 					buf[bufo++] = CCHR(c);
@@ -187,7 +187,7 @@ displaymatch(struct line *clp, int cbo)
 					buf[bufo++] = c;
 			} else {
 				col = ntabstop(bufo, curbp->b_tabw);
-				while (bufo < col && bufo < sizeof(buf) - 1)
+				while (bufo < col && bufo < sizeof buf - 1)
 					buf[bufo++] = ' ';
 			}
 		}

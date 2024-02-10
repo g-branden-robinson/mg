@@ -50,7 +50,7 @@ settabw(int f, int n)
 		width = n;
 	} else {
 		if ((bufp = eread("Set buffer's tab width (currently"
-				  " %d): ", buf, sizeof(buf),
+				  " %d): ", buf, sizeof buf,
 				  EFNUL | EFNEW | EFCR, curbp->b_tabw))
 		     == NULL)
 			return (ABORT);
@@ -549,9 +549,9 @@ anycb(int f)
 
 	for (bp = bheadp; bp != NULL; bp = bp->b_bufp) {
 		if (*(bp->b_fname) != '\0' && (bp->b_flag & BFCHG) != 0) {
-			ret = snprintf(pbuf, sizeof(pbuf), "Save file %s",
+			ret = snprintf(pbuf, sizeof pbuf, "Save file %s",
 			    bp->b_fname);
-			if (ret < 0 || ret >= sizeof(pbuf)) {
+			if (ret < 0 || ret >= sizeof pbuf) {
 				(void)dobeep_msg("Error: filename too long!");
 				return (UERROR);
 			}
@@ -645,7 +645,7 @@ bnew(const char *bname)
 	} while (i++ < defb_nmodes);
 	bp->b_fname[0] = '\0';
 	bp->b_cwd[0] = '\0';
-	bzero(&bp->b_fi, sizeof(bp->b_fi));
+	bzero(&bp->b_fi, sizeof bp->b_fi);
 	lp->l_fp = lp;
 	lp->l_bp = lp;
 	bp->b_bufp = bheadp;
@@ -930,7 +930,7 @@ getbufcwd(char *path, size_t plen)
 	if (globalwd == FALSE && curbp->b_cwd[0] != '\0') {
 		(void)strlcpy(path, curbp->b_cwd, plen);
 	} else {
-		if (getcwdir(cwd, sizeof(cwd)) == FALSE)
+		if (getcwdir(cwd, sizeof cwd) == FALSE)
 			goto error;
 		(void)strlcpy(path, cwd, plen);
 	}
@@ -985,7 +985,7 @@ revertbuffer(int f, int n)
 		return(dobeep_msg("Cannot revert buffer not associated "
 		    "with any files."));
 
-	snprintf(fbuf, sizeof(fbuf), "Revert buffer from file %s",
+	snprintf(fbuf, sizeof fbuf, "Revert buffer from file %s",
 	    curbp->b_fname);
 
 	if (eyorn(fbuf) == TRUE)
@@ -1112,7 +1112,7 @@ findbuffer(char *fn)
 	struct buffer	*bp;
 	char		bname[NBUFN], fname[NBUFN];
 
-	if (strlcpy(fname, fn, sizeof(fname)) >= sizeof(fname)) {
+	if (strlcpy(fname, fn, sizeof fname) >= sizeof fname) {
 		(void)dobeep_msg("filename too long");
 		return (NULL);
 	}
@@ -1122,7 +1122,7 @@ findbuffer(char *fn)
 			return (bp);
 	}
 	/* Not found. Create a new one, adjusting name first */
-	if (augbname(bname, fname, sizeof(bname)) == FALSE)
+	if (augbname(bname, fname, sizeof bname) == FALSE)
 		return (NULL);
 
 	bp = bfind(bname, TRUE);

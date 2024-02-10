@@ -185,7 +185,7 @@ isearch(int dir)
 	for (cip = 0; cip < NSRCH; cip++)
 		cmds[cip].s_code = SRCH_NOPR;
 
-	(void)strlcpy(opat, pat, sizeof(opat));
+	(void) strlcpy(opat, pat, sizeof opat);
 	cip = 0;
 	pptr = -1;
 	clp = curwp->w_dotp;
@@ -231,7 +231,7 @@ isearch(int dir)
 			curwp->w_rflag |= WFMOVE;
 			srch_lastdir = dir;
 			(void)ctrlg(FFRAND, 0);
-			(void)strlcpy(pat, opat, sizeof(pat));
+			(void) strlcpy(pat, opat, sizeof pat);
 			return (ABORT);
 		case CCHR('S'):
 			if (dir == SRCH_BACK) {
@@ -843,7 +843,7 @@ readpattern(char *r_prompt)
 	if (rep == NULL) {
 		retval = ABORT;
 	} else if (rep[0] != '\0') {
-		(void)strlcpy(pat, tpat, sizeof(pat));
+		(void) strlcpy(pat, tpat, sizeof pat);
 		retval = TRUE;
 	} else if (pat[0] != '\0') {
 		retval = TRUE;

@@ -283,7 +283,7 @@ getgoal(struct line *dlp)
 		} else if (isprint(c))
 			col++;
 		else {
-			col += snprintf(tmp, sizeof(tmp), "\\%o", c);
+			col += snprintf(tmp, sizeof tmp, "\\%o", c);
 		}
 		if (col > curgoal)
 			break;
@@ -510,7 +510,7 @@ gotoline(int f, int n)
 	const char *errstr;
 
 	if (!(f & FFANYARG)) {
-		if ((bufp = eread("Goto line: ", buf, sizeof(buf),
+		if ((bufp = eread("Goto line: ", buf, sizeof buf,
 		    EFNUL | EFNEW | EFCR)) == NULL)
 			return (ABORT);
 		if (bufp[0] == '\0')

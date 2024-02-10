@@ -59,7 +59,7 @@ ttykeymapinit(void)
 		dobindkey(fundamental_map, "delete-char", key_dc);
 
 	if ((cp = getenv("TERM")) != NULL &&
-	    (ffp = startupfile(cp, NULL, file, sizeof(file))) != NULL) {
+	    (ffp = startupfile(cp, NULL, file, sizeof file)) != NULL) {
 		if (load(ffp, file) != TRUE)
 			ewprintf("Error reading key initialization file");
 		(void)ffclose(ffp, NULL);

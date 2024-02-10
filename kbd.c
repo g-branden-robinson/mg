@@ -116,7 +116,8 @@ getkey(int want_prompt)
 	}
 	if (want_prompt && promptp < &prompt[PROMPTL - 5]) {
 		promptp = getkeyname(promptp,
-		    sizeof(prompt) - (promptp - prompt) - 1, c);
+				     sizeof prompt - (promptp - prompt) - 1,
+				     c);
 		*promptp++ = '-';
 		*promptp = '\0';
 	}
@@ -449,7 +450,7 @@ ask_selfinsert(int f, int n)
 {
 	char	*c, cbuf[2];
 
-	if ((c = eread("Insert a character: ", cbuf, sizeof(cbuf),
+	if ((c = eread("Insert a character: ", cbuf, sizeof cbuf,
 	    EFNEW)) == NULL || (c[0] == '\0'))
 		return (ABORT);
 

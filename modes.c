@@ -115,7 +115,7 @@ set_default_mode(int f, int n)
 	struct maps_s	*m;
 	char	 modebuf[32], *bufp;
 
-	if ((bufp = eread("Set Default Mode: ", modebuf, sizeof(modebuf),
+	if ((bufp = eread("Set Default Mode: ", modebuf, sizeof modebuf,
 	    EFNEW)) == NULL)
 		return (ABORT);
 	else if (bufp[0] == '\0')

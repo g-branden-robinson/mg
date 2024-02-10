@@ -131,8 +131,8 @@ eyesno(const char *sp)
 	if (inmacro)
 		return (TRUE);
 
-	rep = eread("%s? (yes or no) ", buf, sizeof(buf),
-	    EFNUL | EFNEW | EFCR, sp);
+	rep = eread("%s? (yes or no) ", buf, sizeof buf,
+		    EFNUL | EFNEW | EFCR, sp);
 	for (;;) {
 		if (rep == NULL) {
 			eerase();
@@ -156,7 +156,7 @@ eyesno(const char *sp)
 			}
 		}
 		rep = eread("Please answer yes or no.  %s? (yes or no) ",
-		    buf, sizeof(buf), EFNUL | EFNEW | EFCR, sp);
+			    buf, sizeof buf, EFNUL | EFNEW | EFCR, sp);
 	}
 	/* NOTREACHED */
 }
@@ -876,8 +876,8 @@ eformat(const char *fp, va_list ap)
 			c = *fp++;
 			switch (c) {
 			case 'c':
-				getkeyname(kname, sizeof(kname),
-				    va_arg(ap, int));
+				getkeyname(kname, sizeof kname,
+					   va_arg(ap, int));
 				eputs(kname);
 				break;
 
@@ -885,8 +885,11 @@ eformat(const char *fp, va_list ap)
 				for (cp = kname, c = 0; c < key.k_count; c++) {
 					if (c)
 						*cp++ = ' ';
-					cp = getkeyname(cp, sizeof(kname) -
-					    (cp - kname) - 1, key.k_chars[c]);
+					cp = getkeyname(cp,
+							sizeof kname
+							- (cp - kname)
+							- 1,
+							key.k_chars[c]);
 				}
 				eputs(kname);
 				break;
@@ -900,8 +903,8 @@ eformat(const char *fp, va_list ap)
 				break;
 
 			case 'p':
-				snprintf(tmp, sizeof(tmp), "%p",
-				    va_arg(ap, void *));
+				snprintf(tmp, sizeof tmp, "%p",
+					 va_arg(ap, void *));
 				eputs(tmp);
 				break;
 
