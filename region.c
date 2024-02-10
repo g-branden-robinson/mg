@@ -335,15 +335,17 @@ setprefix(int f, int n)
 	int	retval;
 
 	if (prefix_string[0] == '\0')
-		rep = eread("Prefix string: ", buf, sizeof(buf),
+		rep = eread("Prefix string: ", buf, sizeof buf,
 		    EFNEW | EFCR);
 	else
-		rep = eread("Prefix string (default %s): ", buf, sizeof(buf),
-		    EFNUL | EFNEW | EFCR, prefix_string);
+		rep = eread("Prefix string (default %s): ", buf,
+			    sizeof buf, EFNUL | EFNEW | EFCR,
+			    prefix_string);
 	if (rep == NULL)
 		return (ABORT);
 	if (rep[0] != '\0') {
-		(void)strlcpy(prefix_string, rep, sizeof(prefix_string));
+		(void) strlcpy(prefix_string, rep,
+			       sizeof prefix_string);
 		retval = TRUE;
 	} else if (rep[0] == '\0' && prefix_string[0] != '\0') {
 		/* CR -- use old one */
@@ -423,8 +425,8 @@ piperegion(int f, int n)
 		return (FALSE);
 	}
 
-	if ((cmd = eread("Shell command on region: ", cmdbuf, sizeof(cmdbuf),
-	    EFNEW | EFCR)) == NULL || (cmd[0] == '\0'))
+	if ((cmd = eread("Shell command on region: ", cmdbuf,
+	     sizeof cmdbuf, EFNEW | EFCR)) == NULL || (cmd[0] == '\0'))
 		return (ABORT);
 
 	if (getregion(&region) != TRUE)
@@ -462,7 +464,7 @@ shellcommand(int f, int n)
 	if (n > 1)
 		bp = curbp;
 
-	if ((cmd = eread("Shell command: ", cmdbuf, sizeof(cmdbuf),
+	if ((cmd = eread("Shell command: ", cmdbuf, sizeof cmdbuf,
 	    EFNEW | EFCR)) == NULL || (cmd[0] == '\0'))
 		return (ABORT);
 

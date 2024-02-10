@@ -95,7 +95,7 @@ new_undo_record(void)
 		TAILQ_REMOVE(&undo_free, rec, next);
 		undo_free_num--;
 	} else {
-		if ((rec = malloc(sizeof(*rec))) == NULL)
+		if ((rec = malloc(sizeof *rec)) == NULL)
 			panic("Out of memory in undo code (record)");
 	}
 	memset(rec, 0, sizeof(struct undo_rec));
@@ -274,7 +274,7 @@ undo_add_insert(struct line *lp, int offset, int size)
 	if (!undo_enable_flag)
 		return (TRUE);
 
-	memset(&reg, 0, sizeof(reg));
+	memset(&reg, 0, sizeof reg);
 	reg.r_linep = lp;
 	reg.r_offset = offset;
 	reg.r_size = size;
@@ -321,7 +321,7 @@ undo_add_delete(struct line *lp, int offset, int size, int isreg)
 	if (!undo_enable_flag)
 		return (TRUE);
 
-	memset(&reg, 0, sizeof(reg));
+	memset(&reg, 0, sizeof reg);
 	reg.r_linep = lp;
 	reg.r_offset = offset;
 	reg.r_size = size;
@@ -414,7 +414,7 @@ undo_dump(int f, int n)
 	num = 0;
 	TAILQ_FOREACH(rec, &curbp->b_undo, next) {
 		num++;
-		snprintf(buf, sizeof(buf),
+		snprintf(buf, sizeof buf,
 		    "%d:\t %s at %d ", num,
 		    (rec->type == DELETE) ? "DELETE":
 		    (rec->type == DELREG) ? "DELREGION":
@@ -424,14 +424,14 @@ undo_dump(int f, int n)
 		    rec->pos);
 
 		if (rec->content) {
-			(void)strlcat(buf, "\"", sizeof(buf));
-			snprintf(tmp, sizeof(tmp), "%.*s", rec->region.r_size,
-			    rec->content);
-			(void)strlcat(buf, tmp, sizeof(buf));
-			(void)strlcat(buf, "\"", sizeof(buf));
+			(void) strlcat(buf, "\"", sizeof buf);
+			snprintf(tmp, sizeof tmp, "%.*s",
+				 rec->region.r_size, rec->content);
+			(void) strlcat(buf, tmp, sizeof buf);
+			(void) strlcat(buf, "\"", sizeof buf);
 		}
-		snprintf(tmp, sizeof(tmp), " [%d]", rec->region.r_size);
-		if (strlcat(buf, tmp, sizeof(buf)) >= sizeof(buf)) {
+		snprintf(tmp, sizeof tmp, " [%d]", rec->region.r_size);
+		if (strlcat(buf, tmp, sizeof buf) >= sizeof buf) {
 			dobeep();
 			ewprintf("Undo record too large. Aborted.");
 			return (FALSE);

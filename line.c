@@ -52,7 +52,7 @@ lalloc(int used)
 {
 	struct line *lp;
 
-	if ((lp = malloc(sizeof(*lp))) == NULL)
+	if ((lp = malloc(sizeof *lp)) == NULL)
 		return (NULL);
 	lp->l_text = NULL;
 	lp->l_size = 0;

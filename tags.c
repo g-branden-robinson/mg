@@ -88,10 +88,10 @@ tagsvisit(int f, int n)
 {
 	char fname[NFILEN], *bufp, *temp;
 
-	if (getbufcwd(fname, sizeof(fname)) == FALSE)
+	if (getbufcwd(fname, sizeof fname) == FALSE)
 		fname[0] = '\0';
 
-	if (strlcat(fname, DEFAULTFN, sizeof(fname)) >= sizeof(fname)) {
+	if (strlcat(fname, DEFAULTFN, sizeof fname) >= sizeof fname) {
 		dobeep();
 		ewprintf("Filename too long");
 		return (FALSE);
@@ -192,12 +192,14 @@ pushtag(char *tok)
 	/* record absolute filenames. Fixes issues when mg's cwd is not the
 	 * same as buffer's directory.
 	 */
-	if (strlcpy(bname, curbp->b_cwd, sizeof(bname)) >= sizeof(bname)) {
+	if (strlcpy(bname, curbp->b_cwd, sizeof bname)
+	    >= sizeof bname) {
 		dobeep();
 		ewprintf("filename too long");
 		return (FALSE);
 	}
-	if (strlcat(bname, curbp->b_bname, sizeof(bname)) >= sizeof(bname)) {
+	if (strlcat(bname, curbp->b_bname, sizeof bname)
+	    >= sizeof bname) {
 		dobeep();
 		ewprintf("filename too long");
 		return (FALSE);
