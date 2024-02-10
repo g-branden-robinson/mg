@@ -116,9 +116,13 @@ remap(KEYMAP *curmap, int c, PF funct, KEYMAP *pref_map)
 		if (n1 <= MAPELEDEF && n1 <= n2) {
 			ele--;
 			if ((pfp = calloc(c - ele->k_base + 1,
-			     sizeof(PF))) == NULL)
-				return (dobeep_msg("Out of memory"));
-
+			     sizeof(PF))) == NULL) {
+				dobeep();
+				ewprintf("Out of memory: cannot"
+					 " allocate %z bytes",
+					 sizeof(PF));
+				return (FALSE);
+			}
 			nold = ele->k_num - ele->k_base + 1;
 			for (i = 0; i < nold; i++)
 				pfp[i] = ele->k_funcp[i];
