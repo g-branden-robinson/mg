@@ -22,8 +22,8 @@
 void
 bellinit(void)
 {
-	doaudiblebell = 1;
-	dovisiblebell = 0;
+	doaudiblebell = TRUE;
+	dovisiblebell = FALSE;
 }
 
 int
