@@ -72,7 +72,7 @@ ttraw(void)
 		ewprintf("ttopen can't get terminal attributes");
 		return (FALSE);
 	}
-	(void)memcpy(&newtty, &oldtty, sizeof(newtty));
+	(void) memcpy(&newtty, &oldtty, sizeof newtty);
 	/* Set terminal to 'raw' mode and ignore a 'break' */
 	newtty.c_cc[VMIN] = 1;
 	newtty.c_cc[VTIME] = 0;

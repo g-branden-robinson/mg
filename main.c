@@ -120,7 +120,7 @@ main(int argc, char **argv)
 		pty_init();
 		conffile = batchfile;
 	}
-	if ((ffp = startupfile(NULL, conffile, file, sizeof(file)))
+	if ((ffp = startupfile(NULL, conffile, file, sizeof file))
 	    == NULL && conffile != NULL)
 		errx(1, "unable to open startup file '%s'", conffile);
 
@@ -309,7 +309,7 @@ pty_init(void)
 	int		 master;
 	int		 slave;
 
-	memset(&ws, 0, sizeof(ws));
+	memset(&ws, 0, sizeof ws);
 	ws.ws_col = 80,
 	ws.ws_row = 24;
 

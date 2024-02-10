@@ -416,7 +416,7 @@ findcolpos(const struct buffer *bp, const struct line *lp, int lo)
 		else if (isprint(c)) {
 			col++;
 		} else {
-			col += snprintf(tmp, sizeof(tmp), "\\%o", c);
+			col += snprintf(tmp, sizeof tmp, "\\%o", c);
 		}
 
 	}
