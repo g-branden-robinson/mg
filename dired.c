@@ -443,7 +443,7 @@ d_expunge(int f, int n)
 				if (unlink(fname) == -1) {
 					(void)xbasename(sname, fname, NFILEN);
 					dobeep();
-					ewprintf("Could not delete '%s'", sname);
+					ewprintf("Could not delete \"%s\"", sname);
 					curwp->w_dotline = tmp;
 					return (FALSE);
 				}
@@ -453,7 +453,7 @@ d_expunge(int f, int n)
 					(void)xbasename(sname, fname, NFILEN);
 					dobeep();
 					ewprintf("Could not delete directory "
-					    "'%s'", sname);
+					    "\"%s\"", sname);
 					curwp->w_dotline = tmp;
 					return (FALSE);
 				}

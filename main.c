@@ -122,7 +122,7 @@ main(int argc, char **argv)
 	}
 	if ((ffp = startupfile(NULL, conffile, file, sizeof file))
 	    == NULL && conffile != NULL)
-		errx(1, "unable to open startup file '%s'", conffile);
+		errx(1, "unable to open startup file \"%s\"", conffile);
 
 	argc -= optind;
 	argv += optind;

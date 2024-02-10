@@ -106,7 +106,7 @@ auto_execute(int f, int n)
 		return (ABORT);
 	else if (patp[0] == '\0')
 		return (FALSE);
-	if ((funcp = eread("For '%s', auto-execute: ", funcbuf,
+	if ((funcp = eread("For \"%s\", auto-execute: ", funcbuf,
 			   sizeof funcbuf , EFNEW | EFCR | EFFUNC,
 			   patbuf)) == NULL)
 		return (ABORT);

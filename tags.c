@@ -318,7 +318,7 @@ loadtags(const char *fn)
 	ssize_t rv = getline(&firstline, &firstlinelen, fd);
 	if (rv < 0) {
 		dobeep();
-		ewprintf("Unable to read from tags file '%s': %s", fn,
+		ewprintf("Unable to read from tags file \"%s\": %s", fn,
 			 strerror(errno));
 		fclose(fd);
 		return (FALSE);
@@ -336,7 +336,7 @@ loadtags(const char *fn)
 		}
 		if (addctag(l) == FALSE) {
 			dobeep();
-			ewprintf("Tags file '%s' invalid at line %d",
+			ewprintf("Tags file \"%s\" invalid at line %d",
 				 fn, ln);
 			fclose(fd);
 			return (FALSE);
