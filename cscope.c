@@ -165,11 +165,11 @@ cscreatelist(int f, int n)
 	line = NULL;
 	sz = 0;
 
-	if (getbufcwd(dir, sizeof(dir)) == FALSE)
+	if (getbufcwd(dir, sizeof dir) == FALSE)
 		dir[0] = '\0';
 
-	bufp = eread("Index files in directory: ", dir,
-	    sizeof(dir), EFCR | EFDEF | EFNEW | EFNUL);
+	bufp = eread("Index files in directory: ", dir, sizeof dir,
+		     EFCR | EFDEF | EFNEW | EFNUL);
 
 	if (bufp == NULL)
 		return (ABORT);
@@ -184,8 +184,8 @@ cscreatelist(int f, int n)
 	if (csexists("cscope-indexer") == FALSE)
 		return(dobeep_msg("no such file or directory, cscope-indexer"));
 
-	clen = snprintf(cmd, sizeof(cmd), "cscope-indexer -v %s", dir);
-	if (clen < 0 || clen >= sizeof(cmd))
+	clen = snprintf(cmd, sizeof cmd, "cscope-indexer -v %s", dir);
+	if (clen < 0 || clen >= sizeof cmd)
 		return (FALSE);
 
 	if ((fpipe = popen(cmd, "r")) == NULL)
@@ -198,9 +198,9 @@ cscreatelist(int f, int n)
 	}
 	bp->b_flag |= BFREADONLY;
 
-	clen = snprintf(title, sizeof(title), "%s%s",
+	clen = snprintf(title, sizeof title, "%s%s",
 	    "Creating cscope file list 'cscope.files' in: ", dir);
-	if (clen < 0 || clen >= sizeof(title)) {
+	if (clen < 0 || clen >= sizeof title) {
 		pclose(fpipe);
 		return (FALSE);
 	}
@@ -389,9 +389,9 @@ do_cscope(int i)
 		return(dobeep_msg("no such file or directory, cscope"));
 
 	csflush();
-	clen = snprintf(cmd, sizeof(cmd), "cscope -L -%d %s 2>/dev/null",
+	clen = snprintf(cmd, sizeof cmd, "cscope -L -%d %s 2>/dev/null",
 	    i, pattern);
-	if (clen < 0 || clen >= sizeof(cmd))
+	if (clen < 0 || clen >= sizeof cmd)
 		return (FALSE);
 
 	if ((fpipe = popen(cmd, "r")) == NULL)
@@ -404,8 +404,8 @@ do_cscope(int i)
 	}
 	bp->b_flag |= BFREADONLY;
 
-	clen = snprintf(title, sizeof(title), "%s%s", csprompt[i], pattern);
-	if (clen < 0 || clen >= sizeof(title)) {
+	clen = snprintf(title, sizeof title, "%s%s", csprompt[i], pattern);
+	if (clen < 0 || clen >= sizeof title) {
 		pclose(fpipe);
 		return (FALSE);
 	}
@@ -467,7 +467,7 @@ addentry(struct buffer *bp, char *csline)
 		TAILQ_INSERT_TAIL(&r->matches, m, entry);
 		TAILQ_INSERT_TAIL(&csrecords, r, entry);
 		addline(bp, "");
-		if (snprintf(buf, sizeof(buf), "*** %s", t.fname) < 0)
+		if (snprintf(buf, sizeof buf, "*** %s", t.fname) < 0)
 			goto cleanup;
 		addline(bp, buf);
 	} else {
@@ -520,8 +520,8 @@ prettyprint(struct buffer *bp, struct cstokens *t)
 {
 	char buf[BUFSIZ];
 
-	if (snprintf(buf, sizeof(buf), "%s[%s]\t\t%s",
-	    t->function, t->lineno, ltrim(t->pattern)) < 0)
+	if (snprintf(buf, sizeof buf, "%s[%s]\t\t%s", t->function,
+		     t->lineno, ltrim(t->pattern)) < 0)
 		return;
 	addline(bp, buf);
 }
@@ -585,8 +585,8 @@ csexists(const char *cmd)
 		while (dlen > 0 && dir[dlen-1] == '/')
 			dir[--dlen] = '\0';     /* strip trailing '/' */
 
-		len = snprintf(fname, sizeof(fname), "%s/%s", dir, cmd);
-		if (len < 0 || len >= sizeof(fname)) {
+		len = snprintf(fname, sizeof fname, "%s/%s", dir, cmd);
+		if (len < 0 || len >= sizeof fname) {
 			(void)dobeep_msg("path too long");
 			goto cleanup;
 		}

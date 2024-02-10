@@ -44,8 +44,9 @@ find_autoexec(const char *fname)
 	SLIST_FOREACH(ae, &autos, next) {
 		if (fnmatch(ae->pattern, fname, 0) == 0) {
 			if (used >= have) {
-				npfl = reallocarray(pfl, have + AUTO_GROW + 1,
-				    sizeof(PF));
+				npfl = reallocarray(pfl,
+						    have + AUTO_GROW + 1,
+						    sizeof(PF));
 				if (npfl == NULL)
 					panic("out of memory");
 				pfl = npfl;
@@ -73,7 +74,7 @@ add_autoexec(const char *pattern, const char *func)
 	fp = name_function(func);
 	if (fp == NULL)
 		return (FALSE);
-	ae = malloc(sizeof(*ae));
+	ae = malloc(sizeof *ae);
 	if (ae == NULL)
 		return (FALSE);
 	ae->fp = fp;
@@ -99,12 +100,12 @@ auto_execute(int f, int n)
 	char	patbuf[BUFSIZE], funcbuf[BUFSIZE], *patp, *funcp;
 	int	s;
 
-	if ((patp = eread("Filename pattern: ", patbuf, sizeof(patbuf),
+	if ((patp = eread("Filename pattern: ", patbuf, sizeof patbuf,
 	    EFNEW | EFCR)) == NULL)
 		return (ABORT);
 	else if (patp[0] == '\0')
 		return (FALSE);
-	if ((funcp = eread("Execute: ", funcbuf, sizeof(funcbuf),
+	if ((funcp = eread("Execute: ", funcbuf, sizeof funcbuf,
 	    EFNEW | EFCR | EFFUNC)) == NULL)
 		return (ABORT);
 	else if (funcp[0] == '\0')

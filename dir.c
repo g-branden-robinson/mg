@@ -27,10 +27,10 @@ void
 dirinit(void)
 {
 	mgcwd[0] = '\0';
-	if (getcwd(mgcwd, sizeof(mgcwd)) == NULL)
+	if (getcwd(mgcwd, sizeof mgcwd) == NULL)
 		ewprintf("Can't get current directory!");
 	if (mgcwd[0] != '\0' && !(mgcwd[0] == '/' && mgcwd[1] == '\0'))
-		(void)strlcat(mgcwd, "/", sizeof(mgcwd));
+		(void) strlcat(mgcwd, "/", sizeof mgcwd);
 }
 
 /*
@@ -41,7 +41,7 @@ changedir(int f, int n)
 {
 	char	bufc[NFILEN], *bufp;
 
-	(void)strlcpy(bufc, mgcwd, sizeof(bufc));
+	(void) strlcpy(bufc, mgcwd, sizeof bufc);
 	if ((bufp = eread("Change default directory: ", bufc, NFILEN,
 	    EFDEF | EFNEW | EFCR | EFFILE)) == NULL)
 		return (ABORT);
@@ -53,14 +53,14 @@ changedir(int f, int n)
 		ewprintf("Can't change dir to %s", bufc);
 		return (FALSE);
 	}
-	if ((bufp = getcwd(mgcwd, sizeof(mgcwd))) == NULL) {
+	if ((bufp = getcwd(mgcwd, sizeof mgcwd)) == NULL) {
 		if (bufc[0] == '/')
-			(void)strlcpy(mgcwd, bufc, sizeof(mgcwd));
+			(void) strlcpy(mgcwd, bufc, sizeof mgcwd);
 		else
-			(void)strlcat(mgcwd, bufc, sizeof(mgcwd));
+			(void) strlcat(mgcwd, bufc, sizeof mgcwd);
 	}
 	if (mgcwd[strlen(mgcwd) - 1] != '/')
-		(void)strlcat(mgcwd, "/", sizeof(mgcwd));
+		(void) strlcat(mgcwd, "/", sizeof mgcwd);
 	ewprintf("Current directory is now %s", mgcwd);
 	return (TRUE);
 }
@@ -98,7 +98,7 @@ ask_makedir(void)
 	char		 bufc[NFILEN];
 	char		*path;
 
-	if (getbufcwd(bufc, sizeof(bufc)) != TRUE)
+	if (getbufcwd(bufc, sizeof bufc) != TRUE)
 		return (ABORT);
 	if ((path = eread("Make directory: ", bufc, NFILEN,
 	    EFDEF | EFNEW | EFCR | EFFILE)) == NULL)

@@ -29,7 +29,7 @@ fileinsert(int f, int n)
 {
 	char	 fname[NFILEN], *bufp, *adjf;
 
-	if (getbufcwd(fname, sizeof(fname)) != TRUE)
+	if (getbufcwd(fname, sizeof fname) != TRUE)
 		fname[0] = '\0';
 	bufp = eread("Insert file: ", fname, NFILEN,
 	    EFNEW | EFCR | EFFILE | EFDEF);
@@ -56,7 +56,7 @@ filevisit(int f, int n)
 	char	 fname[NFILEN], *bufp, *adjf;
 	int	 status;
 
-	if (getbufcwd(fname, sizeof(fname)) != TRUE)
+	if (getbufcwd(fname, sizeof fname) != TRUE)
 		fname[0] = '\0';
 	bufp = eread("Find file: ", fname, NFILEN,
 	    EFNEW | EFCR | EFFILE | EFDEF);
@@ -93,7 +93,7 @@ filevisitalt(int f, int n)
 {
 	char	 fname[NFILEN], *bufp;
 
-	if (getbufcwd(fname, sizeof(fname)) != TRUE)
+	if (getbufcwd(fname, sizeof fname) != TRUE)
 		fname[0] = '\0';
 	bufp = eread("Find alternate file: ", fname, NFILEN,
 	    EFNEW | EFCR | EFFILE | EFDEF);
@@ -158,7 +158,7 @@ poptofile(int f, int n)
 	char	 fname[NFILEN], *adjf, *bufp;
 	int	 status;
 
-	if (getbufcwd(fname, sizeof(fname)) != TRUE)
+	if (getbufcwd(fname, sizeof fname) != TRUE)
 		fname[0] = '\0';
 	if ((bufp = eread("Find file in other window: ", fname, NFILEN,
 	    EFNEW | EFCR | EFFILE | EFDEF)) == NULL)
@@ -245,8 +245,8 @@ readin(char *fname)
 		if (errno != ENOENT) {
 			ro = TRUE;
 		} else if (errno == ENOENT) {
-			(void)xdirname(dp, fname, sizeof(dp));
-			(void)strlcat(dp, "/", sizeof(dp));
+			(void) xdirname(dp, fname, sizeof dp);
+			(void) strlcat(dp, "/", sizeof dp);
 
 			/* Missing directory; keep buffer rw, like emacs */
 			if (stat(dp, &statbuf) == -1 && errno == ENOENT) {
@@ -320,9 +320,10 @@ insertfile(char *fname, char *newname, int replacebuf)
 	/* cheap */
 	bp = curbp;
 	if (newname != NULL) {
-		(void)strlcpy(bp->b_fname, newname, sizeof(bp->b_fname));
-		(void)xdirname(bp->b_cwd, newname, sizeof(bp->b_cwd));
-		(void)strlcat(bp->b_cwd, "/", sizeof(bp->b_cwd));
+		(void) strlcpy(bp->b_fname, newname,
+			       sizeof(bp->b_fname));
+		(void) xdirname(bp->b_cwd, newname, sizeof(bp->b_cwd));
+		(void) strlcat(bp->b_cwd, "/", sizeof(bp->b_cwd));
 	}
 
 	/* hard file open */
@@ -352,8 +353,8 @@ insertfile(char *fname, char *newname, int replacebuf)
 		curbp = bp;
 		return (showbuffer(bp, curwp, WFFULL | WFMODE));
 	} else {
-		(void)xdirname(bp->b_cwd, fname, sizeof(bp->b_cwd));
-		(void)strlcat(bp->b_cwd, "/", sizeof(bp->b_cwd));
+		(void) xdirname(bp->b_cwd, fname, sizeof(bp->b_cwd));
+		(void) strlcat(bp->b_cwd, "/", sizeof(bp->b_cwd));
 	}
 	opos = curwp->w_doto;
 	oline = curwp->w_dotline;
@@ -513,7 +514,7 @@ filewrite(int f, int n)
 	char	*adjfname, *bufp;
         FILE    *ffp;
 
-	if (getbufcwd(fname, sizeof(fname)) != TRUE)
+	if (getbufcwd(fname, sizeof fname) != TRUE)
 		fname[0] = '\0';
 	if ((bufp = eread("Write file: ", fname, NFILEN,
 	    EFDEF | EFNEW | EFCR | EFFILE)) == NULL)
@@ -532,7 +533,7 @@ filewrite(int f, int n)
 			ewprintf("%s is a directory", adjfname);
 			return (FALSE);
 		}
-		snprintf(tmp, sizeof(tmp), "File `%s' exists; overwrite",
+		snprintf(tmp, sizeof tmp, "File `%s' exists; overwrite",
 		    adjfname);
 		if ((s = eyorn(tmp)) != TRUE)
                         return (s);
@@ -541,10 +542,13 @@ filewrite(int f, int n)
 	/* old attributes are no longer current */
 	bzero(&curbp->b_fi, sizeof(curbp->b_fi));
 	if ((s = writeout(&ffp, curbp, adjfname)) == TRUE) {
-		(void)strlcpy(curbp->b_fname, adjfname, sizeof(curbp->b_fname));
-		if (getbufcwd(curbp->b_cwd, sizeof(curbp->b_cwd)) != TRUE)
-			(void)strlcpy(curbp->b_cwd, "/", sizeof(curbp->b_cwd));
-		if (augbname(bn, curbp->b_fname, sizeof(bn))
+		(void) strlcpy(curbp->b_fname, adjfname,
+			       sizeof(curbp->b_fname));
+		if (getbufcwd(curbp->b_cwd, sizeof(curbp->b_cwd))
+		    != TRUE)
+			(void) strlcpy(curbp->b_cwd, "/",
+				       sizeof(curbp->b_cwd));
+		if (augbname(bn, curbp->b_fname, sizeof bn)
 		    == FALSE)
 			return (FALSE);
 		free(curbp->b_bname);
@@ -673,8 +677,8 @@ writeout(FILE ** ffp, struct buffer *bp, char *fn)
 
 	if (stat(fn, &statbuf) == -1 && errno == ENOENT) {
 		errno = 0;
-		(void)xdirname(dp, fn, sizeof(dp));
-		(void)strlcat(dp, "/", sizeof(dp));
+		(void) xdirname(dp, fn, sizeof dp);
+		(void) strlcat(dp, "/", sizeof dp);
 		if (access(dp, W_OK) && errno == EACCES) {
 			dobeep();
 			ewprintf("Directory %s write-protected", dp);
