@@ -148,7 +148,7 @@ vtresize(int force, int newrow, int newcol)
 #define TRYREALLOC(a, n) do {					\
 		void *tmp;					\
 		if ((tmp = realloc((a), (n))) == NULL) {	\
-			panic("out of memory in display code");	\
+			panic("out of memory in vtresize");	\
 		}						\
 		(a) = tmp;					\
 	} while (0)
@@ -156,7 +156,7 @@ vtresize(int force, int newrow, int newcol)
 #define TRYREALLOCARRAY(a, n, m) do {				\
 		void *tmp;					\
 		if ((tmp = reallocarray((a), (n), (m))) == NULL) {\
-			panic("out of memory in display code");	\
+			panic("out of memory in vtresize");	\
 		}						\
 		(a) = tmp;					\
 	} while (0)
@@ -612,7 +612,7 @@ update(int modelinecolor)
 			--size;
 		}
 		if ((size -= offs) == 0)	/* Get screen size.	*/
-			panic("Illegal screen size in update");
+			panic("invalid screen size in update");
 		setscores(offs, size);		/* Do hard update.	*/
 		traceback(offs, size, size, size);
 		for (i = 0; i < size; ++i)

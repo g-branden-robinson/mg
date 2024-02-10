@@ -208,7 +208,8 @@ compile_mode(const char *name, const char *command)
 	addline(bp, "");
 
 	if (getcwd(cwd, sizeof cwd) == NULL)
-		panic("Can't get current directory!");
+		panic("unable to get current directory in"
+		      " compile_mode");
 	if (chdir(bp->b_cwd) == -1) {
 		dobeep();
 		ewprintf("Can't change dir to %s", bp->b_cwd);

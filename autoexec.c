@@ -48,7 +48,8 @@ find_autoexec(const char *fname)
 						    have + AUTO_GROW + 1,
 						    sizeof(PF));
 				if (npfl == NULL)
-					panic("out of memory");
+					panic("out of memory in"
+					      " find_autoexec");
 				pfl = npfl;
 				have += AUTO_GROW;
 			}
