@@ -567,12 +567,12 @@ complt(int flags, int c, char *buf, size_t nbuf, int cpos, int *nx)
 		buf[cpos] = '\0';
 		wholelist = lh = make_keymap_list(buf);
 	} else
-		panic("broken complt call: flags");
+		panic("invalid flags in complt");
 
 	if (c == ' ')
 		wflag = TRUE;
 	else if (c != '\t' && c != CCHR('M'))
-		panic("broken complt call: c");
+		panic("invalid input character in complt");
 
 	nhits = 0;
 	nxtra = HUGE;
@@ -700,7 +700,7 @@ complt_list(int flags, char *buf, int cpos)
 		buf[cpos] = '\0';
 		wholelist = lh = make_keymap_list(buf);
 	} else
-		panic("broken complt_list call: flags");
+		panic("invalid flags in complt_list");
 
 	/*
 	 * Sort the list, since users expect to see it in alphabetic

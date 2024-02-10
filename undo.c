@@ -96,7 +96,7 @@ new_undo_record(void)
 		undo_free_num--;
 	} else {
 		if ((rec = malloc(sizeof *rec)) == NULL)
-			panic("Out of memory in undo code (record)");
+			panic("out of memory in new_undo_record");
 	}
 	memset(rec, 0, sizeof(struct undo_rec));
 
@@ -352,7 +352,7 @@ undo_add_delete(struct line *lp, int offset, int size, int isreg)
 	} while ((rec->content == NULL) && drop_oldest_undo_record());
 
 	if (rec->content == NULL)
-		panic("Out of memory");
+		panic("out of memory in undo_add_delete");
 
 	region_get_data(&reg, rec->content, reg.r_size);
 

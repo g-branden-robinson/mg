@@ -313,7 +313,7 @@ insertfile(char *fname, char *newname, int replacebuf)
 	if (line == NULL) {
 		line = malloc(NLINE);
 		if (line == NULL)
-			panic("out of memory");
+			panic("out of memory in insertfile");
 		linesize = NLINE;
 	}
 
