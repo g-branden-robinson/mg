@@ -197,6 +197,7 @@ veread(const char *fp, char *buf, size_t nbuf, int flag, va_list ap)
 	int	 match;			/* esc match found */
 	int	 cc, rr;		/* saved ttcol, ttrow */
 	char	*ret;			/* return value */
+	size_t	 memlen = 0;		/* size of memory allocation */
 
 	static char emptyval[] = "";	/* XXX hackish way to return err msg*/
 
@@ -326,12 +327,12 @@ veread(const char *fp, char *buf, size_t nbuf, int flag, va_list ap)
 				int t;
 				if (dynbuf && epos + 1 >= nbuf) {
 					void *newp;
-					size_t newsize = epos + epos + 16;
-					if ((newp = realloc(buf, newsize))
+					memlen = epos + epos + 16;
+					if ((newp = realloc(buf, memlen))
 					    == NULL)
 						goto memfail;
 					buf = newp;
-					nbuf = newsize;
+					nbuf = memlen;
 				}
 				if (!dynbuf && epos + 1 >= nbuf) {
 					dobeep();
@@ -388,8 +389,10 @@ veread(const char *fp, char *buf, size_t nbuf, int flag, va_list ap)
 			if (macrodef) {
 				struct line	*lp;
 
-				if ((lp = lalloc(cpos)) == NULL)
+				if ((lp = lalloc(cpos)) == NULL) {
+					memlen = cpos;
 					goto memfail;
+				}
 				lp->l_fp = maclcur->l_fp;
 				maclcur->l_fp = lp;
 				lp->l_bp = maclcur;
@@ -484,11 +487,11 @@ veread(const char *fp, char *buf, size_t nbuf, int flag, va_list ap)
 		default:
 			if (dynbuf && epos + 1 >= nbuf) {
 				void *newp;
-				size_t newsize = epos + epos + 16;
-				if ((newp = realloc(buf, newsize)) == NULL)
+				memlen = epos + epos + 16;
+				if ((newp = realloc(buf, memlen)) == NULL)
 					goto memfail;
 				buf = newp;
-				nbuf = newsize;
+				nbuf = memlen;
 			}
 			if (!dynbuf && epos + 1 >= nbuf) {
 				dobeep();
@@ -530,7 +533,7 @@ memfail:
 	if (dynbuf && buf)
 		free(buf);
 	dobeep();
-	ewprintf("Out of memory");
+	ewprintf("Out of memory: cannot allocate %z bytes", memlen);
 	return (emptyval);
 }
 
