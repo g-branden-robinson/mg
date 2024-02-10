@@ -138,11 +138,13 @@ fillpara(int f, int n)
 	int	 retval;	/* return value				*/
 	struct line	*eopline;	/* pointer to line just past EOP	*/
 	char	 wbuf[MAXWORD];	/* buffer for current word		*/
+	int	 trunccount;	/* count of words truncated */
 
 	if (n == 0)
 		return (TRUE);
 
 	undo_boundary_enable(FFRAND, 0);
+	trunccount = 0;
 
 	/* record the pointer to the line just past the EOP */
 	(void)gotoeop(FFRAND, 1);
@@ -185,15 +187,8 @@ fillpara(int f, int n)
 		if (c != ' ' && c != '\t') {
 			if (wordlen < MAXWORD - 1)
 				wbuf[wordlen++] = c;
-			else {
-				/*
-				 * You lose chars beyond MAXWORD if the word
-				 * is too long. I'm too lazy to fix it now; it
-				 * just silently truncated the word before,
-				 * so I get to feel smug.
-				 */
-				ewprintf("Word too long!");
-			}
+			else
+				trunccount++;
 		} else if (wordlen) {
 
 			/* calculate tentative new length with word added */
@@ -243,6 +238,12 @@ fillpara(int f, int n)
 	}
 	/* and add a last newline for the end of our new paragraph */
 	(void)lnewline();
+
+	if (trunccount) {
+		dobeep();
+		ewprintf("Truncated %d words longer than %d characters",
+			 trunccount, MAXWORD);
+	}
 
 	/*
 	 * We really should wind up where we started, (which is hard to keep
