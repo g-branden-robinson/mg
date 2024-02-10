@@ -552,7 +552,7 @@ anycb(int f)
 			ret = snprintf(pbuf, sizeof pbuf, "Save file %s",
 			    bp->b_fname);
 			if (ret < 0 || ret >= sizeof pbuf) {
-				(void)dobeep_msg("Error: filename too long!");
+				(void) dobeep_msg("File name too long");
 				return (UERROR);
 			}
 			if ((f == TRUE || (save = eyorn(pbuf)) == TRUE) &&
@@ -1113,7 +1113,7 @@ findbuffer(char *fn)
 	char		bname[NBUFN], fname[NBUFN];
 
 	if (strlcpy(fname, fn, sizeof fname) >= sizeof fname) {
-		(void)dobeep_msg("filename too long");
+		(void) dobeep_msg("File name too long");
 		return (NULL);
 	}
 
