@@ -674,7 +674,7 @@ load(FILE *ffp, const char *fname)
 			}
 			s = FIOERR;
 			dobeep();
-			ewprintf("error in '%s' at line %d; abandoning"
+			ewprintf("error in \"%s\" at line %d; abandoning"
 				 " load--press any key", fname, line);
 			/*
 			 * Flush to keep typeahead from preventing the
