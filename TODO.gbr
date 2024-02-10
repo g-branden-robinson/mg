@@ -26,8 +26,6 @@ Want C-h in minibuffer for `quickhelp`; save minibuffer contents,
 replace it with 1 line (< 80 columns) if help, and await C-h to pop
 back.
 
-rename eval-current-buffer -> eval-buffer [GNU Emacs]
-
 implement eval-region? [GNU Emacs]
 
 Should I-search remember last search?

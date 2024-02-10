@@ -440,10 +440,11 @@ selfinsert(int f, int n)
 
 /*
  * selfinsert() can't be called directly from a startup file or by
- * 'eval-current-buffer' since it is by design, meant to be called interactively
- * as characters are typed in a buffer. ask_selfinsert() allows selfinsert() to
- * be used by excline(). Having ask_selfinsert() helps with regression testing.
- * No manual page entry since use case is a bit obscure. See 'insert' command.
+ * 'eval-buffer' since it is by design, meant to be called interactively
+ * as characters are typed in a buffer.  ask_selfinsert() allows
+ * selfinsert() to be used by excline().  Having ask_selfinsert() helps
+ * with regression testing.  No manual page entry since use case is a
+ * bit obscure.  See 'insert' command.
  */
 int
 ask_selfinsert(int f, int n)
