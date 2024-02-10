@@ -107,7 +107,7 @@ static struct funmap functnames[] = {
 	{gotoeol, "end-of-line", 0},
 	{enlargewind, "enlarge-window", 0},
 	{NULL, "esc prefix", 0},			/* internal	*/
-	{evalbuffer, "eval-current-buffer", 0},
+	{evalbuffer, "eval-buffer", 0},
 	{evalexpr, "eval-expression", 0},
 	{swapmark, "exchange-point-and-mark", 0},
 	{extend, "execute-extended-command", 1},
