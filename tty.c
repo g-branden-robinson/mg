@@ -73,7 +73,7 @@ ttinit(void)
 		tty = NULL;
 
 	if (setupterm(tty, STDOUT_FILENO, &errret))
-		panic("Terminal setup failed");
+		panic("terminal setup failed in ttinit");
 
 	signal(SIGWINCH, winchhandler);
 	signal(SIGCONT, winchhandler);
@@ -88,7 +88,8 @@ ttinit(void)
 	}
 
 	if (cursor_address == NULL || cursor_up == NULL)
-		panic("This terminal is too stupid to run mg");
+		panic("terminal type lacks capabilities this program"
+		      " needs");
 
 	/* set nrow & ncol */
 	ttresize();
@@ -290,7 +291,7 @@ ttinsl(int row, int bot, int nchunk)
 		ttrow = HUGE;
 		ttcol = HUGE;
 	} else
-		panic("ttinsl: Can't insert/delete line");
+		panic("unable to insert/delete line in ttinsl" );
 }
 
 /*
@@ -342,7 +343,7 @@ ttdell(int row, int bot, int nchunk)
 		ttrow = HUGE;
 		ttcol = HUGE;
 	} else
-		panic("ttdell: Can't insert/delete line");
+		panic("unable to insert/delete line in ttdell" );
 }
 
 /*

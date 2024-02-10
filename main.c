@@ -284,11 +284,11 @@ edinit(struct buffer *bp)
 	bheadp = NULL;
 	bp = bfind("*scratch*", TRUE);		/* Text buffer.          */
 	if (bp == NULL)
-		panic("edinit");
+		panic("cannot find *scratch* buffer");
 
 	wp = new_window(bp);
 	if (wp == NULL)
-		panic("edinit: Out of memory");
+		panic("out of memory in edinit");
 
 	curbp = bp;				/* Current buffer.	 */
 	wheadp = wp;
