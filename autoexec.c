@@ -101,13 +101,14 @@ auto_execute(int f, int n)
 	char	patbuf[BUFSIZE], funcbuf[BUFSIZE], *patp, *funcp;
 	int	s;
 
-	if ((patp = eread("Filename pattern: ", patbuf, sizeof patbuf,
-	    EFNEW | EFCR)) == NULL)
+	if ((patp = eread("Auto-execute for file name glob: ", patbuf,
+			  sizeof patbuf, EFNEW | EFCR)) == NULL)
 		return (ABORT);
 	else if (patp[0] == '\0')
 		return (FALSE);
-	if ((funcp = eread("Execute: ", funcbuf, sizeof funcbuf,
-	    EFNEW | EFCR | EFFUNC)) == NULL)
+	if ((funcp = eread("For '%s', auto-execute: ", funcbuf,
+			   sizeof funcbuf , EFNEW | EFCR | EFFUNC,
+			   patbuf)) == NULL)
 		return (ABORT);
 	else if (funcp[0] == '\0')
 		return (FALSE);
