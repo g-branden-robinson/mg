@@ -54,7 +54,7 @@ ttopen(void)
 		panic("standard input and output must be a terminal");
 
 	if (ttraw() == FALSE)
-		panic("aborting due to terminal initialize failure");
+		panic("terminal setup failed in ttopen");
 }
 
 /*
@@ -152,7 +152,7 @@ ttflush(void)
 		if (written == -1) {
 			if (errno == EINTR)
 				continue;
-			panic("ttflush write failed");
+			panic("write failed in ttflush");
 		}
 		buf += written;
 		nobuf -= written;
@@ -178,7 +178,7 @@ ttgetc(void)
 				winch_flag = 0;
 			}
 		} else if (ret == -1 && errno == EIO)
-			panic("lost stdin");
+			panic("standard input file descriptor lost");
 		else if (ret == 1)
 			break;
 	} while (1);

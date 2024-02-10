@@ -60,7 +60,7 @@ kinsert(int c, int dir)
 	else if (dir == KBACK)
 		kbufp[--kstart] = c;
 	else
-		panic("broken kinsert call");	/* Oh shit! */
+		panic("invalid direction in kinsert");	/* Oh shit! */
 	return (TRUE);
 }
 
