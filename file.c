@@ -530,11 +530,11 @@ filewrite(int f, int n)
         if (stat(adjfname, &statbuf) == 0) {
 		if (S_ISDIR(statbuf.st_mode)) {
 			dobeep();
-			ewprintf("%s is a directory", adjfname);
+			ewprintf("\"%s\" is a directory", adjfname);
 			return (FALSE);
 		}
-		snprintf(tmp, sizeof tmp, "File `%s' exists; overwrite",
-		    adjfname);
+		snprintf(tmp, sizeof tmp, "File \"%s\" exists; overwrite",
+			 adjfname);
 		if ((s = eyorn(tmp)) != TRUE)
                         return (s);
         }
@@ -681,18 +681,19 @@ writeout(FILE ** ffp, struct buffer *bp, char *fn)
 		(void) strlcat(dp, "/", sizeof dp);
 		if (access(dp, W_OK) && errno == EACCES) {
 			dobeep();
-			ewprintf("Directory %s write-protected", dp);
+			ewprintf("Directory \"%s\" is write-protected",
+				 dp);
 			return (FIOERR);
 		} else if (errno == ENOENT) {
-   			dobeep();
-			ewprintf("%s: no such directory", dp);
+			dobeep();
+			ewprintf("Directory \"%s\" does not exist", dp);
 			return (FIOERR);
 		}
         }
 	lpend = bp->b_headp;
 	eobnl = 0;
 	if (llength(lback(lpend)) != 0) {
-		eobnl = eyorn("No newline at end of file, add one");
+		eobnl = eyorn("No newline at end of file; add one");
 		if (eobnl != TRUE && eobnl != FALSE)
 			return (eobnl); /* abort */
 	}
@@ -704,12 +705,12 @@ writeout(FILE ** ffp, struct buffer *bp, char *fn)
 		/* no write error */
 		s = ffclose(*ffp, bp);
 		if (s == FIOSUC)
-			ewprintf("Wrote %s", fn);
+			ewprintf("Wrote \"%s\"", fn);
 	} else {
 		/* print a message indicating write error */
 		(void)ffclose(*ffp, bp);
 		dobeep();
-		ewprintf("Unable to write %s", fn);
+		ewprintf("Unable to write \"%s\"", fn);
 	}
 	return (s == FIOSUC);
 }
