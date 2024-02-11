@@ -908,6 +908,14 @@ and
 .Ic pwd .
 .It Ic column\-number\-mode
 Toggle display of point's column number in the modeline.
+.It Ic compile
+Prompt for a shell command to build a project,
+then execute it.
+The prompt is prepopulated with
+.Dq make
+and a space.
+See
+.Ic next\-error .
 .It Ic copy\-region\-as\-kill
 Copy all of the characters in the region to the kill zone,
 clearing the mark afterwards.
@@ -1086,6 +1094,14 @@ When disabled, a working directory is set for each buffer.
 Go to a specific line.
 If an argument is present, then
 it is the line number, else prompt for a line number to use.
+.It Ic grep
+Prompt for a shell command to search files for a regular expression,
+then execute it.
+The prompt is prepopulated with
+.Dq "grep \-n"
+and a space.
+See
+.Ic next\-error .
 .It Ic help\-help
 Prompts for one of (a)propos, (b)indings, des(c)ribe key briefly.
 .It Ic insert
