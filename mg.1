@@ -1290,6 +1290,13 @@ Insert a newline, then enough tabs and spaces to duplicate the indentation
 of the previous line, respecting
 .Ic no\-tab\-mode
 and the buffer tab width.
+.It Ic next\-error
+Visit a file at the line indicated by the next message in the
+.Dq *compile*
+or
+.Dq *grep*
+buffer.
+(The messages need not be errors.)
 .It Ic next\-line
 Move forward
 .Va n
