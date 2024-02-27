@@ -1491,9 +1491,12 @@ An argument inserts the command output at point.
 Prompt for a shell command and execute it with the region as input.
 An argument replaces the region with the command output.
 .It Ic shrink\-window
-Shrink current window by one line.
-The window immediately below is expanded to pick up the slack.
-If only one window is present, this command has no effect.
+Shrink the current window by
+.Va n
+lines.
+A shrinking window adds lines to the one below,
+unless the minibuffer is immediately below it;
+it then adds lines to the window above.
 .It Ic space\-to\-tabstop
 Insert enough spaces to reach the next tab-stop position.
 By default, tab-stops occur every 8 characters.
