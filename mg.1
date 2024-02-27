@@ -1283,10 +1283,8 @@ Insert
 newlines at point,
 then move point to the first of them.
 .It Ic other\-window
-The command to make the next (down the screen) window the current
-window.
-There are no real errors, although the command does nothing if
-there is only 1 window on the screen.
+Make the window below current,
+wrapping around the minibuffer to the top of the screen.
 .It Ic overwrite\-mode
 Toggle overwrite mode in the current buffer,
 where typing overwrites existing characters rather than inserting them.
@@ -1305,10 +1303,9 @@ Move backwards
 lines,
 remaining at the same column or the nearest to its left.
 .It Ic previous\-window
-This command makes the previous (up the screen) window the
-current window.
-There are no errors, although the command does not do
-a lot if there is only 1 window.
+Make the window above current,
+wrapping around the top of the screen to the window above the
+minibuffer.
 .It Ic push\-shell
 Suspend
 .Nm
