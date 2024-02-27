@@ -1200,19 +1200,15 @@ Abort the current action.
 Prompt for a buffer name,
 then kill it.
 .It Ic kill\-line
-Kill line.
-If called without an argument, it kills from point to the end
-of the line, unless it is at the end of the line, when it kills the
-newline.
-If called with an argument of 0, it kills from the start of the
-line to point.
-If called with a positive argument, it kills from point
-forward over that number of newlines.
-If called with a negative argument,
-it kills any text before point on the current line,
-then backward
-.No \- Ns Va n
-lines.
+Kill forward through
+.Va n
+newlines.
+With no parameter,
+kill up to the next newline.
+If
+.Va n
+is 0,
+kill from the beginning of the line up to point.
 .It Ic kill\-paragraph
 Delete
 .Va n
