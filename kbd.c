@@ -236,7 +236,9 @@ universal_argument(int f, int n)
 	PF	 funct;
 	int	 c, nn = 4;
 
-	if (f & FFUNIV)
+	if ((f & FFOTHARG) || (f & FFNEGARG))
+		nn = n;
+	else if (f & FFUNIV)
 		nn *= n;
 	for (;;) {
 		key.k_chars[0] = c = getkey(TRUE);
