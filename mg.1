@@ -1210,9 +1210,11 @@ If
 is 0,
 kill from the beginning of the line up to point.
 .It Ic kill\-paragraph
-Delete
+Kill
 .Va n
-paragraphs starting with the current one.
+paragraphs forward,
+counting the paragraph point is on,
+if any.
 .It Ic kill\-region
 Kill the currently defined region.
 .It Ic kill\-word
