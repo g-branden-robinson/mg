@@ -565,7 +565,7 @@ int		 setmark(int, int);
 int		 clearmark(int, int);
 int		 swapmark(int, int);
 int		 gotoline(int, int);
-int		 setlineno(int);
+void		 setlineno(int);
 
 /* util.c X */
 int		 ntabstop(int, int);
