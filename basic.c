@@ -519,6 +519,10 @@ gotoline(int f, int n)
 		if (errstr != NULL)
 			return(dobeep_msgs("Line number", errstr));
 	}
+
+	if (n <= 0)
+		n = 1;
+
 	setlineno(n);
 	return(TRUE);
 }
