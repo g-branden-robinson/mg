@@ -1125,10 +1125,13 @@ relative to the global working directory.
 When disabled,
 each buffer has its own working directory.
 .It Ic goto\-line
-Move point to beginning of line
+Move point to the beginning of line
 .Va n
-in buffer,
+in the buffer,
 prompting for it if not given.
+If mark is not already set,
+.Nm
+sets it before moving point.
 .It Ic grep
 Prompt for a shell command to search files for a regular expression,
 then execute it.
