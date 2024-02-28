@@ -519,13 +519,14 @@ gotoline(int f, int n)
 		if (errstr != NULL)
 			return(dobeep_msgs("Line number", errstr));
 	}
-	return(setlineno(n));
+	setlineno(n);
+	return(TRUE);
 }
 
 /*
  * Set the line number and switch to it.
  */
-int
+void
 setlineno(int n)
 {
 	struct line  *clp;
@@ -557,5 +558,5 @@ setlineno(int n)
 	curwp->w_dotp = clp;
 	curwp->w_doto = 0;
 	curwp->w_rflag |= WFMOVE;
-	return (TRUE);
+	return;
 }

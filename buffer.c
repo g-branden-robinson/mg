@@ -1023,8 +1023,10 @@ dorevert(void)
 		free_undo_record(rec);
 	}
 
-	if (readin(curbp->b_fname))
-		return(setlineno(lineno));
+	if (readin(curbp->b_fname)) {
+		setlineno(lineno);
+		return (TRUE);
+	}
 	return (FALSE);
 }
 
