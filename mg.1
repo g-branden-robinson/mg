@@ -1051,19 +1051,14 @@ command.
 .It Ic eval\-expression
 Prompt for an
 .Nm
-command and execute it.
+command with arguments and execute it.
 .It Ic exchange\-point\-and\-mark
 Swap the values of "point" and "mark" in the current window.
 Return an error if no mark is set.
 .It Ic execute\-extended\-command
-Invoke an extended command;
-that is,
-M\-x.
-Call the message line routine to read in the command name and apply
-autocompletion to it.
-When it comes back, look the name up in the symbol table and run the
-command if it is found, passing arguments as necessary.
-Print an error if there is anything wrong.
+Prompt for and run an
+.Nm
+command by name.
 .It Ic fill\-paragraph
 Justify a paragraph, wrapping text at the current fill column.
 .It Ic find\-alternate\-file
