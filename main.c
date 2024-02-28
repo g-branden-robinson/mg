@@ -131,6 +131,9 @@ main(int argc, char **argv)
 	argc -= optind;
 	argv += optind;
 
+	if (batch && (argc > 0))
+		warnx("warning: operands ignored when -b option given");
+
 	setlocale(LC_CTYPE, "");
 
 	maps_init();		/* Keymaps and modes.		*/
