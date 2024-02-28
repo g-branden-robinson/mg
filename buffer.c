@@ -358,13 +358,13 @@ static struct KEYMAPE (2) listbufmap = {
 int
 listbuffers(int f, int n)
 {
-	static int		 initialized = 0;
+	static int		 initialized = FALSE;
 	struct buffer		*bp;
 	struct mgwin		*wp;
 
 	if (!initialized) {
 		maps_add((KEYMAP *)&listbufmap, "listbufmap");
-		initialized = 1;
+		initialized = TRUE;
 	}
 
 	if ((bp = makelist()) == NULL || (wp = popbuf(bp, WNONE)) == NULL)
