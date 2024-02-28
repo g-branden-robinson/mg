@@ -949,6 +949,12 @@ command if it is found, passing arguments as necessary.
 Print an error if there is anything wrong.
 .It Ic fill\-paragraph
 Justify a paragraph, wrapping text at the current fill column.
+.It Ic find\-alternate\-file
+Replace the current file with an alternate one.
+Semantics for finding the replacement file are the same as
+.Ic find\-file ,
+except the current buffer is killed before the switch.
+If the kill fails, or is aborted, revert to the original file.
 .It Ic find\-file
 Select a file for editing.
 First check if the file can be found
@@ -959,12 +965,6 @@ file from disk, and switch to the new buffer.
 Same as
 .Ic find\-file ,
 except the new buffer is set to read-only.
-.It Ic find\-alternate\-file
-Replace the current file with an alternate one.
-Semantics for finding the replacement file are the same as
-.Ic find\-file ,
-except the current buffer is killed before the switch.
-If the kill fails, or is aborted, revert to the original file.
 .It Ic find\-file\-other\-window
 Opens the specified file in a second buffer.
 Splits the current window if necessary.
@@ -1140,6 +1140,8 @@ Toggle overwrite mode in the current buffer,
 where typing overwrites existing characters rather than inserting them.
 Can be set globally with
 .Ic set\-default\-mode .
+.It Ic pop\-tag\-mark
+Return to position where find\-tag was previously invoked.
 .It Ic prefix\-region
 Inserts a prefix string before each line of a region.
 The prefix string is settable by using
@@ -1154,8 +1156,6 @@ This command makes the previous (up the screen) window the
 current window.
 There are no errors, although the command does not do
 a lot if there is only 1 window.
-.It Ic pop\-tag\-mark
-Return to position where find\-tag was previously invoked.
 .It Ic push\-shell
 Suspend
 .Nm
@@ -1165,10 +1165,6 @@ Display current (global) working directory in the status area.
 .It Ic query\-replace
 Query Replace.
 Search and replace strings selectively, prompting after each match.
-.It Ic replace\-regexp
-Replace regular expression globally without individual prompting.
-.It Ic replace\-string
-Replace string globally without individual prompting.
 .It Ic query\-replace\-regexp
 Replace strings selectively.
 Does a search and replace operation using regular
@@ -1207,6 +1203,10 @@ is negative, it is that line from the bottom.
 .It Ic redraw\-display
 Refresh the display.
 Recomputes all window sizes in case something has changed.
+.It Ic replace\-regexp
+Replace regular expression globally without individual prompting.
+.It Ic replace\-string
+Replace string globally without individual prompting.
 .It Ic revert\-buffer
 Revert the current buffer to the latest file on disk.
 .It Ic save\-buffer
