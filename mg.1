@@ -1061,24 +1061,28 @@ command by name.
 .It Ic fill\-paragraph
 Justify a paragraph, wrapping text at the current fill column.
 .It Ic find\-alternate\-file
-Replace the current file with an alternate one.
-Semantics for finding the replacement file are the same as
+As
 .Ic find\-file ,
-except the current buffer is killed before the switch.
-If the kill fails, or is aborted, revert to the original file.
+but kill the buffer in the current window first.
 .It Ic find\-file
-Select a file for editing.
-First check if the file can be found
-in another buffer; if it is there, just switch to that buffer.
-If the file cannot be found, create a new buffer, read in the
-file from disk, and switch to the new buffer.
+Prompt for a file name to
+.Em visit ,
+which may already be loaded in a buffer.
+If the file exists,
+load the file into a new buffer;
+otherwise,
+create an empty buffer associated with the given file name.
+In all cases the current window becomes a view of the file's buffer.
 .It Ic find\-file\-read\-only
-Same as
+As
 .Ic find\-file ,
-except the new buffer is set to read-only.
+but set the new buffer's read-only flag.
 .It Ic find\-file\-other\-window
-Opens the specified file in a second buffer.
-Splits the current window if necessary.
+As
+.Ic find\-file ,
+but view the buffer in a new window,
+as with
+.Ic split\-window\-vertically .
 .It Ic find\-tag
 Jump to definition of tag at point.
 .It Ic forward\-char
