@@ -449,7 +449,10 @@ int
 setmark(int f, int n)
 {
 	isetmark();
-	ewprintf("Mark set");
+
+	if (!(f & FFRAND))
+		ewprintf("Mark set");
+
 	return (TRUE);
 }
 
@@ -508,6 +511,12 @@ gotoline(int f, int n)
 {
 	char   buf[32], *bufp;
 	const char *errstr;
+	int	do_set_mark = FALSE;
+
+	if (!curwp->w_markp) {
+		(void) setmark((f | FFRAND), n);
+		do_set_mark = TRUE;
+	}
 
 	if (!(f & FFANYARG)) {
 		if ((bufp = eread("Go to line: ", buf, sizeof buf,
@@ -522,6 +531,9 @@ gotoline(int f, int n)
 
 	if (n <= 0)
 		n = 1;
+
+	if (do_set_mark)
+		ewprintf("Mark set");
 
 	setlineno(n);
 	return(TRUE);
