@@ -1347,7 +1347,13 @@ Suspend
 .Nm
 and switch to alternate screen, if available.
 .It Ic pwd
-Display current (global) working directory in the status area.
+Show buffer's
+(or global,
+in
+.Ic global\-wd\-mode )
+working directory in the minibuffer.
+See
+.Ic cd .
 .It Ic query\-replace
 Query Replace.
 Search and replace strings selectively, prompting after each match.
