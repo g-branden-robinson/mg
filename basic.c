@@ -510,7 +510,7 @@ gotoline(int f, int n)
 	const char *errstr;
 
 	if (!(f & FFANYARG)) {
-		if ((bufp = eread("Goto line: ", buf, sizeof buf,
+		if ((bufp = eread("Go to line: ", buf, sizeof buf,
 		    EFNUL | EFNEW | EFCR)) == NULL)
 			return (ABORT);
 		if (bufp[0] == '\0')
