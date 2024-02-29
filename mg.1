@@ -1573,8 +1573,20 @@ a bell event flashes the screen.
 See
 .Ic audible\-bell .
 .It Ic visit\-tags\-table
-Load tags file to be used for subsequent
-.Ic find\-tag .
+Interpret a
+.Xr ctags 1
+.Pa tags
+file to be used by subsequent
+.Ic find\-tag
+commands.
+(Despite its name,
+this command does not
+.Dq visit
+the
+.Pa tags
+file as
+.Ic find\-file
+would.)
 .It Ic what\-cursor\-position
 Display a bunch of useful information about the current location of
 point.
