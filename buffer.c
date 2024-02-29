@@ -682,8 +682,9 @@ bclear(struct buffer *bp)
 	int		 s;
 
 	/* Has buffer changed, and do we care? */
-	if (!(bp->b_flag & BFIGNDIRTY) && (bp->b_flag & BFCHG) != 0 &&
-	    (s = eyesno("Buffer modified; kill anyway")) != TRUE)
+	if (!is_starting_up && !(bp->b_flag & BFIGNDIRTY)
+	    && (bp->b_flag & BFCHG) != 0
+	    && (s = eyesno("Buffer modified; kill anyway")) != TRUE)
 		return (s);
 	bp->b_flag &= ~BFCHG;	/* Not changed		 */
 	while ((lp = lforw(bp->b_headp)) != bp->b_headp)

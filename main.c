@@ -48,6 +48,7 @@ struct mgwin	*curwp;				/* current window	*/
 struct mgwin	*wheadp;			/* MGWIN listhead	*/
 struct vhead	 varhead;			/* Variable list head	*/
 char		 pat[NPAT];			/* pattern		*/
+int		 is_starting_up = TRUE;		/* not yet in main loop */
 
 #ifndef __dead
 #define __dead __attribute__ ((__noreturn__))
@@ -77,8 +78,8 @@ main(int argc, char **argv)
 	char		*cp, *conffile = NULL, *init_fcn_name = NULL;
 	char		*batchfile = NULL;
 	PF		 init_fcn = NULL;
-	int	 	 o, i, nfiles;
-	int	  	 nobackups = 0;
+	int		 o, i, nfiles;
+	int		 nobackups = 0;
 	struct buffer	*bp = NULL;
 
 #if defined(__OpenBSD__)
@@ -245,6 +246,7 @@ notnum:
 	if (nfiles > 2)
 		listbuffers(0, 1);
 
+	is_starting_up = FALSE;
 	/* fake last flags */
 	thisflag = 0;
 	for (;;) {
