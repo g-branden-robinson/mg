@@ -1596,10 +1596,10 @@ percentage) is displayed.
 The column position assumes an infinite
 position display; it does not truncate just because the screen does.
 .It Ic write\-file
-Ask for a file name and write the contents of the current buffer to
-that file.
-Update the remembered file name and clear the buffer
-changed flag.
+Prompt for a file name,
+write the contents of the buffer to it,
+update the buffer's associated file,
+and clear the buffer's modification flag.
 .It Ic yank
 Yank text from the kill zone.
 Unlike Emacs, the
