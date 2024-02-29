@@ -1601,12 +1601,10 @@ write the contents of the buffer to it,
 update the buffer's associated file,
 and clear the buffer's modification flag.
 .It Ic yank
-Yank text from the kill zone.
-Unlike Emacs, the
-.Nm
-kill zone consists only
-of the most recent kill.
-It is not a ring.
+Insert text from the kill zone at point.
+.Pf ( Nm Ns 's
+kill zone contains only the most recently killed text;
+it is not a ring like that of GNU Emacs.)
 .It Ic zap\-to\-char
 Ask for a character and delete text from the current cursor position
 until the next instance of that character, including it.
