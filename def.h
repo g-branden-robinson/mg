@@ -804,6 +804,7 @@ extern int		 tcinsl;
 extern int		 tcdell;
 extern int		 rptcount;	/* successive invocation count */
 extern int		 makebackup;
+extern int		 is_starting_up;
 
 /* https://github.com/hboetes/mg/issues/7#issuecomment-475869095 */
 #if defined(__APPLE__) || defined(__NetBSD__)
