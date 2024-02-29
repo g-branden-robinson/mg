@@ -1606,12 +1606,14 @@ Insert text from the kill zone at point.
 kill zone contains only the most recently killed text;
 it is not a ring like that of GNU Emacs.)
 .It Ic zap\-to\-char
-Ask for a character and delete text from the current cursor position
-until the next instance of that character, including it.
+Prompt for a character,
+then kill text from point to the next matching character.
 .It Ic zap\-up\-to\-char
-Like
-.Ic zap\-to\-char
-but doesn't delete the target character.
+As
+.Ic zap\-to\-char ,
+but kill only
+.Em "up to"
+the matching character.
 .El
 .Ss "cscope key bindings"
 The default
