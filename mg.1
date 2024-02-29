@@ -1084,7 +1084,14 @@ but view the buffer in a new window,
 as with
 .Ic split\-window\-vertically .
 .It Ic find\-tag
-Jump to definition of tag at point.
+Prompt for a tag name
+(see subsection
+.Dq "Tag support"
+above),
+then visit its file as if by
+.Ic find\-file
+and
+.Ic goto\-line .
 .It Ic forward\-char
 Move point forward
 .Va n
