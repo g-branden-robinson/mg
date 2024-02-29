@@ -773,7 +773,7 @@ pattern and an
 command to run when the editor loads a file with a name matching that
 pattern into a buffer.
 .It Ic auto\-fill\-mode
-Toggle the buffer's auto-fill mode
+Set the buffer's auto-fill mode
 (sometimes called mail-mode).
 When enabled,
 .Nm
@@ -789,7 +789,7 @@ them.
 See
 .Ic fill\-paragraph . )
 .It Ic auto\-indent\-mode
-Toggle the buffer's indent mode.
+Set the buffer's indent mode.
 When enabled and a newline is inserted,
 .Nm
 copies any spaces or tabs indenting the breaking line to the new line.
@@ -873,7 +873,7 @@ If backspacing twice produces a help prompt in the minibuffer and C\-h
 destructively backspaces in a window,
 enable this setting.
 .It Ic c\-mode
-Toggle a KNF-compliant mode for editing C program files;
+Enable a KNF-compliant mode for editing C program files in the buffer;
 .Xr style 9
 describes KNF on
 .Fx
@@ -1117,8 +1117,8 @@ Bind a key in the global (fundamental) keymap.
 .It Ic global\-unset\-key
 Unbind a key in the global (fundamental) key map.
 .It Ic global\-wd\-mode
-Toggle global working-directory mode.
-When enabled,
+Enable global working-directory mode,
+where
 .Nm
 defaults to opening files,
 and executing the commands
