@@ -10,6 +10,7 @@
 #include <sys/stat.h>
 #include <errno.h>
 #include <libgen.h>
+#include <limits.h>
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -206,11 +207,9 @@ readin(char *fname)
 		return (TRUE);
 	/* Clear readonly. May be set by autoexec path */
 	curbp->b_flag &= ~BFREADONLY;
-	if ((status = insertfile(fname, fname, TRUE)) != TRUE) {
-		dobeep();
-		ewprintf("File is not readable: %s", fname);
+	/* We trust insertfile to throw any needed diagnostics. */
+	if ((status = insertfile(fname, fname, TRUE)) != TRUE)
 		return (FALSE);
-	}
 
 	for (wp = wheadp; wp != NULL; wp = wp->w_wndp) {
 		if (wp->w_bufp == curbp) {
@@ -398,24 +397,37 @@ retry:
 			}
 			break;
 		case FIOLONG: {
-				/* a line too long to fit in our buffer */
+				/* line too long to fit in our buffer */
 				char	*cp;
-				int	newsize;
+				size_t	newsize;
 
-				newsize = linesize * 2;
-				if (newsize < 0 ||
-				    (cp = malloc(newsize)) == NULL) {
+				if (linesize < (INT_MAX / 2)) {
+					newsize = linesize * 2;
+					if ((cp = malloc(newsize))
+					    == NULL) {
+						dobeep();
+						ewprintf("Cannot read"
+							 " file \"%s\":"
+							 " cannot"
+							 " allocate %zu"
+							 " bytes",
+							 newsize);
+						s = FIOERR;
+						goto endoffile;
+					}
+				} else {
 					dobeep();
-					ewprintf("Could not allocate %d bytes",
-					    newsize);
+					ewprintf("Cannot read file"
+						 " \"%s\": line too"
+						 " long", fname);
 					s = FIOERR;
 					goto endoffile;
 				}
 				bcopy(line, cp, linesize);
 				free(line);
 				line = cp;
-				s = ffgetline(ffp, line + linesize, linesize,
-				    &nbytes);
+				s = ffgetline(ffp, line + linesize,
+					      linesize, &nbytes);
 				nbytes += linesize;
 				linesize = newsize;
 				if (s == FIOERR)
@@ -495,7 +507,13 @@ out:		lp2 = NULL;
 cleanup:
 	undo_enable(FFRAND, x);
 
-	/* return FALSE if error */
+	/*
+	 * Since we might be called (and fail) at startup, we have to
+	 * ensure any diagnostics thrown above will be seen.
+	 */
+	if ((s == FIOERR) && (is_starting_up))
+		ttwait(2000);
+
 	return (s != FIOERR);
 }
 
