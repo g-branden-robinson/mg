@@ -539,6 +539,7 @@ int		 ctrlg(int, int);
 int		 quit(int, int);
 
 /* ttyio.c */
+void		 oops(const char *);
 void		 panic(char *);
 
 /* cinfo.c */
