@@ -333,15 +333,17 @@ insertfile(char *fname, char *newname, int replacebuf)
 		/* file not found */
 		if (newname != NULL)
 			ewprintf("(New file)");
-		else
-			ewprintf("(File not found)");
+		else {
+			dobeep();
+			ewprintf("File \"%s\" not found", fname);
+		}
 		goto out;
 	} else if (s == FIODIR) {
 		/* file was a directory */
 		if (replacebuf == FALSE) {
 			dobeep();
-			ewprintf("Cannot insert: file is a directory, %s",
-			    fname);
+			ewprintf("Cannot insert file \"%s\";"
+				 " it is a directory", fname);
 			goto cleanup;
 		}
 		killbuffer(bp);

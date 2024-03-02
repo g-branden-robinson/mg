@@ -11,6 +11,7 @@
 
 #include <sys/queue.h>
 #include <sys/stat.h>
+#include <errno.h> /* errno */
 #include <signal.h>
 #include <stdio.h>
 #include <string.h>
@@ -42,17 +43,18 @@ changedir(int f, int n)
 	char	bufc[NFILEN], *bufp;
 
 	(void) strlcpy(bufc, mgcwd, sizeof bufc);
-	if ((bufp = eread("Change default directory: ", bufc, NFILEN,
+	if ((bufp = eread("Change directory to: ", bufc, NFILEN,
 	    EFDEF | EFNEW | EFCR | EFFILE)) == NULL)
 		return (ABORT);
 	else if (bufp[0] == '\0')
 		return (FALSE);
-	/* Append trailing slash */
 	if (chdir(bufc) == -1) {
 		dobeep();
-		ewprintf("Can't change dir to %s", bufc);
+		ewprintf("Cannot change directory to \"%s\": %s", bufc,
+			 strerror(errno));
 		return (FALSE);
 	}
+	/* Append trailing slash */
 	if ((bufp = getcwd(mgcwd, sizeof mgcwd)) == NULL) {
 		if (bufc[0] == '/')
 			(void) strlcpy(mgcwd, bufc, sizeof mgcwd);
@@ -141,7 +143,8 @@ do_makedir(char *path)
 		ishere = !stat(path, &sb);
 		if (finished && ishere) {
 			dobeep();
-			ewprintf("Cannot create directory %s: file exists",
+			ewprintf("Cannot create directory \"%s\":"
+				 " file name already exists",
 			     path);
 			return(FALSE);
 		} else if (!finished && ishere && S_ISDIR(sb.st_mode)) {
@@ -158,8 +161,10 @@ do_makedir(char *path)
 			if (!ishere || !S_ISDIR(sb.st_mode)) {
 				if (!ishere) {
 					dobeep();
-					ewprintf("Creating directory: "
-					    "permission denied, %s", path);
+					ewprintf("Cannot create"
+						 " directory \"%s\":"
+						 " %s", path,
+						 strerror(errno));
 				} else
 					eerase();
 
