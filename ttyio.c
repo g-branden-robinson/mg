@@ -215,7 +215,7 @@ oops(const char *s)
  * panic - just exit, as quickly as we can.
  */
 void
-panic(char *s)
+panic(const char *s)
 {
 	static int panicking = 0;
 
