@@ -22,255 +22,6 @@
 size_t xdirname(char *, const char *, size_t);
 
 /*
- * Insert a file into the current buffer.  Real easy - just call the
- * insertfile routine with the file name.
- */
-int
-fileinsert(int f, int n)
-{
-	char	 fname[NFILEN], *bufp, *adjf;
-
-	if (getbufcwd(fname, sizeof fname) != TRUE)
-		fname[0] = '\0';
-	bufp = eread("Insert file: ", fname, NFILEN,
-	    EFNEW | EFCR | EFFILE | EFDEF);
-	if (bufp == NULL)
-		return (ABORT);
-	else if (bufp[0] == '\0')
-		return (FALSE);
-	adjf = adjustname(bufp, TRUE);
-	if (adjf == NULL)
-		return (FALSE);
-	return (insertfile(adjf, NULL, FALSE));
-}
-
-/*
- * Select a file for editing.  If the file is a directory, invoke dired.
- * Otherwise, look around to see if you can find the file in another buffer;
- * if you can find it, just switch to the buffer.  If you cannot find the
- * file, create a new buffer, read in the text, and switch to the new buffer.
- */
-int
-filevisit(int f, int n)
-{
-	struct buffer	*bp;
-	char	 fname[NFILEN], *bufp, *adjf;
-	int	 status;
-
-	if (getbufcwd(fname, sizeof fname) != TRUE)
-		fname[0] = '\0';
-	bufp = eread("Find file: ", fname, NFILEN,
-	    EFNEW | EFCR | EFFILE | EFDEF);
-	if (bufp == NULL)
-		return (ABORT);
-	else if (bufp[0] == '\0')
-		return (FALSE);
-	adjf = adjustname(fname, TRUE);
-	if (adjf == NULL)
-		return (FALSE);
-	if (fisdir(adjf) == TRUE)
-		return (do_dired(adjf));
-	if ((bp = findbuffer(adjf)) == NULL)
-		return (FALSE);
-	curbp = bp;
-	if (showbuffer(bp, curwp, WFFULL) != TRUE)
-		return (FALSE);
-	if (bp->b_fname[0] == '\0') {
-		if ((status = readin(adjf)) != TRUE)
-			killbuffer(bp);
-		return (status);
-	}
-	return (TRUE);
-}
-
-/*
- * Replace the current file with an alternate one. Semantics for finding
- * the replacement file are the same as 'filevisit', except the current
- * buffer is killed before the switch. If the kill fails, or is aborted,
- * revert to the original file.
- */
-int
-filevisitalt(int f, int n)
-{
-	char	 fname[NFILEN], *bufp;
-
-	if (getbufcwd(fname, sizeof fname) != TRUE)
-		fname[0] = '\0';
-	bufp = eread("Find alternate file: ", fname, NFILEN,
-	    EFNEW | EFCR | EFFILE | EFDEF);
-	if (bufp == NULL)
-		return (ABORT);
-	else if (bufp[0] == '\0')
-		return (FALSE);
-
-	return (do_filevisitalt(fname));
-}
-
-int
-do_filevisitalt(char *fn)
-{
-	struct buffer	*bp;
-	int		 status;
-	char		*adjf;
-
-	status = killbuffer(curbp);
-	if (status == ABORT || status == FALSE)
-		return (ABORT);
-
-	adjf = adjustname(fn, TRUE);
-	if (adjf == NULL)
-		return (FALSE);
-	if (fisdir(adjf) == TRUE)
-		return (do_dired(adjf));
-	if ((bp = findbuffer(adjf)) == NULL)
-		return (FALSE);
-	curbp = bp;
-	if (showbuffer(bp, curwp, WFFULL) != TRUE)
-		return (FALSE);
-	if (bp->b_fname[0] == '\0') {
-		if ((status = readin(adjf)) != TRUE)
-			killbuffer(bp);
-		return (status);
-	}
-	return (TRUE);
-}
-
-int
-filevisitro(int f, int n)
-{
-	int error;
-
-	error = filevisit(f, n);
-	if (error != TRUE)
-		return (error);
-	curbp->b_flag |= BFREADONLY;
-	return (TRUE);
-}
-
-/*
- * Pop to a file in the other window.  Same as the last function, but uses
- * popbuf instead of showbuffer.
- */
-int
-poptofile(int f, int n)
-{
-	struct buffer	*bp;
-	struct mgwin	*wp;
-	char	 fname[NFILEN], *adjf, *bufp;
-	int	 status;
-
-	if (getbufcwd(fname, sizeof fname) != TRUE)
-		fname[0] = '\0';
-	if ((bufp = eread("Find file in other window: ", fname, NFILEN,
-	    EFNEW | EFCR | EFFILE | EFDEF)) == NULL)
-		return (ABORT);
-	else if (bufp[0] == '\0')
-		return (FALSE);
-	adjf = adjustname(fname, TRUE);
-	if (adjf == NULL)
-		return (FALSE);
-	if (fisdir(adjf) == TRUE)
-		return (do_dired(adjf));
-	if ((bp = findbuffer(adjf)) == NULL)
-		return (FALSE);
-	if (bp == curbp)
-		return (splitwind(f, n));
-	if ((wp = popbuf(bp, WNONE)) == NULL)
-		return (FALSE);
-	curbp = bp;
-	curwp = wp;
-	if (bp->b_fname[0] == '\0') {
-		if ((status = readin(adjf)) != TRUE)
-			killbuffer(bp);
-		return (status);
-	}
-	return (TRUE);
-}
-
-/*
- * Read the file "fname" into the current buffer.  Make all of the text
- * in the buffer go away, after checking for unsaved changes.  This is
- * called by the "read" command, the "visit" command, and the mainline
- * (for "mg file").
- */
-int
-readin(char *fname)
-{
-	struct mgwin	*wp;
-	struct stat	 statbuf;
-	int	 status, i, ro = FALSE;
-	PF	*ael;
-	char	 dp[NFILEN];
-
-	/* might be old */
-	if (bclear(curbp) != TRUE)
-		return (TRUE);
-	/* Clear readonly. May be set by autoexec path */
-	curbp->b_flag &= ~BFREADONLY;
-	/* We trust insertfile to throw any needed diagnostics. */
-	if ((status = insertfile(fname, fname, TRUE)) != TRUE)
-		return (FALSE);
-
-	for (wp = wheadp; wp != NULL; wp = wp->w_wndp) {
-		if (wp->w_bufp == curbp) {
-			wp->w_dotp = wp->w_linep = bfirstlp(curbp);
-			wp->w_doto = 0;
-			wp->w_markp = NULL;
-			wp->w_marko = 0;
-		}
-	}
-
-	/*
-	 * Call auto-executing function if we need to.
-	 */
-	if ((ael = find_autoexec(fname)) != NULL) {
-		for (i = 0; ael[i] != NULL; i++)
-			(*ael[i])(0, 1);
-		free(ael);
-	}
-
-	/* no change */
-	curbp->b_flag &= ~BFCHG;
-
-	/*
-	 * Set the buffer READONLY flag if any of following are true:
-	 *   1. file is a directory.
-	 *   2. file is read-only.
-	 *   3. file doesn't exist and directory is read-only.
-	 */
-	if (fisdir(fname) == TRUE) {
-		ro = TRUE;
-	} else if ((access(fname, W_OK) == -1)) {
-		if (errno != ENOENT) {
-			ro = TRUE;
-		} else if (errno == ENOENT) {
-			(void) xdirname(dp, fname, sizeof dp);
-			(void) strlcat(dp, "/", sizeof dp);
-
-			/* Missing directory; keep buffer rw, like emacs */
-			if (stat(dp, &statbuf) == -1 && errno == ENOENT) {
-				if (eyorn("Missing directory, create") == TRUE)
-					(void)do_makedir(dp);
-			} else if (access(dp, W_OK) == -1 && errno == EACCES) {
-				ewprintf("File not found and directory"
-				    " is read-only");
-				ro = TRUE;
-			}
-		}
-	}
-	if (ro == TRUE)
-		curbp->b_flag |= BFREADONLY;
-
-	if (startrow) {
-		gotoline(FFANYARG, startrow);
-		startrow = 0;
-	}
-
-	undo_add_modified();
-	return (status);
-}
-
-/*
  * NB, getting file attributes is done here under control of a flag
  * rather than in readin, which would be cleaner.  I was concerned
  * that some operating system might require the file to be open
@@ -517,6 +268,254 @@ cleanup:
 		ttwait(2000);
 
 	return (s != FIOERR);
+}
+/*
+ * Insert a file into the current buffer.  Real easy - just call the
+ * insertfile routine with the file name.
+ */
+int
+fileinsert(int f, int n)
+{
+	char	 fname[NFILEN], *bufp, *adjf;
+
+	if (getbufcwd(fname, sizeof fname) != TRUE)
+		fname[0] = '\0';
+	bufp = eread("Insert file: ", fname, NFILEN,
+	    EFNEW | EFCR | EFFILE | EFDEF);
+	if (bufp == NULL)
+		return (ABORT);
+	else if (bufp[0] == '\0')
+		return (FALSE);
+	adjf = adjustname(bufp, TRUE);
+	if (adjf == NULL)
+		return (FALSE);
+	return (insertfile(adjf, NULL, FALSE));
+}
+
+/*
+ * Select a file for editing.  If the file is a directory, invoke dired.
+ * Otherwise, look around to see if you can find the file in another buffer;
+ * if you can find it, just switch to the buffer.  If you cannot find the
+ * file, create a new buffer, read in the text, and switch to the new buffer.
+ */
+int
+filevisit(int f, int n)
+{
+	struct buffer	*bp;
+	char	 fname[NFILEN], *bufp, *adjf;
+	int	 status;
+
+	if (getbufcwd(fname, sizeof fname) != TRUE)
+		fname[0] = '\0';
+	bufp = eread("Find file: ", fname, NFILEN,
+	    EFNEW | EFCR | EFFILE | EFDEF);
+	if (bufp == NULL)
+		return (ABORT);
+	else if (bufp[0] == '\0')
+		return (FALSE);
+	adjf = adjustname(fname, TRUE);
+	if (adjf == NULL)
+		return (FALSE);
+	if (fisdir(adjf) == TRUE)
+		return (do_dired(adjf));
+	if ((bp = findbuffer(adjf)) == NULL)
+		return (FALSE);
+	curbp = bp;
+	if (showbuffer(bp, curwp, WFFULL) != TRUE)
+		return (FALSE);
+	if (bp->b_fname[0] == '\0') {
+		if ((status = readin(adjf)) != TRUE)
+			killbuffer(bp);
+		return (status);
+	}
+	return (TRUE);
+}
+
+/*
+ * Replace the current file with an alternate one. Semantics for finding
+ * the replacement file are the same as 'filevisit', except the current
+ * buffer is killed before the switch. If the kill fails, or is aborted,
+ * revert to the original file.
+ */
+int
+filevisitalt(int f, int n)
+{
+	char	 fname[NFILEN], *bufp;
+
+	if (getbufcwd(fname, sizeof fname) != TRUE)
+		fname[0] = '\0';
+	bufp = eread("Find alternate file: ", fname, NFILEN,
+	    EFNEW | EFCR | EFFILE | EFDEF);
+	if (bufp == NULL)
+		return (ABORT);
+	else if (bufp[0] == '\0')
+		return (FALSE);
+
+	return (do_filevisitalt(fname));
+}
+
+int
+do_filevisitalt(char *fn)
+{
+	struct buffer	*bp;
+	int		 status;
+	char		*adjf;
+
+	status = killbuffer(curbp);
+	if (status == ABORT || status == FALSE)
+		return (ABORT);
+
+	adjf = adjustname(fn, TRUE);
+	if (adjf == NULL)
+		return (FALSE);
+	if (fisdir(adjf) == TRUE)
+		return (do_dired(adjf));
+	if ((bp = findbuffer(adjf)) == NULL)
+		return (FALSE);
+	curbp = bp;
+	if (showbuffer(bp, curwp, WFFULL) != TRUE)
+		return (FALSE);
+	if (bp->b_fname[0] == '\0') {
+		if ((status = readin(adjf)) != TRUE)
+			killbuffer(bp);
+		return (status);
+	}
+	return (TRUE);
+}
+
+int
+filevisitro(int f, int n)
+{
+	int error;
+
+	error = filevisit(f, n);
+	if (error != TRUE)
+		return (error);
+	curbp->b_flag |= BFREADONLY;
+	return (TRUE);
+}
+
+/*
+ * Pop to a file in the other window.  Same as the last function, but uses
+ * popbuf instead of showbuffer.
+ */
+int
+poptofile(int f, int n)
+{
+	struct buffer	*bp;
+	struct mgwin	*wp;
+	char	 fname[NFILEN], *adjf, *bufp;
+	int	 status;
+
+	if (getbufcwd(fname, sizeof fname) != TRUE)
+		fname[0] = '\0';
+	if ((bufp = eread("Find file in other window: ", fname, NFILEN,
+	    EFNEW | EFCR | EFFILE | EFDEF)) == NULL)
+		return (ABORT);
+	else if (bufp[0] == '\0')
+		return (FALSE);
+	adjf = adjustname(fname, TRUE);
+	if (adjf == NULL)
+		return (FALSE);
+	if (fisdir(adjf) == TRUE)
+		return (do_dired(adjf));
+	if ((bp = findbuffer(adjf)) == NULL)
+		return (FALSE);
+	if (bp == curbp)
+		return (splitwind(f, n));
+	if ((wp = popbuf(bp, WNONE)) == NULL)
+		return (FALSE);
+	curbp = bp;
+	curwp = wp;
+	if (bp->b_fname[0] == '\0') {
+		if ((status = readin(adjf)) != TRUE)
+			killbuffer(bp);
+		return (status);
+	}
+	return (TRUE);
+}
+
+/*
+ * Read the file "fname" into the current buffer.  Make all of the text
+ * in the buffer go away, after checking for unsaved changes.  This is
+ * called by the "read" command, the "visit" command, and the mainline
+ * (for "mg file").
+ */
+int
+readin(char *fname)
+{
+	struct mgwin	*wp;
+	struct stat	 statbuf;
+	int	 status, i, ro = FALSE;
+	PF	*ael;
+	char	 dp[NFILEN];
+
+	/* might be old */
+	if (bclear(curbp) != TRUE)
+		return (TRUE);
+	/* Clear readonly. May be set by autoexec path */
+	curbp->b_flag &= ~BFREADONLY;
+	/* We trust insertfile to throw any needed diagnostics. */
+	if ((status = insertfile(fname, fname, TRUE)) != TRUE)
+		return (FALSE);
+
+	for (wp = wheadp; wp != NULL; wp = wp->w_wndp) {
+		if (wp->w_bufp == curbp) {
+			wp->w_dotp = wp->w_linep = bfirstlp(curbp);
+			wp->w_doto = 0;
+			wp->w_markp = NULL;
+			wp->w_marko = 0;
+		}
+	}
+
+	/*
+	 * Call auto-executing function if we need to.
+	 */
+	if ((ael = find_autoexec(fname)) != NULL) {
+		for (i = 0; ael[i] != NULL; i++)
+			(*ael[i])(0, 1);
+		free(ael);
+	}
+
+	/* no change */
+	curbp->b_flag &= ~BFCHG;
+
+	/*
+	 * Set the buffer READONLY flag if any of following are true:
+	 *   1. file is a directory.
+	 *   2. file is read-only.
+	 *   3. file doesn't exist and directory is read-only.
+	 */
+	if (fisdir(fname) == TRUE) {
+		ro = TRUE;
+	} else if ((access(fname, W_OK) == -1)) {
+		if (errno != ENOENT) {
+			ro = TRUE;
+		} else if (errno == ENOENT) {
+			(void) xdirname(dp, fname, sizeof dp);
+			(void) strlcat(dp, "/", sizeof dp);
+
+			/* Missing directory; keep buffer rw, like emacs */
+			if (stat(dp, &statbuf) == -1 && errno == ENOENT) {
+				if (eyorn("Missing directory, create") == TRUE)
+					(void)do_makedir(dp);
+			} else if (access(dp, W_OK) == -1 && errno == EACCES) {
+				ewprintf("File not found and directory"
+				    " is read-only");
+				ro = TRUE;
+			}
+		}
+	}
+	if (ro == TRUE)
+		curbp->b_flag |= BFREADONLY;
+
+	if (startrow) {
+		gotoline(FFANYARG, startrow);
+		startrow = 0;
+	}
+
+	undo_add_modified();
+	return (status);
 }
 
 /*
