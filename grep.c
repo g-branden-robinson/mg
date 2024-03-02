@@ -7,6 +7,7 @@
 #include <sys/wait.h>
 
 #include <ctype.h>
+#include <errno.h> /* errno */
 #include <limits.h>
 #include <signal.h>
 #include <stdio.h>
@@ -212,12 +213,13 @@ compile_mode(const char *name, const char *command)
 		      " compile_mode");
 	if (chdir(bp->b_cwd) == -1) {
 		dobeep();
-		ewprintf("Can't change dir to %s", bp->b_cwd);
+		ewprintf("Cannot change directory to \"%s\": %s",
+			 bp->b_cwd, strerror(errno));
 		return (NULL);
 	}
 	if ((fpipe = popen(qcmd, "r")) == NULL) {
 		dobeep();
-		ewprintf("Problem opening pipe");
+		ewprintf("Cannot open pipe: %s", strerror(errno));
 		return (NULL);
 	}
 	while ((len = getline(&buf, &sz, fpipe)) != -1) {
@@ -253,7 +255,8 @@ compile_mode(const char *name, const char *command)
 
 	if (chdir(cwd) == -1) {
 		dobeep();
-		ewprintf("Can't change dir back to %s", cwd);
+		ewprintf("Cannot change directory back to"
+			 " \"%s\": %s", cwd, strerror(errno));
 		return (NULL);
 	}
 	return (bp);
