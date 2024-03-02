@@ -24,7 +24,6 @@ int	 globalwd = FALSE;
 static int	 compile_goto_error(int, int);
 int		 next_error(int, int);
 static int	 grep(int, int);
-static int	 gid(int, int);
 static struct buffer	*compile_mode(const char *, const char *);
 void grep_init(void);
 
@@ -58,7 +57,6 @@ grep_init(void)
 	funmap_add(next_error, "next-error", 0);
 	funmap_add(grep, "grep", 1);
 	funmap_add(compile, "compile", 0);
-	funmap_add(gid, "gid", 1);
 	maps_add((KEYMAP *)&compilemap, "compile");
 }
 
@@ -117,64 +115,6 @@ compile(int f, int n)
 	curbp = bp;
 	compile_win = curwp = wp;
 	gotoline(FFANYARG, 0);
-	return (TRUE);
-}
-
-/* id-utils foo. */
-static int
-gid(int f, int n)
-{
-	char	 command[NFILEN];
-	char	 cprompt[NFILEN], *bufp;
-	int	c;
-	struct buffer	*bp;
-	struct mgwin	*wp;
-	int	 i, j, len;
-
-	/* catch ([^\s(){}]+)[\s(){}]* */
-
-	i = curwp->w_doto;
-	/* Skip backwards over delimiters we are currently on */
-	while (i > 0) {
-		c = lgetc(curwp->w_dotp, i);
-		if (isalnum(c) || c == '_')
-			break;
-
-		i--;
-	}
-
-	/* Skip the symbol itself */
-	for (; i > 0; i--) {
-		c = lgetc(curwp->w_dotp, i - 1);
-		if (!isalnum(c) && c != '_')
-			break;
-	}
-	/* Fill the symbol in cprompt[] */
-	for (j = 0;
-	     j < sizeof cprompt - 1 && i < llength(curwp->w_dotp);
-	     j++, i++) {
-		c = lgetc(curwp->w_dotp, i);
-		if (!isalnum(c) && c != '_')
-			break;
-		cprompt[j] = c;
-	}
-	cprompt[j] = '\0';
-
-	if ((bufp = eread("Run gid (with args): ", cprompt, NFILEN,
-	    (j ? EFDEF : 0) | EFNEW | EFCR)) == NULL)
-		return (ABORT);
-	else if (bufp[0] == '\0')
-		return (FALSE);
-	len = snprintf(command, sizeof command, "gid %s", cprompt);
-	if (len < 0 || len >= sizeof command)
-		return (FALSE);
-
-	if ((bp = compile_mode("*gid*", command)) == NULL)
-		return (FALSE);
-	if ((wp = popbuf(bp, WNONE)) == NULL)
-		return (FALSE);
-	curbp = bp;
-	compile_win = curwp = wp;
 	return (TRUE);
 }
 
