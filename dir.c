@@ -11,9 +11,11 @@
 
 #include <sys/queue.h>
 #include <sys/stat.h>
+#include <err.h> /* warnx() */
 #include <errno.h> /* errno */
 #include <signal.h>
 #include <stdio.h>
+#include <stdlib.h> /* free() */
 #include <string.h>
 #include <unistd.h>
 
@@ -27,9 +29,23 @@ static char	 mgcwd[NFILEN];
 void
 dirinit(void)
 {
+	char	*errstr = NULL;
+
 	mgcwd[0] = '\0';
-	if (getcwd(mgcwd, sizeof mgcwd) == NULL)
-		ewprintf("Can't get current directory!");
+	if (getcwd(mgcwd, sizeof mgcwd) == NULL) {
+		(void) asprintf(&errstr, "Cannot get working directory:"
+				" %s", strerror(errno));
+		if (batch) {
+			vttidy();
+			warnx("%s", errstr);
+		}
+		else if (is_starting_up)
+			oops(errstr);
+		else
+			dobeep_msg(errstr);
+		free(errstr);
+		return;
+	}
 	if (mgcwd[0] != '\0' && !(mgcwd[0] == '/' && mgcwd[1] == '\0'))
 		(void) strlcat(mgcwd, "/", sizeof mgcwd);
 }
