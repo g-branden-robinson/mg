@@ -253,7 +253,7 @@ readin(char *fname)
 					(void)do_makedir(dp);
 			} else if (access(dp, W_OK) == -1 && errno == EACCES) {
 				ewprintf("File not found and directory"
-				    " write-protected");
+				    " is read-only");
 				ro = TRUE;
 			}
 		}
@@ -701,8 +701,7 @@ writeout(FILE ** ffp, struct buffer *bp, char *fn)
 		(void) strlcat(dp, "/", sizeof dp);
 		if (access(dp, W_OK) && errno == EACCES) {
 			dobeep();
-			ewprintf("Directory \"%s\" is write-protected",
-				 dp);
+			ewprintf("Directory \"%s\" is read-only", dp);
 			return (FIOERR);
 		} else if (errno == ENOENT) {
 			dobeep();
