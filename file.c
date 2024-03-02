@@ -29,14 +29,15 @@ size_t xdirname(char *, const char *, size_t);
  */
 
 /*
- * Insert a file in the current buffer, after point. If file is a directory,
- * and 'replacebuf' is TRUE, invoke dired mode, else die with an error.
- * If file is a regular file, set mark at the end of the text inserted;
- * point at the beginning.  Return a standard status. Print a summary
- * (lines read, error message) out as well. This routine also does the
- * read end of backup processing.  The BFBAK flag, if set in a buffer,
- * says that a backup should be taken.  It is set when a file is read in,
- * but not on a new file. You don't need to make a backup copy of nothing.
+ * Insert `file` in buffer at point.  If `file` is a directory, and
+ * `replacebuf` is TRUE, invoke dired mode, else die with an error.  If
+ * `file` is a regular file, set mark at the end of the text inserted,
+ * and point at the beginning.  Return a standard status.  Print a
+ * summary (lines read, error message) out as well.  This routine also
+ * does the read end of backup processing.  The BFBAK flag, if set in a
+ * buffer, says that a backup should be taken.  It is set when a file is
+ * read in, but not on a new file--you don't need to make a backup copy
+ * of an empty file.
  */
 
 static char	*line = NULL;
@@ -52,7 +53,7 @@ insertfile(char *fname, char *newname, int replacebuf)
 	int	 nbytes, s, nline = 0, siz, x, x2;
 	int	 opos;			/* offset we started at */
 	int	 oline;			/* original line number */
-        FILE    *ffp;
+	FILE    *ffp;
 
 	if (replacebuf == TRUE)
 		x = undo_enable(FFRAND, 0);
@@ -270,8 +271,8 @@ cleanup:
 	return (s != FIOERR);
 }
 /*
- * Insert a file into the current buffer.  Real easy - just call the
- * insertfile routine with the file name.
+ * Insert a file into the current buffer.  Call `insertfile()` with the
+ * file name.
  */
 int
 fileinsert(int f, int n)
@@ -438,8 +439,8 @@ poptofile(int f, int n)
 /*
  * Read the file "fname" into the current buffer.  Make all of the text
  * in the buffer go away, after checking for unsaved changes.  This is
- * called by the "read" command, the "visit" command, and the mainline
- * (for "mg file").
+ * called the handlers for several commands, including "read" and
+ * "visit-tags-table" command, and by main(), to handle "mg file".
  */
 int
 readin(char *fname)
