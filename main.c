@@ -101,8 +101,8 @@ main(int argc, char **argv)
 			break;
 		case 'f':
 			if (init_fcn_name != NULL)
-				errx(1, "cannot specify more than one "
-				    "initial function");
+				errx(2, "usage error: cannot specify"
+				     "more than one initial function");
 			init_fcn_name = optarg;
 			break;
 		case 'u':
@@ -113,7 +113,8 @@ main(int argc, char **argv)
 		}
 
 	if (batch && (conffile != NULL))
-		errx(1, "-b and -u options are mutually exclusive");
+		errx(2, "usage error: -b and -u options are mutually"
+		     " exclusive");
 
 	if (batch) {
 		pty_init();
