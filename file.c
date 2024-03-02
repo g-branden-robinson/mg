@@ -42,7 +42,7 @@ size_t xdirname(char *, const char *, size_t);
 static char	*line = NULL;
 static int	linesize = 0;
 
-int
+static int
 insertfile(char *fname, char *newname, int replacebuf)
 {
 	struct buffer	*bp;
