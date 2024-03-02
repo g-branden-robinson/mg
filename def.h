@@ -540,7 +540,7 @@ int		 quit(int, int);
 
 /* ttyio.c */
 void		 oops(const char *);
-void		 panic(char *);
+void		 panic(const char *);
 
 /* cinfo.c */
 char		*getkeyname(char  *, size_t, int);
