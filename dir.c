@@ -89,7 +89,10 @@ changedir(int f, int n)
 int
 showcwdir(int f, int n)
 {
-	ewprintf("Current directory: %s", mgcwd);
+	dirinit(); /* will complain with dobeep if it fails */
+	if (strlen(mgcwd) == 0)
+		return (FALSE);
+	ewprintf("Current directory is \"%s\"", mgcwd);
 	return (TRUE);
 }
 
