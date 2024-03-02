@@ -265,7 +265,7 @@ fail:
 		goto retry;
 	}
 	dobeep();
-	ewprintf("No more hits");
+	ewprintf("Reached end of error selection buffer");
 	return (FALSE);
 }
 
@@ -274,19 +274,21 @@ next_error(int f, int n)
 {
 	if (compile_win == NULL || compile_buffer == NULL) {
 		dobeep();
-		ewprintf("No compilation active");
+		ewprintf("No error selection buffer exists");
 		return (FALSE);
 	}
+
 	curwp = compile_win;
 	curbp = compile_buffer;
+
 	if (curwp->w_dotp == blastlp(curbp)) {
 		dobeep();
-		ewprintf("No more hits");
+		ewprintf("Reached end of error selection buffer");
 		return (FALSE);
 	}
+
 	curwp->w_dotp = lforw(curwp->w_dotp);
 	curwp->w_rflag |= WFMOVE;
-
 	return (compile_goto_error(f, n));
 }
 
@@ -303,6 +305,5 @@ globalwdtoggle(int f, int n)
 		globalwd = !globalwd;
 
 	sgarbf = TRUE;
-
 	return (TRUE);
 }
