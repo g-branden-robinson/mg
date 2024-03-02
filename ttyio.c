@@ -197,6 +197,21 @@ charswaiting(void)
 }
 
 /*
+ * oops - Write a message to the terminal when the screen or I/O state
+ *        might not be ideal, but the problem isn't fatal.
+ */
+void
+oops(const char *s)
+{
+	(void) fputc('\n', stderr);
+	(void) fputs(getprogname(), stderr);
+	(void) fputs(": error: ", stderr);
+	(void) fputs(s, stderr);
+	(void) fflush(stderr);
+	(void) sleep(2);
+}
+
+/*
  * panic - just exit, as quickly as we can.
  */
 void
