@@ -1047,9 +1047,9 @@ diffbuffer(int f, int n)
 
 	len = 0;
 
-	/* C-u is not supported */
-	if (n > 1)
-		return (ABORT);
+	if (f & FFANYARG)
+		return(dobeep_msg("Command does not accept a"
+				  " parameter"));
 
 	if (access(DIFFTOOL, X_OK) != 0) {
 		dobeep();
