@@ -20,8 +20,6 @@
 #include "def.h"
 #include "kbd.h"		/* needed for modes */
 
-#define DIFFTOOL "/usr/bin/diff"
-
 static struct buffer  *makelist(void);
 static struct buffer *bnew(const char *);
 
@@ -1043,20 +1041,13 @@ diffbuffer(int f, int n)
 	int		 ret;
 	char		*text, *ttext;
 	char		* const argv[] =
-	    {DIFFTOOL, "-u", "-p", curbp->b_fname, "-", (char *)NULL};
+	    {"diff", "-u", "-p", curbp->b_fname, "-", (char *)NULL};
 
 	len = 0;
 
 	if (f & FFANYARG)
 		return(dobeep_msg("Command does not accept a"
 				  " parameter"));
-
-	if (access(DIFFTOOL, X_OK) != 0) {
-		dobeep();
-		ewprintf("\"%s\" does not exist or is not executable",
-			 DIFFTOOL);
-		return (FALSE);
-	}
 
 	if (curbp->b_fname[0] == 0)
 		return(dobeep_msg("Cannot diff a buffer not associated"
@@ -1093,7 +1084,7 @@ diffbuffer(int f, int n)
 		return (FALSE);
 	}
 
-	ret = pipeio(DIFFTOOL, argv, text, len, bp);
+	ret = pipeio("diff", argv, text, len, bp);
 
 	if (ret == TRUE) {
 		eerase();
