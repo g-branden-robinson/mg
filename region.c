@@ -531,7 +531,7 @@ shellcmdoutput(char* const cmd, char* const text, int len,
 }
 
 /*
- * Create a socketpair, fork and execv path with argv.
+ * Create a socketpair, fork and execvp `path` with `argv`.
  * STDIN, STDOUT and STDERR of child process are redirected to socket.
  * Parent writes len chars from text to socket.
  */
@@ -564,7 +564,7 @@ pipeio(const char* const path, char* const argv[], char* const text, int len,
 		if (dup2(s[1], STDERR_FILENO) == -1)
 			_exit(1);
 
-		execv(path, argv);
+		execvp(path, argv);
 		err = strerror(errno);
 		write(s[1], err, strlen(err));
 		_exit(1);
