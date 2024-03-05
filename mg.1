@@ -1301,9 +1301,10 @@ or
 buffer.
 (The messages need not be errors.)
 .It Ic next\-line
-Move forward
+Move point forward
 .Va n
-lines.
+lines,
+remaining at the same column or the nearest to its left.
 .It Ic no\-tab\-mode
 Toggle notab mode.
 In this mode, spaces are inserted rather than tabs.
@@ -1336,7 +1337,8 @@ or by invoking this command with a prefix argument.
 .It Ic previous\-line
 Move backwards
 .Va n
-lines.
+lines,
+remaining at the same column or the nearest to its left.
 .It Ic previous\-window
 This command makes the previous (up the screen) window the
 current window.
