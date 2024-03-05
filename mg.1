@@ -1059,7 +1059,11 @@ Prompt for and run an
 .Nm
 command by name.
 .It Ic fill\-paragraph
-Justify a paragraph, wrapping text at the current fill column.
+Fill the paragraph at point,
+collecting as many words as possible on each line and breaking the line
+at the first space at or before the fill column.
+See
+.Ic set\-fill\-column .
 .It Ic find\-alternate\-file
 As
 .Ic find\-file ,
