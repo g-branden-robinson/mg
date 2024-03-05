@@ -1040,8 +1040,10 @@ diffbuffer(int f, int n)
 	size_t		 len;
 	int		 ret;
 	char		*text, *ttext;
-	char		* const argv[] =
-	    {"diff", "-u", "-p", curbp->b_fname, "-", (char *)NULL};
+	const char	 diff[] = "diff";
+	char *const	 argv[] =
+	    {(char *) diff, "-u", "-p", curbp->b_fname, "-",
+	     (char *)NULL};
 
 	len = 0;
 
@@ -1084,12 +1086,13 @@ diffbuffer(int f, int n)
 		return (FALSE);
 	}
 
-	ret = pipeio("diff", argv, text, len, bp);
+	ret = pipeio(diff, argv, text, len, bp);
 
 	if (ret == TRUE) {
 		eerase();
 		if (lforw(bp->b_headp) == bp->b_headp)
-			addline(bp, "Diff finished (no differences).");
+			addlinef(bp, "%s finished (no differences).",
+				 diff);
 	}
 
 	free(text);

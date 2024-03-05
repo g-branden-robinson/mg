@@ -539,9 +539,9 @@ int
 pipeio(const char* const path, char* const argv[], char* const text, int len,
     struct buffer *outbp)
 {
-	int s[2], ret;
-	char *err;
-	pid_t pid;
+	int	 s[2], ret;
+	char	*err, *errstr;
+	pid_t	 pid;
 
 	if (socketpair(AF_UNIX, SOCK_STREAM, PF_UNSPEC, s) == -1) {
 		dobeep();
@@ -566,7 +566,11 @@ pipeio(const char* const path, char* const argv[], char* const text, int len,
 
 		execvp(path, argv);
 		err = strerror(errno);
-		write(s[1], err, strlen(err));
+		if (err != 0) {
+			(void) asprintf(&errstr, "unable to run %s: %s",
+					path, err);
+			write(s[1], errstr, strlen(errstr));
+		}
 		_exit(1);
 	default:
 		/* Parent process */
