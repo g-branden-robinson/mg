@@ -1286,10 +1286,13 @@ Toggle the sign of the argument for the pending command.
 .It Ic newline
 Insert a newline at point.
 .It Ic newline\-and\-indent
-Insert a newline, then enough tabs and spaces to duplicate the indentation
-of the previous line, respecting
+As
+.Ic newline ,
+then insert enough tabs and spaces to duplicate the indentation
+of line before point,
+respecting
 .Ic no\-tab\-mode
-and the buffer tab width.
+and the buffer's tab width.
 .It Ic next\-error
 Visit a file at the line indicated by the next message in the
 .Dq *compile*
