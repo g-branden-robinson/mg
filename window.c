@@ -89,8 +89,7 @@ do_redraw(int f, int n, int force)
 
 		/* check if too small */
 		if (nrow < wp->w_toprow + 3) {
-			dobeep();
-			ewprintf("Display unusable");
+			dobeep_msg("Display unusable");
 			return (FALSE);
 		}
 		wp->w_ntrows = nrow - wp->w_toprow - 2;
@@ -215,8 +214,7 @@ splitwind(int f, int n)
 	}
 	wp = new_window(curbp);
 	if (wp == NULL) {
-		dobeep();
-		ewprintf("Unable to create a window");
+		dobeep_msg("Unable to create a window");
 		return (FALSE);
 	}
 
@@ -301,8 +299,7 @@ enlargewind(int f, int n)
 	if (n < 0)
 		return (shrinkwind(f, -n));
 	if (wheadp->w_wndp == NULL) {
-		dobeep();
-		ewprintf("Only one window");
+		dobeep_msg("Only one window");
 		return (FALSE);
 	}
 	if ((adjwp = curwp->w_wndp) == NULL) {
@@ -311,8 +308,7 @@ enlargewind(int f, int n)
 			adjwp = adjwp->w_wndp;
 	}
 	if (adjwp->w_ntrows <= n) {
-		dobeep();
-		ewprintf("Impossible change");
+		dobeep_msg("Impossible change");
 		return (FALSE);
 	}
 
@@ -352,8 +348,7 @@ shrinkwind(int f, int n)
 	if (n < 0)
 		return (enlargewind(f, -n));
 	if (wheadp->w_wndp == NULL) {
-		dobeep();
-		ewprintf("Only one window");
+		dobeep_msg("Only one window");
 		return (FALSE);
 	}
 	/*
@@ -361,8 +356,7 @@ shrinkwind(int f, int n)
 	 * to be trusted implicitly about sizes.
 	 */
 	if (!(f & FFRAND) && curwp->w_ntrows <= n) {
-		dobeep();
-		ewprintf("Impossible change");
+		dobeep_msg("Impossible change");
 		return (FALSE);
 	}
 	if ((adjwp = curwp->w_wndp) == NULL) {
