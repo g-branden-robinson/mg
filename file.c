@@ -117,7 +117,7 @@ insertfile(char *fname, char *newname, int replacebuf)
 	 * Disable undo, as we create the undo record manually.
 	 */
 	x2 = undo_enable(FFRAND, 0);
-	(void)lnewline();
+	(void) lnewline();
 	olp = lback(curwp->w_dotp);
 	undo_enable(FFRAND, x2);
 
@@ -198,7 +198,7 @@ retry:
 	eerase();
 endoffile:
 	/* ignore errors */
-	(void)ffclose(ffp, NULL);
+	(void) ffclose(ffp, NULL);
 	/* don't zap an error */
 	if (s == FIOEOF) {
 		if (nline == 1)
@@ -219,7 +219,7 @@ endoffile:
 		curwp->w_bufp->b_lines--;
 		curwp->w_markline--;
 	} else
-		(void)ldelnewline();
+		(void) ldelnewline();
 	curwp->w_dotp = olp;
 	curwp->w_doto = opos;
 	curwp->w_dotline = oline;
@@ -241,7 +241,7 @@ endoffile:
 		lp2 = curwp->w_dotp;
 	} else {
 		/* delete extraneous newline */
-		(void)ldelnewline();
+		(void) ldelnewline();
 out:		lp2 = NULL;
 	}
 	for (wp = wheadp; wp != NULL; wp = wp->w_wndp) {
@@ -499,7 +499,7 @@ readin(char *fname)
 			/* Missing directory; keep buffer rw, like emacs */
 			if (stat(dp, &statbuf) == -1 && errno == ENOENT) {
 				if (eyorn("Missing directory, create") == TRUE)
-					(void)do_makedir(dp);
+					(void) do_makedir(dp);
 			} else if (access(dp, W_OK) == -1 && errno == EACCES) {
 				ewprintf("File not found and directory"
 				    " is read-only");
@@ -574,7 +574,7 @@ filewrite(int f, int n)
 		free(curbp->b_bname);
 		if ((curbp->b_bname = strdup(bn)) == NULL)
 			return (FALSE);
-		(void)fupdstat(curbp);
+		(void) fupdstat(curbp);
 		curbp->b_flag &= ~(BFBAK | BFCHG);
 		upmodes(curbp);
 		undo_add_boundary(FFRAND, 1);
@@ -643,7 +643,7 @@ buffsave(struct buffer *bp)
 			return (s);
 	}
 	if ((s = writeout(&ffp, bp, bp->b_fname)) == TRUE) {
-		(void)fupdstat(bp);
+		(void) fupdstat(bp);
 		bp->b_flag &= ~(BFCHG | BFBAK);
 		upmodes(bp);
 		undo_add_boundary(FFRAND, 1);
@@ -727,7 +727,7 @@ writeout(FILE ** ffp, struct buffer *bp, char *fn)
 			ewprintf("Wrote \"%s\"", fn);
 	} else {
 		/* print a message indicating write error */
-		(void)ffclose(*ffp, bp);
+		(void) ffclose(*ffp, bp);
 		dobeep();
 		ewprintf("Unable to write \"%s\"", fn);
 	}
@@ -762,7 +762,7 @@ xdirname(char *dp, const char *path, size_t dplen)
 	char ts[NFILEN];
 	size_t len;
 
-	(void)strlcpy(ts, path, NFILEN);
+	(void) strlcpy(ts, path, NFILEN);
 	len = strlcpy(dp, dirname(ts), dplen);
 	if (dplen > 0 && dp[0] == '/' && dp[1] == '\0') {
 		dp[0] = '\0';
@@ -781,7 +781,7 @@ xbasename(char *bp, const char *path, size_t bplen)
 {
 	char ts[NFILEN];
 
-	(void)strlcpy(ts, path, NFILEN);
+	(void) strlcpy(ts, path, NFILEN);
 	return (strlcpy(bp, basename(ts), bplen));
 }
 
