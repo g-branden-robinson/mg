@@ -533,6 +533,8 @@ int		 selfinsert(int, int);
 int		 quote(int, int);
 int		 setpromptdelay(int, int);
 
+extern int	 prompt_delay;
+
 /* main.c */
 int		 ctrlg(int, int);
 int		 quit(int, int);
