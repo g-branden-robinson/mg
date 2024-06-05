@@ -1485,13 +1485,11 @@ command.
 Set the tab width for the current buffer, or the default for new buffers
 if called with a prefix argument or from the startup file.
 .It Ic shell\-command
-Execute external command from mini-buffer.
-With a universal argument it inserts the command output into the current
-buffer.
+Prompt for a shell command and execute it.
+An argument inserts the command output at point.
 .It Ic shell\-command\-on\-region
-Provide the text in region to the shell command as input.
-With a universal argument it replaces the region with the command
-output.
+Prompt for a shell command and execute it with the region as input.
+An argument replaces the region with the command output.
 .It Ic shrink\-window
 Shrink current window by one line.
 The window immediately below is expanded to pick up the slack.
