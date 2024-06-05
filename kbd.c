@@ -26,12 +26,13 @@
 #define PROMPTL 80
 char	 prompt[PROMPTL] = "", *promptp = prompt;
 
+int		 prompt_delay = 500;
+
 static int mgwrap(PF, int, int);
 
 static int		 use_metakey = TRUE;
 static int		 pushed = FALSE;
 static int		 pushedc;
-static int		 prompt_delay = 500;
 
 struct map_element	*ele;
 struct key		 key;
