@@ -285,11 +285,14 @@ fbackupfile(const char *fn)
 	close(from);
 	close(to);
 	if (nread == -1) {
-		if (unlink(tname) == -1)
+		if (unlink(tname) == -1) {
+			dobeep();
 			ewprintf("Cannot unlink temporary file: %s",
 				 strerror(errno));
+		}
 	} else {
 		if (rename(tname, nname) == -1) {
+			dobeep();
 			ewprintf("Cannot rename temporary file: %s",
 				 strerror(errno));
 			(void) unlink(tname);
@@ -417,14 +420,18 @@ copy(char *frname, char *toname)
 	}
 	while ((sr = read(ifd, buf, sizeof buf)) > 0) {
 		if (write(ofd, buf, (size_t)sr) != sr) {
+			dobeep();
 			ewprintf("Cannot write file: %s", strerror(errno));
 			break;
 		}
 	}
-	if (fchmod(ofd, orig.st_mode) == -1)
+	if (fchmod(ofd, orig.st_mode) == -1) {
+		dobeep();
 		ewprintf("Cannot set file permissions: %s", strerror(errno));
+	}
 
 	if (sr == -1) {
+		dobeep();
 		ewprintf("Cannot read file: %s", strerror(errno));
 		close(ifd);
 		close(ofd);
@@ -434,8 +441,10 @@ copy(char *frname, char *toname)
 	 * It is "normal" for this to fail since we can't guarantee that
 	 * we will be running as root.
 	 */
-	if (fchown(ofd, orig.st_uid, orig.st_gid) && errno != EPERM)
+	if (fchown(ofd, orig.st_uid, orig.st_gid) && errno != EPERM) {
+		dobeep();
 		ewprintf("Cannot set file owner: %s", strerror(errno));
+	}
 
 	(void) close(ifd);
 	(void) close(ofd);
@@ -680,8 +689,8 @@ backuptohomedir(int f, int n)
 	}
 
 	if (!makebackup)
-		ewprintf("backup-to-home-directory has no effect when"
-			 " make-backup-files not set");
+		dobeep_msg("backup-to-home-directory has no effect when"
+		           " make-backup-files not set");
 	else
 		ewprintf("Now backing files up to %s",
 			 (bkupdir != NULL) ? bkupdir
@@ -700,11 +709,11 @@ toggleleavetmp(int f, int n)
 	leavetmp = !leavetmp;
 
 	if (!makebackup)
-		ewprintf("leave-tmpdir-backups has no effect when"
-			 " make-backup-files not set");
+		dobeep_msg("leave-tmpdir-backups has no effect when"
+		           " make-backup-files not set");
 	else if (bkupdir == NULL)
-		ewprintf("leave-tmpdir-backups has no effect when"
-			 " backup-to-home-directory not set");
+		dobeep_msg("leave-tmpdir-backups has no effect when"
+			   " backup-to-home-directory not set");
 	else
 		ewprintf("Files in " TMPDIR " now %sbacked up in "
 			 TMPDIR, leavetmp ? "" : "no longer ");
