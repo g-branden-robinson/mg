@@ -229,7 +229,8 @@ fbackupfile(const char *fn)
 
 	if (stat(fn, &sb) == -1) {
 		dobeep();
-		ewprintf("Can't stat %s : %s", fn, strerror(errno));
+		ewprintf("Cannot get file status of \"%s\": %s", fn,
+			 strerror(errno));
 		return (FALSE);
 	}
 
@@ -238,14 +239,16 @@ fbackupfile(const char *fn)
 
 	if (asprintf(&nname, "%s~", bkpth) == -1) {
 		dobeep();
-		ewprintf("Can't allocate backup file name : %s", strerror(errno));
+		ewprintf("Cannot allocate backup file name: %s",
+			 strerror(errno));
 		free(bkpth);
 		free(nname);
 		return (ABORT);
 	}
 	if (asprintf(&tname, "%s.XXXXXXXXXX", bkpth) == -1) {
 		dobeep();
-		ewprintf("Can't allocate temp file name : %s", strerror(errno));
+		ewprintf("Cannot allocate temporary file name: %s",
+			 strerror(errno));
 		free(bkpth);
 		free(nname);
 		free(tname);
@@ -285,10 +288,12 @@ fbackupfile(const char *fn)
 	close(to);
 	if (nread == -1) {
 		if (unlink(tname) == -1)
-			ewprintf("Can't unlink temp : %s", strerror(errno));
+			ewprintf("Cannot unlink temporary file: %s",
+				 strerror(errno));
 	} else {
 		if (rename(tname, nname) == -1) {
-			ewprintf("Can't rename temp : %s", strerror(errno));
+			ewprintf("Cannot rename temporary file: %s",
+				 strerror(errno));
 			(void) unlink(tname);
 			nread = -1;
 		}
@@ -403,7 +408,7 @@ copy(char *frname, char *toname)
 		return (FALSE);
 	if (fstat(ifd, &orig) == -1) {
 		dobeep();
-		ewprintf("fstat: %s", strerror(errno));
+		ewprintf("Cannot get file status: %s", strerror(errno));
 		close(ifd);
 		return (FALSE);
 	}
@@ -414,15 +419,15 @@ copy(char *frname, char *toname)
 	}
 	while ((sr = read(ifd, buf, sizeof buf)) > 0) {
 		if (write(ofd, buf, (size_t)sr) != sr) {
-			ewprintf("write error : %s", strerror(errno));
+			ewprintf("Cannot write file: %s", strerror(errno));
 			break;
 		}
 	}
 	if (fchmod(ofd, orig.st_mode) == -1)
-		ewprintf("Cannot set original mode : %s", strerror(errno));
+		ewprintf("Cannot set file permissions: %s", strerror(errno));
 
 	if (sr == -1) {
-		ewprintf("Read error : %s", strerror(errno));
+		ewprintf("Cannot read file: %s", strerror(errno));
 		close(ifd);
 		close(ofd);
 		return (FALSE);
@@ -432,7 +437,7 @@ copy(char *frname, char *toname)
 	 * we will be running as root.
 	 */
 	if (fchown(ofd, orig.st_uid, orig.st_gid) && errno != EPERM)
-		ewprintf("Cannot set owner : %s", strerror(errno));
+		ewprintf("Cannot set file owner: %s", strerror(errno));
 
 	(void) close(ifd);
 	(void) close(ofd);
