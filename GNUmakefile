@@ -70,8 +70,11 @@ all: $(name)
 $(name): $(OBJS)
 	$(CC) $(LDFLAGS) $(OBJS) -o $(name) $(LIBS)
 
+tags:
+	ctags -f $@ *.[ch]
+
 distclean: clean
-	-rm -f *.core core.* .#*
+	-rm -f *.core core.* tags .#*
 
 clean:
 	-rm -f *.o $(name)$(EXE_EXT)
