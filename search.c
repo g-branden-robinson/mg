@@ -202,12 +202,12 @@ isearch(int dir)
 		switch (c = getkey(FALSE)) {
 		case CCHR('['):
 			/*
-			 * If new characters come in the next 300 msec,
-			 * we can assume that they belong to a longer
-			 * escaped sequence so we should ungetkey the
-			 * ESC to avoid writing out garbage.
+			 * If more characters come in fast enough, we
+			 * assume that they belong to a longer escape
+			 * sequence, so we should `ungetkey()` the ESC
+			 * to avoid writing out garbage.
 			 */
-			if (ttwait(300) == FALSE)
+			if (ttwait(prompt_delay) == FALSE)
 				ungetkey(c);
 			/* FALLTHRU */
 		case CCHR('M'):
