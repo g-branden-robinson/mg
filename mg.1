@@ -1156,9 +1156,14 @@ Prompt for a buffer name and insert its contents at point.
 .It Ic insert\-file
 Prompt for a file name and insert its contents at point.
 .It Ic insert\-with\-wrap
-Insert the bound character with word wrap.
-Check to see if we're past the fill column, and if so,
-justify this line.
+Insert the bound character;
+if point advances past the fill column,
+replace the first space before point with a newline,
+causing the line to break,
+or
+.Dq wrap .
+See
+.Ic set\-fill\-column .
 .It Ic isearch\-backward
 Use incremental searching, initially in the reverse direction.
 isearch ignores any explicit arguments.
