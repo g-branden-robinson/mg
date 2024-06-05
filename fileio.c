@@ -168,8 +168,7 @@ ffputbuf(FILE *ffp, struct buffer *bp, int eobnl)
 
 	for (lp = lforw(lpend); lp != lpend; lp = lforw(lp)) {
 		if (fwrite(ltext(lp), 1, llength(lp), ffp) != llength(lp)) {
-			dobeep();
-			ewprintf("Write I/O error");
+			dobeep_msg("Write I/O error");
 			return (FIOERR);
 		}
 		if (lforw(lp) != lpend)		/* no implied \n on last line */
@@ -201,8 +200,7 @@ ffgetline(FILE *ffp, char *buf, int nbuf, int *nbytes)
 			return (FIOLONG);
 	}
 	if (c == EOF && ferror(ffp) != FALSE) {
-		dobeep();
-		ewprintf("File read error");
+		dobeep_msg("File read error");
 		return (FIOERR);
 	}
 	*nbytes = i;
@@ -769,8 +767,7 @@ expandtilde(const char *fn)
 		if (plen == 0 || path[plen - 1] != '/') {
 			if (strlcat(path, "/", sizeof path)
 			    >= sizeof path) {
-				dobeep();
-				ewprintf("Path too long");
+				dobeep_msg("Path too long");
 				return (NULL);
 			}
 		}
@@ -779,8 +776,7 @@ expandtilde(const char *fn)
 			fn++;
 	}
 	if (strlcat(path, fn, sizeof path) >= sizeof path) {
-		dobeep();
-		ewprintf("Path too long");
+		dobeep_msg("Path too long");
 		return (NULL);
 	}
 	if ((ret = strndup(path, NFILEN)) == NULL)
