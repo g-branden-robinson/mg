@@ -1383,15 +1383,18 @@ display does all
 the hard stuff.
 If not found, it just prints a message.
 .It Ic recenter
-Reposition point in the current window.
-By default, point is centered.
-If given a positive argument
-.Va n ,
-the display is repositioned to line
-.Va n .
-If
+Shift the window's view of the buffer so that point is centered
+linewise.
+A positive argument
 .Va n
-is negative, it is that line from the bottom.
+shifts the window so that point is on line
+.Va n
+of the window;
+a negative
+.Va n
+shifts such that point is
+.Va n
+lines from the window bottom.
 .It Ic redraw\-display
 Refresh the display.
 Recomputes all window sizes in case something has changed.
