@@ -200,8 +200,10 @@ openline(int f, int n)
 		dobeep_msg("Cannot open line with a negative count");
 		return (FALSE);
 	}
-	if (n == 0)
+	if (n == 0) {
+		gotoeol(FFRAND, 1);
 		return (TRUE);
+	}
 
 	/* insert newlines */
 	undo_boundary_enable(FFRAND, 0);
