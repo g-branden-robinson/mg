@@ -182,7 +182,7 @@ cscreatelist(int f, int n)
 		return(dobeep_msgs(dir, "Not a directory"));
 
 	if (csexists("cscope-indexer") == FALSE)
-		return(dobeep_msg("no such file or directory, cscope-indexer"));
+		return (FALSE);
 
 	clen = snprintf(cmd, sizeof cmd, "cscope-indexer -v %s", dir);
 	if (clen < 0 || clen >= sizeof cmd)
@@ -386,7 +386,7 @@ do_cscope(int i)
 		return (FALSE);
 
 	if (csexists("cscope") == FALSE)
-		return(dobeep_msg("no such file or directory, cscope"));
+		return (FALSE);
 
 	csflush();
 	clen = snprintf(cmd, sizeof cmd, "cscope -L -%d %s 2>/dev/null",
@@ -597,5 +597,7 @@ csexists(const char *cmd)
 	}
 cleanup:
 	free(pathc);
+	dobeep();
+	ewprintf("Command not found: '%s'", cmd);
 	return (FALSE);
 }
