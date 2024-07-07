@@ -196,8 +196,10 @@ openline(int f, int n)
 {
 	int	i, s;
 
-	if (n < 0)
+	if (n < 0) {
+		dobeep_msg("Cannot open line with a negative count");
 		return (FALSE);
+	}
 	if (n == 0)
 		return (TRUE);
 
