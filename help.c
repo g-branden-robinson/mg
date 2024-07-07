@@ -201,30 +201,43 @@ apropos_command(int f, int n)
 {
 	struct buffer		*bp;
 	struct list		*fnames, *el;
-	char		 string[32];
+	char			 string[32], buf[32];
+	int			 has_match = FALSE;
 
 	if (eread("apropos: ", string, sizeof string, EFNUL | EFNEW)
 	    == NULL)
 		return (ABORT);
 	/* FALSE means we got a 0 character string, which is fine */
+	if (strlen(string) != 0) {
+		fnames = complete_function_list("");
+		for (el = fnames; el != NULL; el = el->l_next) {
+			if (strstr(el->l_name, string) != NULL) {
+				has_match = TRUE;
+				break;
+			}
+		}
+		if (!has_match) {
+			ewprintf("No apropos matches for '%s'", string);
+			return (FALSE);
+		}
+	}
 	bp = bfind("*help*", TRUE);
 	if (bclear(bp) == FALSE)
 		return (FALSE);
-
-	fnames = complete_function_list("");
-	for (el = fnames; el != NULL; el = el->l_next) {
-		char buf[32];
-
-		if (strstr(el->l_name, string) == NULL)
-			continue;
-
-		buf[0] = '\0';
-		findbind(fundamental_map, name_function(el->l_name),
-		    buf, sizeof buf);
-
-		if (addlinef(bp, "%-43s  %s", el->l_name,  buf) == FALSE) {
-			free_list(fnames);
-			return (FALSE);
+	if (!has_match) {
+		fnames = complete_function_list("");
+		el = fnames;
+	}
+	for (; el != NULL; el = el->l_next) {
+		if (strstr(el->l_name, string) != NULL) {
+			buf[0] = '\0';
+			findbind(fundamental_map,
+			    name_function(el->l_name), buf, sizeof buf);
+			if (addlinef(bp, "%-43s  %s", el->l_name,  buf)
+			    == FALSE) {
+				free_list(fnames);
+				return (FALSE);
+			}
 		}
 	}
 	free_list(fnames);
