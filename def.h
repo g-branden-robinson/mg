@@ -378,6 +378,13 @@ int		 ttgetc(void);
 int		 ttwait(int);
 int		 charswaiting(void);
 
+/*
+ * Functions that are Mg command handlers are protyped with two `int`
+ * arguments.  The first, conventionally named `f`, stores a flag
+ * bitmask corresponding to the `FF*` macros above.  The second,
+ * conventionally named `n`, is the value of the Mg command argument.
+ */
+
 /* dir.c */
 void		 dirinit(void);
 int		 changedir(int, int);
