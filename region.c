@@ -442,7 +442,7 @@ piperegion(int f, int n)
 
 	region_get_data(&region, text, len);
 
-	if (n > 1) {
+	if (f | FFANYARG) {
 		bp = curbp;
 		undo_boundary_enable(FFRAND, 0);
 		killregion(FFRAND, 1);
@@ -461,7 +461,7 @@ shellcommand(int f, int n)
 	struct buffer *bp = NULL;
 	char *cmd, cmdbuf[NFILEN];
 
-	if (n > 1)
+	if (f | FFANYARG)
 		bp = curbp;
 
 	if ((cmd = eread("Shell command: ", cmdbuf, sizeof cmdbuf,
