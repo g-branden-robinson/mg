@@ -4,6 +4,8 @@ Maybe split out a set-default-tab-width.  (That's currently the effect
 if you run it with an argument.)  Neither it nor `set-tab-width` are in
 GNU Emacs.
 
+kill-region should tell you how much text it killed
+
 auto-execute assignments can't be listed
 auto-execute assignments can't be removed
 

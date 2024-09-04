@@ -50,13 +50,14 @@ killregion(int f, int n)
 	/* This is a kill-type command, so do magic kill zone stuff. */
 	if ((lastflag & CFKILL) == 0)
 		kdelete();
+
 	thisflag |= CFKILL;
 	curwp->w_dotp = region.r_linep;
 	curwp->w_doto = region.r_offset;
 	curwp->w_dotline = region.r_lineno;
 	s = ldelete(region.r_size, KFORW | KREG);
 	clearmark(FFANYARG, 0);
-
+	ewprintf("Region killed");
 	return (s);
 }
 
