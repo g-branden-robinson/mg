@@ -28,17 +28,7 @@ else
 endif
 BSD_LIBS+=	 -lutil
 
-# Test if required libraries are installed. Rather bummer that they
-# are also required to run make clean or uninstall. Oh well... Who
-# does that?
-ifeq ($(BSD_LIBS),)
-  $(error You probably need to install "libbsd-dev" or "libbsd-devel" or something like that.)
-endif
-
 CURSES_LIBS!= $(PKG_CONFIG) --libs ncurses
-ifeq ($(CURSES_LIBS),)
-  $(error You probably need to install "libncurses5-dev" or "libncurses6-devel" or something like that.)
-endif
 
 ifdef STATIC
   LDFLAGS=-static -static-libgcc
@@ -69,7 +59,20 @@ EXE_EXT=
 
 all: $(name)
 
-$(name): $(OBJS)
+.PHONY: libcheck
+libcheck:
+	@if [ -z "$(BSD_LIBS)" ]; then \
+		echo >&2 error: no BSD library available\; \
+			install package "libbsd-dev", "libbsd-devel", \
+			or similar; \
+	fi
+	@if [ -z "$(CURSES_LIBS)" ]; then \
+		echo >&2 error: no curses/teminfo library available\; \
+			install package "libncurses6-dev", \
+			"libncurses6-devel", or similar; \
+	fi
+
+$(name): $(OBJS) libcheck
 	$(CC) $(LDFLAGS) $(OBJS) -o $(name) $(LIBS)
 
 tags:
