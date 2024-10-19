@@ -91,9 +91,10 @@ install-strip: install
 	$(STRIP) $(DESTDIR)$(bindir)/$(name)
 
 uninstall:
-	rm -f \
-	$(DESTDIR)$(bindir)/$(name)$(EXE_EXT) \
-	$(DESTDIR)$(mandir)/man1/$(name).1
+	-rm    $(DESTDIR)$(bindir)/$(name)$(EXE_EXT)
+	-rm -d $(DESTDIR)$(bindir)
+	-rm    $(DESTDIR)$(mandir)/man1/$(name).1
+	-rm -d $(DESTDIR)$(mandir)/man1 && rm -d $(DESTDIR)$(mandir)
 
 rebuild:
 	make clean all
