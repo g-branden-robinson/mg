@@ -85,7 +85,7 @@ install: $(name) $(name).1
 	$(INSTALL) -d $(DESTDIR)$(bindir)
 	$(INSTALL) -d $(DESTDIR)$(mandir)/man1
 	$(INSTALL) -m 755 $(name)		$(DESTDIR)$(bindir)/$(name)
-	$(INSTALL) -m 444 $(name).1		$(DESTDIR)$(mandir)/man1/$(name).1
+	$(INSTALL) -m 644 $(name).1		$(DESTDIR)$(mandir)/man1/$(name).1
 
 install-strip: install
 	$(STRIP) $(DESTDIR)$(bindir)/$(name)
