@@ -11,7 +11,8 @@ prefix=		/usr/local
 bindir=		$(prefix)/bin
 libdir=		$(prefix)/lib
 includedir=	$(prefix)/include
-mandir=		$(prefix)/man
+sharedir=	$(prefix)/share
+mandir=		$(sharedir)/man
 
 PKG_CONFIG=	pkg-config --silence-errors
 INSTALL=	install
