@@ -18,14 +18,15 @@ PKG_CONFIG=	pkg-config --silence-errors
 INSTALL=	install
 STRIP=		strip
 
-UNAME:=		$(shell uname)
+UNAME!=	uname
 ifeq ($(UNAME),FreeBSD)
-  BSD_CPPFLAGS:= -DHAVE_UTIL_H
-  BSD_LIBS:=	 -lutil
+  BSD_CPPFLAGS+= -DHAVE_UTIL_H
 else
-  BSD_CPPFLAGS:= $(shell $(PKG_CONFIG) --cflags libbsd-overlay) -DHAVE_PTY_H
-  BSD_LIBS:=	 $(shell $(PKG_CONFIG) --libs libbsd-overlay) -lutil
+  BSD_CPPFLAGS!= $(PKG_CONFIG) --cflags libbsd-overlay
+  BSD_CPPFLAGS+= -DHAVE_PTY_H
+  BSD_LIBS!=	 $(PKG_CONFIG) --libs libbsd-overlay
 endif
+BSD_LIBS+=	 -lutil
 
 # Test if required libraries are installed. Rather bummer that they
 # are also required to run make clean or uninstall. Oh well... Who
@@ -34,7 +35,7 @@ ifeq ($(BSD_LIBS),)
   $(error You probably need to install "libbsd-dev" or "libbsd-devel" or something like that.)
 endif
 
-CURSES_LIBS:= $(shell $(PKG_CONFIG) --libs ncurses)
+CURSES_LIBS!= $(PKG_CONFIG) --libs ncurses
 ifeq ($(CURSES_LIBS),)
   $(error You probably need to install "libncurses5-dev" or "libncurses6-devel" or something like that.)
 endif
