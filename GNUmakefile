@@ -43,8 +43,8 @@ ifdef STATIC
   LDFLAGS=-static -static-libgcc
 endif
 
-CC?=		gcc
-CFLAGS?=	-O2 -pipe
+CC=		gcc
+CFLAGS=		-O2 -pipe
 CFLAGS+=	-g -Wall
 CPPFLAGS=	-DREGEX
 CPPFLAGS+=	-D_GNU_SOURCE
