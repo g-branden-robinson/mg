@@ -33,6 +33,8 @@
 #include <sys/time.h>
 #include <signal.h>
 #include <stdio.h>
+#include <stdlib.h> // getenv()
+#include <string.h> // memset(), strlen()
 #include <term.h>
 #include <unistd.h>
 
@@ -66,14 +68,28 @@ ttinit(void)
 {
 	char *tty;
 	int errret;
+	const size_t errbuflen = 256;
+	char errbuf[errbuflen];
+
+	(void) memset(errbuf, 0, sizeof errbuf);
 
 	if (batch == 1)
 		tty = "pty";
 	else
 		tty = NULL;
 
-	if (setupterm(tty, STDOUT_FILENO, &errret))
-		panic("terminal setup failed in ttinit");
+	if (setupterm(tty, STDOUT_FILENO, &errret)) {
+		const char e1[] = "unable to set up terminal type ";
+		const char e2[] = "\"";
+		int len = snprintf(errbuf, sizeof errbuf, "%s%s%s%s",
+				   e1, e2, getenv("TERM"), e2);
+
+		if (len >= sizeof errbuf)
+			panic("unable to set up (implausibly long)"
+			      " terminal type name; check $TERM");
+		else
+			panic(errbuf);
+	}
 
 	signal(SIGWINCH, winchhandler);
 	signal(SIGCONT, winchhandler);
@@ -87,9 +103,19 @@ ttinit(void)
 			scroll_fwd = curbp->b_nlchr;
 	}
 
-	if (cursor_address == NULL || cursor_up == NULL)
-		panic("terminal type lacks capabilities this program"
-		      " needs");
+	if (cursor_address == NULL || cursor_up == NULL) {
+		const char e1[] = "terminal type ";
+		const char e2[] = "\"";
+		const char e3[] = " lacks required capabilities";
+		int len = snprintf(errbuf, sizeof errbuf, "%s%s%s%s%s",
+				   e1, e2, getenv("TERM"), e2, e3);
+
+		if (len >= sizeof errbuf)
+			panic("(implausibly long) terminal type lacks"
+			      " required capabilities; check $TERM");
+		else
+			panic(errbuf);
+	}
 
 	/* set nrow & ncol */
 	ttresize();
