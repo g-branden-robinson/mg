@@ -79,15 +79,16 @@ insert(int f, int n)
 
 /*
  * Bind a key to a function.  Cases range from the trivial (replacing an
- * existing binding) to the extremely complex (creating a new prefix in a
- * map_element that already has one, so the map_element must be split,
- * but the keymap doesn't have enough room for another map_element, so
- * the keymap is reallocated).	No attempt is made to reclaim space no
- * longer used, if this is a problem flags must be added to indicate
- * malloced versus static storage in both keymaps and map_elements.
- * Structure assignments would come in real handy, but K&R based compilers
- * don't have them.  Care is taken so running out of memory will leave
- * the keymap in a usable state.
+ * existing binding) to the extremely complex (creating a new prefix in
+ * a map element (map_elt) that already has one, so the map_elt must be
+ * split, but the keymap doesn't have enough room for another map_elt,
+ * so the keymap is reallocated).  No attempt is made to reclaim space
+ * no longer used; if this is a problem flags must be added to indicate
+ * malloced versus static storage in both keymaps and map_elts.
+ * Structure assignments would come in real handy, but K&R-based
+ * compilers don't have them.  Care is taken so that running out of
+ * memory leaves the keymap in a usable state.
+ *
  * Parameters are:
  * curmap:  	pointer to the map being changed
  * c:		character being changed
@@ -100,15 +101,15 @@ remap(KEYMAP *curmap, int c, PF funct, KEYMAP *pref_map)
 	int		 i, n1, n2, nold;
 	KEYMAP		*mp, *newmap;
 	PF		*pfp;
-	struct map_element	*mep;
+	struct map_elt	*mep;
 
-	if (ele >= &curmap->map_element[curmap->map_num] || c < ele->k_base) {
-		if (ele > &curmap->map_element[0] && (funct != NULL ||
+	if (ele >= &curmap->map_elt[curmap->map_num] || c < ele->k_base) {
+		if (ele > &curmap->map_elt[0] && (funct != NULL ||
 		    (ele - 1)->k_prefmap == NULL))
 			n1 = c - (ele - 1)->k_num;
 		else
 			n1 = HUGE;
-		if (ele < &curmap->map_element[curmap->map_num] &&
+		if (ele < &curmap->map_elt[curmap->map_num] &&
 		    (funct != NULL || ele->k_prefmap == NULL))
 			n2 = ele->k_base - c;
 		else
@@ -154,7 +155,7 @@ remap(KEYMAP *curmap, int c, PF funct, KEYMAP *pref_map)
 				return (dobeep_msg("Out of memory"));
 
 			pfp[0] = funct;
-			for (mep = &curmap->map_element[curmap->map_num];
+			for (mep = &curmap->map_elt[curmap->map_num];
 			    mep > ele; mep--) {
 				mep->k_base = (mep - 1)->k_base;
 				mep->k_num = (mep - 1)->k_num;
@@ -172,7 +173,7 @@ remap(KEYMAP *curmap, int c, PF funct, KEYMAP *pref_map)
 				ele->k_prefmap = pref_map;
 			else {
 				if ((mp = malloc(sizeof(KEYMAP) +
-				    (MAPINIT - 1) * sizeof(struct map_element))) == NULL) {
+				    (MAPINIT - 1) * sizeof(struct map_elt))) == NULL) {
 					(void)dobeep_msg("Out of memory");
 					ele->k_funcp[c - ele->k_base] =
 					    curmap->map_default;
@@ -201,7 +202,7 @@ remap(KEYMAP *curmap, int c, PF funct, KEYMAP *pref_map)
 				else {
 					if ((mp = malloc(sizeof(KEYMAP) +
 					    (MAPINIT - 1) *
-					    sizeof(struct map_element))) == NULL) {
+					    sizeof(struct map_elt)))) {
 						(void)dobeep_msg("Out of memory");
 						ele->k_funcp[c - ele->k_base] =
 						    curmap->map_default;
@@ -234,7 +235,7 @@ remap(KEYMAP *curmap, int c, PF funct, KEYMAP *pref_map)
 			ele->k_funcp[n1] = NULL;
 			for (i = n1 + n2; i <= ele->k_num - ele->k_base; i++)
 				pfp[i - n1 - n2] = ele->k_funcp[i];
-			for (mep = &curmap->map_element[curmap->map_num];
+			for (mep = &curmap->map_elt[curmap->map_num];
 			    mep > ele; mep--) {
 				mep->k_base = (mep - 1)->k_base;
 				mep->k_num = (mep - 1)->k_num;
@@ -249,7 +250,7 @@ remap(KEYMAP *curmap, int c, PF funct, KEYMAP *pref_map)
 			curmap->map_num++;
 			if (pref_map == NULL) {
 				if ((mp = malloc(sizeof(KEYMAP) + (MAPINIT - 1)
-				    * sizeof(struct map_element))) == NULL) {
+				    * sizeof(struct map_elt))) == NULL) {
 					(void)dobeep_msg("Out of memory");
 					ele->k_funcp[c - ele->k_base] =
 					    curmap->map_default;
@@ -282,7 +283,7 @@ reallocmap(KEYMAP *curmap)
 		return (NULL);
 	}
 	if ((mp = malloc(sizeof(KEYMAP) + (curmap->map_max + (MAPGROW - 1)) *
-	    sizeof(struct map_element))) == NULL) {
+	    sizeof(struct map_elt))) == NULL) {
 		(void)dobeep_msg("Out of memory");
 		return (NULL);
 	}
@@ -290,10 +291,10 @@ reallocmap(KEYMAP *curmap)
 	mp->map_max = curmap->map_max + MAPGROW;
 	mp->map_default = curmap->map_default;
 	for (i = curmap->map_num; i--;) {
-		mp->map_element[i].k_base = curmap->map_element[i].k_base;
-		mp->map_element[i].k_num = curmap->map_element[i].k_num;
-		mp->map_element[i].k_funcp = curmap->map_element[i].k_funcp;
-		mp->map_element[i].k_prefmap = curmap->map_element[i].k_prefmap;
+		mp->map_elt[i].k_base = curmap->map_elt[i].k_base;
+		mp->map_elt[i].k_num = curmap->map_elt[i].k_num;
+		mp->map_elt[i].k_funcp = curmap->map_elt[i].k_funcp;
+		mp->map_elt[i].k_prefmap = curmap->map_elt[i].k_prefmap;
 	}
 	for (mps = maps; mps != NULL; mps = mps->p_next) {
 		if (mps->p_map == curmap)
@@ -301,7 +302,7 @@ reallocmap(KEYMAP *curmap)
 		else
 			fixmap(curmap, mp, mps->p_map);
 	}
-	ele = &mp->map_element[ele - &curmap->map_element[0]];
+	ele = &mp->map_elt[ele - &curmap->map_elt[0]];
 	return (mp);
 }
 
@@ -314,11 +315,11 @@ fixmap(KEYMAP *curmap, KEYMAP *mp, KEYMAP *mt)
 	int	 i;
 
 	for (i = mt->map_num; i--;) {
-		if (mt->map_element[i].k_prefmap != NULL) {
-			if (mt->map_element[i].k_prefmap == curmap)
-				mt->map_element[i].k_prefmap = mp;
+		if (mt->map_elt[i].k_prefmap != NULL) {
+			if (mt->map_elt[i].k_prefmap == curmap)
+				mt->map_elt[i].k_prefmap = mp;
 			else
-				fixmap(curmap, mp, mt->map_element[i].k_prefmap);
+				fixmap(curmap, mp, mt->map_elt[i].k_prefmap);
 		}
 	}
 }

@@ -6,7 +6,7 @@
  * kbd.h: type definitions for symbol.c and kbd.c for mg experimental
  */
 
-struct map_element {
+struct map_elt {
 	KCHAR		 k_base;	/* first key in element		 */
 	KCHAR		 k_num;		/* last key in element		 */
 	PF		*k_funcp;	/* pointer to array of pointers	 */
@@ -25,11 +25,11 @@ struct map_element {
 	short	map_num;			/* elements used */	\
 	short	map_max;			/* elements allocated */\
 	PF	map_default;			/* default function */	\
-	struct map_element map_element[NUM];	/* really [e_max] */	\
+	struct map_elt map_elt[NUM];	/* really [e_max] */	\
 }
 typedef struct keymap_s KEYMAPE(1) KEYMAP;
 
-/* Number of map_elements to grow an overflowed keymap by */
+/* Number of map_elts to grow an overflowed keymap by */
 #define MAPGROW 3
 #define MAPINIT (MAPGROW+1)
 
@@ -53,5 +53,5 @@ PF		 doscan(KEYMAP *, int, KEYMAP **);
 void		 maps_init(void);
 int		 maps_add(KEYMAP *, const char *);
 
-extern struct map_element	*ele;
+extern struct map_elt	*ele;
 extern struct maps_s		*defb_modes[];

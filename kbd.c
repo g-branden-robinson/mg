@@ -34,7 +34,7 @@ static int		 use_metakey = TRUE;
 static int		 pushed = FALSE;
 static int		 pushedc;
 
-struct map_element	*ele;
+struct map_elt		*ele;
 struct key		 key;
 int			 rptcount;
 
@@ -133,8 +133,8 @@ getkey(int want_prompt)
 PF
 doscan(KEYMAP *map, int c, KEYMAP **newmap)
 {
-	struct map_element	*elec = &map->map_element[0];
-	struct map_element	*last = &map->map_element[map->map_num];
+	struct map_elt	*elec = &map->map_elt[0];
+	struct map_elt	*last = &map->map_elt[map->map_num];
 	PF		 ret;
 
 	while (elec < last && c > elec->k_num)

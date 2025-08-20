@@ -111,10 +111,10 @@ mglog_key(KEYMAP *map)
 	    map->map_num,
 	    map->map_max,
 	    map->map_default,
-	    map->map_element->k_base,
-	    map->map_element->k_num
+	    map->map_elt->k_base,
+	    map->map_elt->k_num
 	    );
-	for (pfp = map->map_element->k_funcp; *pfp != NULL; pfp++)
+	for (pfp = map->map_elt->k_funcp; *pfp != NULL; pfp++)
 		fprintf(fd_key, "%s ", function_name(*pfp));
 
 	fprintf(fd_key, "\n\n");
