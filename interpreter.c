@@ -450,15 +450,24 @@ parsexp(char *begp, const char *par1, const char *par2, int blkid, int expctr,
 	/*
 	 * If no extant mg command found, just return.
 	 */
-	if ((funcp = name_function(cmdp)) == NULL)
-		return (dobeep_msgs("Unknown command:", cmdp));
+	if ((funcp = name_function(cmdp)) == NULL) {
+		dobeep();
+		ewprintf("Unknown command: %s", cmdp);
+		return (FALSE);
+	}
 
 	numparams = numparams_function(funcp);
-	if (numparams == 0)
-		return (dobeep_msgs("Command takes no arguments:", cmdp));
+	if (numparams == 0) {
+		dobeep();
+		ewprintf("Command takes no arguments: %s", cmdp);
+		return (FALSE);
+	}
 
-	if (numparams == -1)
-		return (dobeep_msgs("Interactive command found:", cmdp));
+	if (numparams == -1) {
+		dobeep();
+		ewprintf("Interactive command found:", cmdp);
+		return (FALSE);
+	}
 
 	if ((e1 = malloc(sizeof(struct expentry))) == NULL) {
 		cleanup();
@@ -539,9 +548,12 @@ multiarg(char *cmdp, char *argbuf, int numparams)
 				const char *errstr;
 
 				strtonum(argp, 0, INT_MAX, &errstr);
-				if (errstr != NULL)
-					return (dobeep_msgs("Var not found:",
-					    argp));
+				if (errstr != NULL) {
+					dobeep();
+					ewprintf("Var not found: %s",
+						 argp);
+					return (FALSE);
+				}
 			}
 
 			if (strlcpy(excbuf, cmdp, sizeof excbuf)
@@ -632,8 +644,11 @@ founddef(char *defstr, int blkid, int expctr, int hasval, int elen)
 	/*
 	 * Check list name is not an existing mg function.
 	 */
-	if (name_function(vnamep) != NULL)
-		return(dobeep_msgs("Variable/function name clash:", vnamep));
+	if (name_function(vnamep) != NULL) {
+		dobeep();
+		ewprintf("Variable/function name clash: %s", vnamep);
+		return (FALSE);
+	}
 
 	if (!SLIST_EMPTY(&varhead)) {
 		SLIST_FOREACH_SAFE(v1, &varhead, entry, vt) {
@@ -738,9 +753,12 @@ expandvals(char *cmdp, char *valp, char *bp)
 				const char *errstr;
 
 				strtonum(argp, 0, INT_MAX, &errstr);
-				if (errstr != NULL)
-					return (dobeep_msgs("Var not found:",
-					    argp));
+				if (errstr != NULL) {
+					dobeep();
+					ewprintf("Var not found: %s",
+						 argp);
+					return (FALSE);
+				}
 			}
 #ifdef  MGLOG
         mglog_misc("x|%s|%p|%d|\n", bp, defnam, BUFSIZE);
@@ -928,10 +946,16 @@ getenvironmentvariable(char *ptr, char *dobuf, int dosiz)
 
 	t = skipwhite(ptr);
 
-	if (t[0] == *q || t[strlen(t) - 1] == *q)
-		return (dobeep_msgs("Please remove '\"' around:", t));
-	if ((tmp = getenv(t)) == NULL || *tmp == '\0')
-		return(dobeep_msgs("Envar not found:", t));
+	if (t[0] == *q || t[strlen(t) - 1] == *q) {
+		dobeep();
+		ewprintf("Please remove '\"' around: %s", t);
+		return (FALSE);
+	}
+	if ((tmp = getenv(t)) == NULL || *tmp == '\0') {
+		dobeep();
+		ewprintf("Envar not found: %s", t);
+		return (FALSE);
+	}
 
 	dobuf[0] = '\0';
 	if (strlcat(dobuf, q, dosiz) >= dosiz)

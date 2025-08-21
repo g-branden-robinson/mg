@@ -176,10 +176,16 @@ cscreatelist(int f, int n)
 	else if (bufp[0] == '\0')
 		return (FALSE);
 
-	if (stat(dir, &sb) == -1)
-		return(dobeep_msgs("stat:", strerror(errno)));
-	else if (S_ISDIR(sb.st_mode) == 0)
-		return(dobeep_msgs(dir, "Not a directory"));
+	if (stat(dir, &sb) == -1) {
+		dobeep();
+		ewprintf("stat: %s", strerror(errno));
+		return (FALSE);
+	}
+	else if (S_ISDIR(sb.st_mode) == 0) {
+		dobeep();
+		ewprintf("%s Not a directory", dir);
+		return (FALSE);
+	}
 
 	if (csexists("cscope-indexer") == FALSE)
 		return (FALSE);

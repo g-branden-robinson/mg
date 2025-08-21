@@ -503,8 +503,11 @@ redefine_key(int f, int n)
 	else if (bufp[0] == '\0')
 		return (FALSE);
 	(void) strlcat(buf, tmp, sizeof buf);
-	if ((mp = name_map(tmp)) == NULL)
-		return (dobeep_msgs("Unknown map", tmp));
+	if ((mp = name_map(tmp)) == NULL) {
+		dobeep();
+		ewprintf("Unknown map %s", tmp);
+		return (FALSE);
+	}
 
 	if (strlcat(buf, " key: ", sizeof buf) >= sizeof buf)
 		return (FALSE);
@@ -744,8 +747,11 @@ excline(char *line, int llen, int lnum)
 			return (FALSE);
 		n = (int)nl;
 	}
-	if ((fp = name_function(funcp)) == NULL)
-		return (dobeep_msgs("Unknown function:", funcp));
+	if ((fp = name_function(funcp)) == NULL) {
+		dobeep();
+		ewprintf("Unknown function: %s", funcp);
+		return (FALSE);
+	}
 
 	if (fp == bindtokey || fp == unbindtokey) {
 		bind = BINDARG;
@@ -872,7 +878,9 @@ excline(char *line, int llen, int lnum)
 		case BINDNEXT:
 			lp->l_text[lp->l_used] = '\0';
 			if ((curmap = name_map(lp->l_text)) == NULL) {
-				(void)dobeep_msgs("No such mode:", lp->l_text);
+				dobeep();
+				ewprintf("No such mode: %s",
+					 lp->l_text);
 				status = FALSE;
 				free(lp);
 				goto cleanup;

@@ -525,8 +525,11 @@ gotoline(int f, int n)
 		if (bufp[0] == '\0')
 			return (ABORT);
 		n = (int) strtonum(buf, INT_MIN, INT_MAX, &errstr);
-		if (errstr != NULL)
-			return(dobeep_msgs("Line number", errstr));
+		if (errstr != NULL) {
+			dobeep();
+			ewprintf("Line number %s", errstr);
+			return (FALSE);
+		}
 	}
 
 	if (n <= 0)
