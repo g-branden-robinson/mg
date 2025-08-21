@@ -758,7 +758,6 @@ int		 compile(int, int);
 void		 bellinit(void);
 int		 toggleaudiblebell(int, int);
 int		 togglevisiblebell(int, int);
-int		 dobeep_msgs(const char *, const char *);
 int		 dobeep_msg(const char *);
 void		 dobeep(void);
 
