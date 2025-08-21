@@ -314,9 +314,9 @@ undo_add_insert(struct line *lp, int offset, int size)
 int
 undo_add_delete(struct line *lp, int offset, int size, int isreg)
 {
-	struct region	reg;
-	struct	undo_rec *rec;
-	int	pos;
+	struct region    reg;
+	struct undo_rec	*rec;
+	int		 pos;
 
 	if (!undo_enable_flag)
 		return (TRUE);

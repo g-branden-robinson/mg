@@ -179,10 +179,10 @@ unloadtags(void)
 int
 pushtag(char *tok)
 {
-	struct ctag *res;
-	struct tagpos *s;
-	char bname[NFILEN];
-	int doto, dotline;
+	struct ctag	*res;
+	struct tagpos	*s;
+	char		 bname[NFILEN];
+	int		 doto, dotline;
 
 	if ((res = searchtag(tok)) == NULL)
 		return (FALSE);
@@ -395,8 +395,8 @@ strip(char *s, size_t len)
 int
 addctag(char *s)
 {
-	struct ctag *t = NULL;
-	char *l, *c;
+	struct ctag	*t = NULL;
+	char		*l, *c;
 
 	if ((t = malloc(sizeof(struct ctag))) == NULL) {
 		dobeep();

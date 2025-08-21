@@ -275,8 +275,8 @@ static KEYMAP *
 reallocmap(KEYMAP *curmap)
 {
 	struct maps_s	*mps;
-	KEYMAP	*mp;
-	int	 i;
+	KEYMAP		*mp;
+	int		 i;
 
 	if (curmap->map_max > SHRT_MAX - MAPGROW) {
 		(void)dobeep_msg("keymap too large");
