@@ -173,7 +173,7 @@ remap(KEYMAP *curmap, int c, PF funct, KEYMAP *pref_map)
 				ele->k_prefmap = pref_map;
 			else {
 				if ((mp = malloc(sizeof(KEYMAP) +
-				    (MAPINIT - 1) * sizeof(struct map_elt))) == NULL) {
+				    MAPGROW * sizeof(struct map_elt))) == NULL) {
 					(void)dobeep_msg("Out of memory");
 					ele->k_funcp[c - ele->k_base] =
 					    curmap->map_default;
@@ -201,7 +201,7 @@ remap(KEYMAP *curmap, int c, PF funct, KEYMAP *pref_map)
 					ele->k_prefmap = pref_map;
 				else {
 					if ((mp = malloc(sizeof(KEYMAP) +
-					    (MAPINIT - 1) *
+					    (MAPGROW) *
 					    sizeof(struct map_elt)))) {
 						(void)dobeep_msg("Out of memory");
 						ele->k_funcp[c - ele->k_base] =
@@ -249,7 +249,7 @@ remap(KEYMAP *curmap, int c, PF funct, KEYMAP *pref_map)
 			ele->k_prefmap = NULL;
 			curmap->map_num++;
 			if (pref_map == NULL) {
-				if ((mp = malloc(sizeof(KEYMAP) + (MAPINIT - 1)
+				if ((mp = malloc(sizeof(KEYMAP) + (MAPGROW)
 				    * sizeof(struct map_elt))) == NULL) {
 					(void)dobeep_msg("Out of memory");
 					ele->k_funcp[c - ele->k_base] =
