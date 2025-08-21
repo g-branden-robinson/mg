@@ -6,6 +6,7 @@
  *	Minibuffer management (formerly: "echo line")
  */
 
+#include <assert.h>
 #include <sys/queue.h>
 #include <signal.h>
 #include <stdarg.h>
@@ -866,8 +867,10 @@ ewprintf(const char *fmt, ...)
 static void
 eformat(const char *fp, va_list ap)
 {
-	char	kname[NKNAME], tmp[100], *cp;
+	char	kname[NKNAME], tmp[EBUFSZ], *cp;
 	int	c;
+
+	memset(tmp, '\0', EBUFSZ);
 
 	while ((c = *fp++) != '\0') {
 		if (c != '%')
@@ -934,6 +937,9 @@ eformat(const char *fp, va_list ap)
 			}
 		}
 	}
+
+	/* Don't hand this function too garrulous a format string. */
+	assert(strnlen(tmp, EBUFSZ) < EBUFSZ);
 }
 
 /*
