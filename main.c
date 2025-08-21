@@ -67,7 +67,7 @@ usage(void)
 	fprintf(stderr, "usage: %s [-nR] [-b batch-file]"
 		" [-f mode-command] [-u startup-file] [+line-number]"
 		" [file ...]\n", getprogname());
-	exit(1);
+	exit(EXIT_FAILURE);
 }
 
 int
@@ -338,7 +338,7 @@ quit(int f, int n)
 	    || eyesno("Modified buffers exist; really exit") == TRUE) {
 		vttidy();
 		closetags();
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
 	return (TRUE);
 }

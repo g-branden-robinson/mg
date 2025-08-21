@@ -715,7 +715,7 @@ d_exec(int space, struct buffer *bp, const char *input, const char *cmd, ...)
 		dup2(fds[1], STDERR_FILENO);
 		if (execvp(argv[0], argv) == -1)
 			ewprintf("Can't exec %s: %s", argv[0], strerror(errno));
-		exit(1);
+		exit(EXIT_FAILURE);
 		break;
 	default: /* Parent */
 		close(infd);
