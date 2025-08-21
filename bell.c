@@ -27,14 +27,6 @@ bellinit(void)
 }
 
 int
-dobeep_num(const char *msg, int n)
-{
-	ewprintf("%s %d", msg, n);
-	dobeep();
-	return (FALSE);
-}
-
-int
 dobeep_msgs(const char *msg, const char *s)
 {
 	ewprintf("%s %s", msg, s);
