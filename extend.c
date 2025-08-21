@@ -102,6 +102,8 @@ remap(KEYMAP *curmap, int c, PF funct, KEYMAP *pref_map)
 	KEYMAP		*mp, *newmap;
 	PF		*pfp;
 	struct map_elt	*mep;
+	int		 cnt; /* count of heap-allocated objects */
+	size_t		 amt; /* size of heap memory allocation */
 
 	if (ele >= &curmap->map_elt[curmap->map_num] || c < ele->k_base) {
 		if (ele > &curmap->map_elt[0] && (funct != NULL ||
@@ -119,8 +121,8 @@ remap(KEYMAP *curmap, int c, PF funct, KEYMAP *pref_map)
 			if ((pfp = calloc(c - ele->k_base + 1,
 			     sizeof(PF))) == NULL) {
 				dobeep();
-				ewprintf("Out of memory: cannot"
-					 " allocate %z bytes",
+				ewprintf("Out of memory in remap (1):"
+					 " cannot allocate %z bytes",
 					 sizeof(PF));
 				return (FALSE);
 			}
@@ -133,10 +135,14 @@ remap(KEYMAP *curmap, int c, PF funct, KEYMAP *pref_map)
 			ele->k_num = c;
 			ele->k_funcp = pfp;
 		} else if (n2 <= MAPELEDEF) {
-			if ((pfp = calloc(ele->k_num - c + 1,
-			     sizeof(PF))) == NULL)
-				return (dobeep_msg("Out of memory"));
-
+			cnt = ele->k_num - c + 1;
+			if ((pfp = calloc(cnt, sizeof(PF))) == NULL) {
+				dobeep();
+				ewprintf("Out of memory in remap (2):"
+					 " cannot allocate %z bytes",
+					 cnt * sizeof(PF));
+				return (FALSE);
+			}
 			nold = ele->k_num - ele->k_base + 1;
 			for (i = 0; i < nold; i++)
 				pfp[i + n2] = ele->k_funcp[i];
@@ -151,9 +157,14 @@ remap(KEYMAP *curmap, int c, PF funct, KEYMAP *pref_map)
 					return (FALSE);
 				curmap = newmap;
 			}
-			if ((pfp = malloc(sizeof(PF))) == NULL)
-				return (dobeep_msg("Out of memory"));
-
+			amt = sizeof(PF);
+			if ((pfp = malloc(amt)) == NULL) {
+				dobeep();
+				ewprintf("Out of memory in remap (3):"
+					 " cannot allocate %z bytes",
+					 amt);
+				return (FALSE);
+			}
 			pfp[0] = funct;
 			for (mep = &curmap->map_elt[curmap->map_num];
 			    mep > ele; mep--) {
@@ -172,9 +183,15 @@ remap(KEYMAP *curmap, int c, PF funct, KEYMAP *pref_map)
 			if (pref_map != NULL)
 				ele->k_prefmap = pref_map;
 			else {
-				if ((mp = malloc(sizeof(KEYMAP) +
-				    MAPGROW * sizeof(struct map_elt))) == NULL) {
-					(void)dobeep_msg("Out of memory");
+				amt = sizeof(KEYMAP)
+				      + (MAPGROW
+					 * sizeof(struct map_elt));
+				if ((mp = malloc(amt)) == NULL) {
+					dobeep();
+					ewprintf("Out of memory in"
+						 " remap: cannot"
+						 " allocate %z bytes",
+						 amt);
 					ele->k_funcp[c - ele->k_base] =
 					    curmap->map_default;
 					return (FALSE);
@@ -200,10 +217,17 @@ remap(KEYMAP *curmap, int c, PF funct, KEYMAP *pref_map)
 				if (pref_map != NULL)
 					ele->k_prefmap = pref_map;
 				else {
-					if ((mp = malloc(sizeof(KEYMAP) +
-					    (MAPGROW) *
-					    sizeof(struct map_elt)))) {
-						(void)dobeep_msg("Out of memory");
+					amt = sizeof(KEYMAP)
+					      + (MAPGROW
+						 * sizeof(struct map_elt));
+					if ((mp = malloc(amt)) == NULL)
+					{
+						dobeep();
+						ewprintf("Out of memory"
+							" in remap (4):"
+							" cannot"
+							" allocate %z"
+							" bytes", amt);
 						ele->k_funcp[c - ele->k_base] =
 						    curmap->map_default;
 						return (FALSE);
@@ -228,10 +252,15 @@ remap(KEYMAP *curmap, int c, PF funct, KEYMAP *pref_map)
 					return (FALSE);
 				curmap = newmap;
 			}
-			if ((pfp = calloc(ele->k_num - c + !n2,
-			     sizeof(PF))) == NULL)
-				return (dobeep_msg("Out of memory"));
-
+			cnt = ele->k_num - c + !n2;
+			amt = sizeof(PF);
+			if ((pfp = calloc(cnt, amt)) == NULL) {
+				dobeep();
+				ewprintf("Out of memory in remap (5):"
+					 " cannot allocate %z bytes",
+					 cnt * amt);
+				return (FALSE);
+			}
 			ele->k_funcp[n1] = NULL;
 			for (i = n1 + n2; i <= ele->k_num - ele->k_base; i++)
 				pfp[i - n1 - n2] = ele->k_funcp[i];
@@ -249,9 +278,15 @@ remap(KEYMAP *curmap, int c, PF funct, KEYMAP *pref_map)
 			ele->k_prefmap = NULL;
 			curmap->map_num++;
 			if (pref_map == NULL) {
-				if ((mp = malloc(sizeof(KEYMAP) + (MAPGROW)
-				    * sizeof(struct map_elt))) == NULL) {
-					(void)dobeep_msg("Out of memory");
+				amt = sizeof(KEYMAP)
+				      + (MAPGROW
+					 * sizeof(struct map_elt));
+				if ((mp = malloc(amt)) == NULL) {
+					dobeep();
+					ewprintf("Out of memory in"
+						 " remap (6): cannot"
+						 " allocate %z bytes",
+						 amt);
 					ele->k_funcp[c - ele->k_base] =
 					    curmap->map_default;
 					return (FALSE);
@@ -277,14 +312,18 @@ reallocmap(KEYMAP *curmap)
 	struct maps_s	*mps;
 	KEYMAP		*mp;
 	int		 i;
+	size_t		 amt; /* size of heap memory allocation */
 
 	if (curmap->map_max > SHRT_MAX - MAPGROW) {
 		(void)dobeep_msg("keymap too large");
 		return (NULL);
 	}
-	if ((mp = malloc(sizeof(KEYMAP) + (curmap->map_max + (MAPGROW - 1)) *
-	    sizeof(struct map_elt))) == NULL) {
-		(void)dobeep_msg("Out of memory");
+	amt = sizeof(KEYMAP) + (curmap->map_max + (MAPGROW - 1))
+	      * sizeof(struct map_elt);
+	if ((mp = malloc(amt)) == NULL) {
+		dobeep();
+		ewprintf("Out of memory in reallocmap: cannot allocate"
+			 " %z bytes", amt);
 		return (NULL);
 	}
 	mp->map_num = curmap->map_num;

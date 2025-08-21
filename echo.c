@@ -534,7 +534,8 @@ memfail:
 	if (dynbuf && buf)
 		free(buf);
 	dobeep();
-	ewprintf("Out of memory: cannot allocate %z bytes", memlen);
+	ewprintf("Out of memory in veread: cannot allocate %z bytes",
+		 memlen);
 	return (emptyval);
 }
 

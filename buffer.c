@@ -612,8 +612,8 @@ bnew(const char *bname)
 	bp = calloc(1, sizeof(struct buffer));
 	if (bp == NULL) {
 		dobeep();
-		ewprintf("Out of memory: cannot allocate %z bytes",
-			 sizeof(struct buffer));
+		ewprintf("Out of memory in bnew (1): cannot allocate %z"
+			 " bytes", sizeof(struct buffer));
 		return (NULL);
 	}
 	if ((lp = lalloc(0)) == NULL) {
@@ -655,8 +655,8 @@ bnew(const char *bname)
 	bp->b_tabw = defb_tabw;
 	if ((bp->b_bname = strdup(bname)) == NULL) {
 		dobeep();
-		ewprintf("Out of memory: cannot allocate %z bytes",
-			 strlen(bname) + 1);
+		ewprintf("Out of memory in bnew (2): cannot allocate %z"
+			 " bytes", strlen(bname) + 1);
 		return (NULL);
 	}
 
@@ -1063,8 +1063,8 @@ diffbuffer(int f, int n)
 	}
 	if ((text = calloc(len + 1, sizeof(char))) == NULL) {
 		dobeep();
-		ewprintf("Out of memory: cannot allocate %z bytes",
-			 (len + 1));
+		ewprintf("Out of memory in diffbuffer: cannot allocate"
+			 " %z bytes", (len + 1));
 		return (FALSE);
 	}
 

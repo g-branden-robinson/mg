@@ -580,8 +580,12 @@ csexists(const char *cmd)
 	}
 	if ((tmp = getenv("PATH")) == NULL)
 		return (FALSE);
-	if ((pathc = path = strndup(tmp, NFILEN)) == NULL)
-		return(dobeep_msg("out of memory"));
+	if ((pathc = path = strndup(tmp, NFILEN)) == NULL) {
+		dobeep();
+		ewprintf("Out of memory in csexists: cannot allocate"
+			 " %z bytes", NFILEN);
+		return (FALSE);
+	}
 
 	while ((dir = strsep(&path, ":")) != NULL) {
 		if (*dir == '\0')

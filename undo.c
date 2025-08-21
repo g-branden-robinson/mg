@@ -88,6 +88,7 @@ static struct undo_rec *
 new_undo_record(void)
 {
 	struct undo_rec *rec;
+	size_t		 amt; /* size of heap memory allocation */
 
 	rec = TAILQ_FIRST(&undo_free);
 	if (rec != NULL) {
@@ -95,8 +96,12 @@ new_undo_record(void)
 		TAILQ_REMOVE(&undo_free, rec, next);
 		undo_free_num--;
 	} else {
-		if ((rec = malloc(sizeof *rec)) == NULL)
-			panic("out of memory in new_undo_record");
+		amt = sizeof *rec; // XXX sizeof rec?
+		if ((rec = malloc(amt)) == NULL) {
+			ewprintf("Out of memory in new_undo_record:"
+				 "cannot allocate %z bytes", amt);
+			panic("aborting");
+		}
 	}
 	memset(rec, 0, sizeof(struct undo_rec));
 
@@ -317,6 +322,7 @@ undo_add_delete(struct line *lp, int offset, int size, int isreg)
 	struct region    reg;
 	struct undo_rec	*rec;
 	int		 pos;
+	size_t		 amt; /* size of heap memory allocation */
 
 	if (!undo_enable_flag)
 		return (TRUE);
@@ -348,11 +354,15 @@ undo_add_delete(struct line *lp, int offset, int size, int isreg)
 		rec->type = DELETE;
 	memmove(&rec->region, &reg, sizeof(struct region));
 	do {
-		rec->content = malloc(reg.r_size + 1);
+		amt = reg.r_size + 1;
+		rec->content = malloc(amt);
 	} while ((rec->content == NULL) && drop_oldest_undo_record());
 
-	if (rec->content == NULL)
-		panic("out of memory in undo_add_delete");
+	if (rec->content == NULL) {
+		ewprintf("Out of memory in undo_add_delete: cannot"
+			 " allocate %z bytes", amt);
+		panic("aborting");
+	}
 
 	region_get_data(&reg, rec->content, reg.r_size);
 

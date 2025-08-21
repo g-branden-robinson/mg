@@ -580,15 +580,20 @@ make_keymap_list(char *buf)
 {
 	struct list	*previous = NULL, *current;
 	struct maps_s	*kmap = map_table;
+	size_t		 amt; // size of heap memory allocation
 
 	if (kmap == NULL)
 		panic("no keymaps defined");
 
 	while (kmap != NULL) {
+		amt = sizeof(struct list);
 		current = malloc(sizeof(struct list));
 
-		if (current == NULL)
-			panic("out of memory in make_keymap_list");
+		if (current == NULL) {
+			ewprintf("Out of memory in make_keymap_list:"
+				 " cannot allocate %z bytes", amt);
+			panic("aborting");
+		}
 
 		current->l_next = previous;
 		current->l_name = strdup(kmap->p_name);

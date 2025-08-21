@@ -282,15 +282,21 @@ static void
 edinit(struct buffer *bp)
 {
 	struct mgwin	*wp;
+	size_t		 amt; /* size of heap memory allocation */
 
 	bheadp = NULL;
 	bp = bfind("*scratch*", TRUE);		/* Text buffer.          */
 	if (bp == NULL)
 		panic("cannot find *scratch* buffer");
 
+	/* It's shady to assume knowledge of new_window() internals. */
+	amt = sizeof(struct mgwin);
 	wp = new_window(bp);
-	if (wp == NULL)
-		panic("out of memory in edinit");
+	if (wp == NULL) {
+		ewprintf("out of memory in edinit: cannot allocate %z"
+			 " bytes", amt);
+		panic("aborting");
+	}
 
 	curbp = bp;				/* Current buffer.	 */
 	wheadp = wp;

@@ -148,17 +148,23 @@ vtresize(int force, int newrow, int newcol)
 #define TRYREALLOC(a, n) do {					\
 		void *tmp;					\
 		if ((tmp = realloc((a), (n))) == NULL) {	\
-			panic("out of memory in vtresize");	\
+			dobeep();				\
+			ewprintf("Out of memory in vtresize"	\
+				 " (1): cannot allocate %z"	\
+				 " bytes", (n));		\
 		}						\
 		(a) = tmp;					\
 	} while (0)
 
 #define TRYREALLOCARRAY(a, n, m) do {				\
-		void *tmp;					\
-		if ((tmp = reallocarray((a), (n), (m))) == NULL) {\
-			panic("out of memory in vtresize");	\
+		void *t;					\
+		if ((t = reallocarray((a), (n), (m))) == NULL) {\
+			dobeep();				\
+			ewprintf("Out of memory in vtresize"	\
+				 " (2): cannot allocate %z"	\
+				 " z bytes", (n) * (m));	\
 		}						\
-		(a) = tmp;					\
+		(a) = t;					\
 	} while (0)
 
 	/* No update needed */

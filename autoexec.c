@@ -34,6 +34,8 @@ find_autoexec(const char *fname)
 	PF		*pfl, *npfl;
 	int		 have, used;
 	struct autoexec *ae;
+	int		 cnt; /* count of heap-allocated objects */
+	size_t		 amt; /* size of heap memory allocation */
 
 	if (!ready)
 		return (NULL);
@@ -44,12 +46,17 @@ find_autoexec(const char *fname)
 	SLIST_FOREACH(ae, &autos, next) {
 		if (fnmatch(ae->pattern, fname, 0) == 0) {
 			if (used >= have) {
-				npfl = reallocarray(pfl,
-						    have + AUTO_GROW + 1,
+				cnt = have + AUTO_GROW + 1;
+				amt = cnt * sizeof(PF);
+				npfl = reallocarray(pfl, cnt,
 						    sizeof(PF));
-				if (npfl == NULL)
-					panic("out of memory in"
-					      " find_autoexec");
+				if (npfl == NULL) {
+					ewprintf("Out of memory in"
+					         " find_autoexec:"
+						 " cannot allocate %z"
+						 " bytes", amt);
+					panic("aborting");
+				}
 				pfl = npfl;
 				have += AUTO_GROW;
 			}

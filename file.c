@@ -63,8 +63,12 @@ insertfile(char *fname, char *newname, int replacebuf)
 	lp1 = NULL;
 	if (line == NULL) {
 		line = malloc(NLINE);
-		if (line == NULL)
-			panic("out of memory in insertfile");
+		if (line == NULL) {
+			dobeep();
+			ewprintf("Out of memory in insertfile: cannot"
+			         " allocate %z bytes", NLINE);
+			panic("aborting");
+		}
 		linesize = NLINE;
 	}
 

@@ -183,6 +183,7 @@ pushtag(char *tok)
 	struct tagpos	*s;
 	char		 bname[NFILEN];
 	int		 doto, dotline;
+	size_t		 amt; /* size of heap memory allocation */
 
 	if ((res = searchtag(tok)) == NULL)
 		return (FALSE);
@@ -223,17 +224,20 @@ pushtag(char *tok)
 		return (FALSE);
 	}
 
-	if ((s = malloc(sizeof(struct tagpos))) == NULL)
+	amt = sizeof(struct tagpos);
+	if ((s = malloc(amt)) == NULL)
 	{
 		dobeep();
-		ewprintf("Out of memory: cannot allocate %z bytes",
-			 sizeof(struct tagpos));
+		ewprintf("Out of memory in pushtag: cannot allocate %z"
+			 " bytes", amt);
 		return (FALSE);
 	}
+	/* Assume POSIX 2008 strdup() behavior. */
+	amt = strlen(bname) + 1;
 	if ((s->bname = strdup(bname)) == NULL) {
 		dobeep();
-		ewprintf("Out of memory: cannot allocate %z bytes",
-			 strlen(bname) + 1);
+		ewprintf("Out of memory in pushtag: cannot allocate %z"
+			 " bytes", amt);
 		free(s);
 		return (FALSE);
 	}
@@ -397,11 +401,13 @@ addctag(char *s)
 {
 	struct ctag	*t = NULL;
 	char		*l, *c;
+	size_t		 amt; /* size of heap memory allocation */
 
-	if ((t = malloc(sizeof(struct ctag))) == NULL) {
+	amt = sizeof(struct ctag);
+	if ((t = malloc(amt)) == NULL) {
 		dobeep();
 		ewprintf("Out of memory: cannot allocate %z bytes",
-			 sizeof(struct ctag));
+			 amt);
 		goto cleanup;
 	}
 	t->tag = s;
